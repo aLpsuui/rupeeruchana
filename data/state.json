@@ -1,6 +1,6 @@
 {
-  "updated": "2026-07-26T17:05:00Z",
-  "engine": "manual-bootstrap",
+  "updated": "2026-07-27T11:39:47.089Z",
+  "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
     "win_rate": 34,
@@ -13,45 +13,68 @@
     {
       "coin": "ETH",
       "status": "LONG ADAYI",
+      "dir": "LONG",
       "star": false,
-      "note": "Tepe 1.956 kırıldı (1.967 görüldü) ama sinyalsiz — RSI 68, kovalamak yok; ~1.900 bölgesine geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +16%); gerçek bir geri çekilme bekleniyor",
       "hi": "1.967",
-      "lo": "1.900"
+      "lo": "1.803"
     },
     {
       "coin": "LINK",
       "status": "LONG ADAYI",
+      "dir": "LONG",
       "star": false,
-      "note": "Üst bölgede, toparlanma tetiği aranıyor",
-      "hi": "8,76",
-      "lo": "8,27"
+      "note": "Trend yukarı (50 günde +11%); gerçek bir geri çekilme bekleniyor",
+      "hi": "8,843",
+      "lo": "8,006"
     },
     {
       "coin": "SOL",
       "status": "LONG ADAYI",
+      "dir": "LONG",
       "star": false,
-      "note": "Derin düzeltme — emare şart",
-      "hi": "83,98",
-      "lo": "73,44"
+      "note": "Trend yukarı (50 günde +15%); gerçek bir geri çekilme bekleniyor",
+      "hi": "82,79",
+      "lo": "73,39"
     },
     {
       "coin": "DOGE",
-      "status": "SHORT ADAYI",
-      "star": false,
-      "note": "Dipte; tepki yükselişi satış kurulumu olabilir",
-      "hi": "0,0740",
+      "status": "KURULUM",
+      "dir": "SHORT",
+      "star": true,
+      "note": "Düşüş trendi + tepki hazır (RSI tepe 62); EMA21 altına kapanış bekleniyor",
+      "hi": "0,077",
       "lo": "0,0682"
     },
     {
       "coin": "BTC",
       "status": "LONG ADAYI",
+      "dir": "LONG",
       "star": false,
-      "note": "Günlük EMA50 (65.017) üstüne çıktı, ortalama yükseliyor — rejim long tarafına döndü. Geri çekilme + EMA21 geri alımı bekleniyor",
-      "hi": "66.921",
-      "lo": "65.017"
+      "note": "Trend yukarı (50 günde +3%); gerçek bir geri çekilme bekleniyor",
+      "hi": "66.956",
+      "lo": "62.538"
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-27T11:39:47.089Z",
+      "kind": "ok",
+      "body": "BTC 65.195 — günlük EMA50'nin (65.015) üzerinde ve ortalama yükseliyor. Long tarafı açık; kaliteli bir geri çekilme bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-27T11:39:47.089Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 73) · LINK: long adayi (RSI 69) · SOL: long adayi (RSI 58) · DOGE: kurulum (RSI 57)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-27T11:39:47.089Z",
+      "kind": "dot",
+      "body": "DOGE kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-07-26T17:05:00Z",
@@ -135,50 +158,50 @@
   "ticker": [
     {
       "s": "BTC",
-      "p": 65238,
-      "c": 1.3
+      "p": 65194.73,
+      "c": 1.08
     },
     {
       "s": "ETH",
-      "p": 1945.91,
-      "c": 3.6
+      "p": 1960.95,
+      "c": 3.9
     },
     {
       "s": "SOL",
-      "p": 74.96,
-      "c": 0.58
+      "p": 76.68,
+      "c": 2.21
     },
     {
       "s": "LINK",
-      "p": 8.443,
-      "c": 0.69
+      "p": 8.769,
+      "c": 3.91
     },
     {
       "s": "DOGE",
-      "p": 0.07327,
-      "c": 2.16
+      "p": 0.07271,
+      "c": -0.86
     },
     {
       "s": "XRP",
-      "p": 1.1004,
-      "c": 0.25
+      "p": 1.1064,
+      "c": 0.52
     },
     {
       "s": "AVAX",
-      "p": 6.703,
-      "c": -1.09
+      "p": 6.664,
+      "c": -0.67
     }
   ],
   "float": {
-    "headline": "Rejim long tarafına döndü — BTC + ETH aday.",
-    "detail": "BTC günlük EMA50 üstüne çıktı; ETH zaten üstteydi. İkisinde de taze geri çekilme kanıtı yok — tetik yok, sinyal yok. Ajan geri çekilme bekliyor.",
+    "headline": "DOGE kurulumu izleniyor — tetik bekleniyor.",
+    "detail": "Düşüş trendi + tepki hazır (RSI tepe 62); EMA21 altına kapanış bekleniyor",
     "candidate": {
-      "dir": "LONG",
-      "pair": "BTC + ETH / USDT",
-      "entry": "geri çekilme bekleniyor",
-      "stop": "−2×ATR",
-      "target": "+2,5R"
+      "dir": "SHORT",
+      "pair": "DOGE / USDT",
+      "entry": "tetikte belirlenecek",
+      "stop": "+2×ATR",
+      "target": "2,5R"
     },
-    "trailing": "66.921 kırılırsa büyük resim de döner. Alarmlar görevde."
+    "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }
 }
