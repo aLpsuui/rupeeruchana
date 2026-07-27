@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-27T17:56:11.515Z",
+  "updated": "2026-07-27T21:30:22.215Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -49,10 +49,10 @@
     },
     {
       "coin": "DOGE",
-      "status": "SİNYAL",
+      "status": "KURULUM",
       "dir": "SHORT",
       "star": true,
-      "note": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
+      "note": "Düşüş trendi + tepki hazır (RSI tepe 61); EMA21 altına kapanış bekleniyor",
       "hi": "0,077",
       "lo": "0,0682"
     },
@@ -67,6 +67,24 @@
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-27T21:30:22.215Z",
+      "kind": "ok",
+      "body": "BTC 64.840 — günlük EMA50 (65.015) etrafında rejim arası. İki yönde de kapı kapalı; bir sonraki 4s kapanışını izliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-27T21:30:22.215Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 62) · LINK: long adayi (RSI 55) · SOL: beklemede (RSI 53) · DOGE: kurulum (RSI 51)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-27T21:30:22.215Z",
+      "kind": "dot",
+      "body": "DOGE kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Tarayıcı bir sinyal yayınladı",
       "ts": "2026-07-27T17:56:11.515Z",
@@ -219,49 +237,49 @@
   "ticker": [
     {
       "s": "BTC",
-      "p": 64983.99,
-      "c": 0.48
+      "p": 64839.99,
+      "c": 0.03
     },
     {
       "s": "ETH",
-      "p": 1942.85,
-      "c": 1.62
+      "p": 1945.09,
+      "c": 1.18
     },
     {
       "s": "SOL",
-      "p": 75.87,
-      "c": 0.68
+      "p": 75.65,
+      "c": 0.01
     },
     {
       "s": "LINK",
-      "p": 8.622,
-      "c": 0.21
+      "p": 8.594,
+      "c": -0.17
     },
     {
       "s": "DOGE",
-      "p": 0.07209,
-      "c": -1.44
+      "p": 0.0719,
+      "c": -1.21
     },
     {
       "s": "XRP",
-      "p": 1.0937,
-      "c": -0.74
+      "p": 1.0887,
+      "c": -1.39
     },
     {
       "s": "AVAX",
-      "p": 6.581,
-      "c": -1.56
+      "p": 6.586,
+      "c": -1.42
     }
   ],
   "float": {
-    "headline": "DOGE SHORT sinyali aktif.",
-    "detail": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
+    "headline": "DOGE kurulumu izleniyor — tetik bekleniyor.",
+    "detail": "Düşüş trendi + tepki hazır (RSI tepe 61); EMA21 altına kapanış bekleniyor",
     "candidate": {
       "dir": "SHORT",
       "pair": "DOGE / USDT",
-      "entry": "0,0714",
-      "stop": "0,0736",
-      "target": "0,0657"
+      "entry": "tetikte belirlenecek",
+      "stop": "+2×ATR",
+      "target": "2,5R"
     },
     "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }
