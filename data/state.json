@@ -1,0 +1,184 @@
+{
+  "updated": "2026-07-26T17:05:00Z",
+  "engine": "manual-bootstrap",
+  "kpi": {
+    "return_pct": 3.6,
+    "win_rate": 34,
+    "max_dd": 5.1,
+    "trades": 29,
+    "profit_factor": 1.17
+  },
+  "signals": [],
+  "watchlist": [
+    {
+      "coin": "ETH",
+      "status": "LONG ADAYI",
+      "star": false,
+      "note": "Tepe 1.956 kırıldı (1.967 görüldü) ama sinyalsiz — RSI 68, kovalamak yok; ~1.900 bölgesine geri çekilme bekleniyor",
+      "hi": "1.967",
+      "lo": "1.900"
+    },
+    {
+      "coin": "LINK",
+      "status": "LONG ADAYI",
+      "star": false,
+      "note": "Üst bölgede, toparlanma tetiği aranıyor",
+      "hi": "8,76",
+      "lo": "8,27"
+    },
+    {
+      "coin": "SOL",
+      "status": "LONG ADAYI",
+      "star": false,
+      "note": "Derin düzeltme — emare şart",
+      "hi": "83,98",
+      "lo": "73,44"
+    },
+    {
+      "coin": "DOGE",
+      "status": "SHORT ADAYI",
+      "star": false,
+      "note": "Dipte; tepki yükselişi satış kurulumu olabilir",
+      "hi": "0,0740",
+      "lo": "0,0682"
+    },
+    {
+      "coin": "BTC",
+      "status": "LONG ADAYI",
+      "star": false,
+      "note": "Günlük EMA50 (65.017) üstüne çıktı, ortalama yükseliyor — rejim long tarafına döndü. Geri çekilme + EMA21 geri alımı bekleniyor",
+      "hi": "66.921",
+      "lo": "65.017"
+    }
+  ],
+  "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-26T17:05:00Z",
+      "kind": "ok",
+      "title": null,
+      "body": "REJİM DEĞİŞTİ: BTC 65.238 — günlük EMA50'nin (65.017) üstüne kapandı ve ortalama yükseliyor. Long kapısı açıldı. Sıradaki dirençler: 65.765 (alçalan tepe) ve 66.921 (ana tepe). Sinyal için hâlâ kural geçerli: önce sağlıklı bir geri çekilme, sonra EMA21 geri alımı."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-26T17:05:00Z",
+      "kind": "dot",
+      "title": null,
+      "body": "Kapının açılması içeri dalmak demek değildir. ETH'de az önce gördük: kovalayan, sistemin korumasından çıkar. BTC ve ETH artık aynı durumda — ikisi de long adayı, ikisi de geri çekilme bekliyor."
+    },
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-26T16:45:00Z",
+      "kind": "ok",
+      "title": null,
+      "body": "ETH tepeyi (1.956) kırdı, 1.967 gördü — ama tetik dizilimi tamamlanmadan. Resmî sinyal yok: RSI 68'e ısındı, kovalamıyoruz. Yeni plan: ~1.900 (EMA21) bölgesine sağlıklı bir geri çekilme gelirse kurulum yeniden kurulur."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-26T16:45:00Z",
+      "kind": "dot",
+      "title": null,
+      "body": "Kaçan hareket zarar değildir; kural dışı giriş zarardır. Sistem sinyalsiz fırlayan trene binmez — bir sonraki istasyonu bekler. 1.900 geri çekilme alarmı kuruldu."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-26T16:45:00Z",
+      "kind": "state",
+      "title": null,
+      "body": "ETH'yi Kurulum → İzleniyor durumuna geri taşıdı (tetiksiz kırılım)"
+    },
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-26T13:30:00Z",
+      "kind": "ok",
+      "title": null,
+      "body": "BTC 64.400 — günlük EMA50'nin (65.017) hemen altında, ama ortalama hâlâ yukarı eğimli. Rejim arası: iki yönde de kapı kapalı. Bir sonraki 4s kapanışını izliyorum."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-26T13:30:00Z",
+      "kind": "dot",
+      "title": null,
+      "body": "Böyle sıkışma bölgelerinde işlem açmak, backtest'te en çok kaybettiren davranıştı. Sinyal yok = pozisyon yok. Beklemek de bir karardır."
+    },
+    {
+      "who": "Tarayıcı bir aday işaretledi",
+      "ts": "2026-07-26T09:00:00Z",
+      "kind": "plus",
+      "candidate": {
+        "dir": "LONG",
+        "pair": "ETH / USDT",
+        "tf": "4s tetik bekleniyor",
+        "trigger": "4s > EMA21 kapanış",
+        "stop": "giriş − 2×ATR",
+        "target": "giriş + 2,5R",
+        "evidence": "trend filtresi ✓ · 50 günde +%20 ✓ · RSI soğudu ✓ · tepe 1.956'dan olgun geri çekilme"
+      },
+      "body": null,
+      "footnote": "2 yıllık 4s veri: benzer kurulumlar 29 işlemde kâr faktörü 1,17 üretti."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-26T09:00:00Z",
+      "kind": "dot",
+      "title": null,
+      "body": "50 günlük tarama: LINK aralığın üst bölgesinde (+%14), SOL derin düzeltmede (+%20 sonrası −%11), DOGE dipte tepki satışına aday (−%10). XRP ve AVAX yönsüz — izleme dışı."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-26T09:00:00Z",
+      "kind": "state",
+      "title": null,
+      "body": "ETH'yi İzleniyor → Kurulum durumuna taşıdı"
+    }
+  ],
+  "ticker": [
+    {
+      "s": "BTC",
+      "p": 65238,
+      "c": 1.3
+    },
+    {
+      "s": "ETH",
+      "p": 1945.91,
+      "c": 3.6
+    },
+    {
+      "s": "SOL",
+      "p": 74.96,
+      "c": 0.58
+    },
+    {
+      "s": "LINK",
+      "p": 8.443,
+      "c": 0.69
+    },
+    {
+      "s": "DOGE",
+      "p": 0.07327,
+      "c": 2.16
+    },
+    {
+      "s": "XRP",
+      "p": 1.1004,
+      "c": 0.25
+    },
+    {
+      "s": "AVAX",
+      "p": 6.703,
+      "c": -1.09
+    }
+  ],
+  "float": {
+    "headline": "Rejim long tarafına döndü — BTC + ETH aday.",
+    "detail": "BTC günlük EMA50 üstüne çıktı; ETH zaten üstteydi. İkisinde de taze geri çekilme kanıtı yok — tetik yok, sinyal yok. Ajan geri çekilme bekliyor.",
+    "candidate": {
+      "dir": "LONG",
+      "pair": "BTC + ETH / USDT",
+      "entry": "geri çekilme bekleniyor",
+      "stop": "−2×ATR",
+      "target": "+2,5R"
+    },
+    "trailing": "66.921 kırılırsa büyük resim de döner. Alarmlar görevde."
+  }
+}

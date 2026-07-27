@@ -1,0 +1,41 @@
+name: Rupeeruchana 4 saatlik analiz
+
+on:
+  schedule:
+    - cron: '17 */4 * * *'   # her 4 saatte bir (UTC), :17'de — tam saat yoğunluğundan kaçınır
+  workflow_dispatch: {}       # elle tetikleme (Actions sekmesinden "Run workflow")
+
+permissions:
+  contents: write
+
+concurrency:
+  group: analyze
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Kural mantığı testi
+        run: node scripts/update.mjs --selftest
+
+      - name: Analizi çalıştır
+        run: node scripts/update.mjs
+
+      - name: Değişiklik varsa yayınla
+        run: |
+          git config user.name "rupeeruchana-agent"
+          git config user.email "agent@rupeeruchana.local"
+          if ! git diff --quiet data/state.json; then
+            git add data/state.json
+            git commit -m "ajan: 4 saatlik analiz $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          else
+            echo "Değişiklik yok."
+          fi
