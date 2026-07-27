@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-27T11:39:47.089Z",
+  "updated": "2026-07-27T15:14:24.849Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -15,7 +15,7 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +16%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +14%); gerçek bir geri çekilme bekleniyor",
       "hi": "1.967",
       "lo": "1.803"
     },
@@ -24,16 +24,16 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +11%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +9%); gerçek bir geri çekilme bekleniyor",
       "hi": "8,843",
       "lo": "8,006"
     },
     {
       "coin": "SOL",
-      "status": "LONG ADAYI",
-      "dir": "LONG",
+      "status": "BEKLEMEDE",
+      "dir": null,
       "star": false,
-      "note": "Trend yukarı (50 günde +15%); gerçek bir geri çekilme bekleniyor",
+      "note": "Fiyat günlük EMA50 altında ama ortalama yükseliyor — rejim arası",
       "hi": "82,79",
       "lo": "73,39"
     },
@@ -48,15 +48,33 @@
     },
     {
       "coin": "BTC",
-      "status": "LONG ADAYI",
-      "dir": "LONG",
+      "status": "BEKLEMEDE",
+      "dir": null,
       "star": false,
-      "note": "Trend yukarı (50 günde +3%); gerçek bir geri çekilme bekleniyor",
+      "note": "Fiyat günlük EMA50 altında ama ortalama yükseliyor — rejim arası",
       "hi": "66.956",
       "lo": "62.538"
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-27T15:14:24.849Z",
+      "kind": "ok",
+      "body": "BTC 64.760 — günlük EMA50 (65.015) etrafında rejim arası. İki yönde de kapı kapalı; bir sonraki 4s kapanışını izliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-27T15:14:24.849Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 71) · LINK: long adayi (RSI 64) · SOL: beklemede (RSI 59) · DOGE: kurulum (RSI 55)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-27T15:14:24.849Z",
+      "kind": "dot",
+      "body": "DOGE kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-07-27T11:39:47.089Z",
@@ -158,38 +176,38 @@
   "ticker": [
     {
       "s": "BTC",
-      "p": 65194.73,
-      "c": 1.08
+      "p": 64759.52,
+      "c": 0.13
     },
     {
       "s": "ETH",
-      "p": 1960.95,
-      "c": 3.9
+      "p": 1934.17,
+      "c": 1.83
     },
     {
       "s": "SOL",
-      "p": 76.68,
-      "c": 2.21
+      "p": 75.58,
+      "c": 0.79
     },
     {
       "s": "LINK",
-      "p": 8.769,
-      "c": 3.91
+      "p": 8.618,
+      "c": 1.51
     },
     {
       "s": "DOGE",
-      "p": 0.07271,
-      "c": -0.86
+      "p": 0.07155,
+      "c": -1.89
     },
     {
       "s": "XRP",
-      "p": 1.1064,
-      "c": 0.52
+      "p": 1.0916,
+      "c": -0.8
     },
     {
       "s": "AVAX",
-      "p": 6.664,
-      "c": -0.67
+      "p": 6.548,
+      "c": -1.92
     }
   ],
   "float": {
