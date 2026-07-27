@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-27T15:14:24.849Z",
+  "updated": "2026-07-27T17:56:11.515Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -8,14 +8,24 @@
     "trades": 29,
     "profit_factor": 1.17
   },
-  "signals": [],
+  "signals": [
+    {
+      "coin": "DOGE",
+      "dir": "SHORT",
+      "state": "AKTİF",
+      "ts": "2026-07-27T17:56:11.515Z",
+      "entry": "0,0714",
+      "stop": "0,0736",
+      "target": "0,0657"
+    }
+  ],
   "watchlist": [
     {
       "coin": "ETH",
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +14%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +15%); gerçek bir geri çekilme bekleniyor",
       "hi": "1.967",
       "lo": "1.803"
     },
@@ -39,10 +49,10 @@
     },
     {
       "coin": "DOGE",
-      "status": "KURULUM",
+      "status": "SİNYAL",
       "dir": "SHORT",
       "star": true,
-      "note": "Düşüş trendi + tepki hazır (RSI tepe 62); EMA21 altına kapanış bekleniyor",
+      "note": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
       "hi": "0,077",
       "lo": "0,0682"
     },
@@ -57,6 +67,39 @@
     }
   ],
   "feed": [
+    {
+      "who": "Tarayıcı bir sinyal yayınladı",
+      "ts": "2026-07-27T17:56:11.515Z",
+      "kind": "plus",
+      "candidate": {
+        "dir": "SHORT",
+        "pair": "DOGE / USDT",
+        "tf": "4s kapanış teyitli",
+        "trigger": "Giriş 0,0714",
+        "stop": "Stop 0,0736",
+        "target": "Hedef 0,0657",
+        "evidence": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi"
+      },
+      "footnote": "Stop = 2×ATR(14) · Hedef = 2,5R · Yatırım tavsiyesi değildir."
+    },
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-27T17:56:11.515Z",
+      "kind": "ok",
+      "body": "BTC 64.984 — günlük EMA50 (65.015) etrafında rejim arası. İki yönde de kapı kapalı; bir sonraki 4s kapanışını izliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-27T17:56:11.515Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 57) · LINK: long adayi (RSI 52) · SOL: beklemede (RSI 47) · DOGE: si̇nyal (RSI 46)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-27T17:56:11.515Z",
+      "kind": "dot",
+      "body": "Risk sabit, kurallar açık. Sinyal gelmeden bu sayfada alım-satım önerisi göremezsiniz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-07-27T15:14:24.849Z",
@@ -176,49 +219,49 @@
   "ticker": [
     {
       "s": "BTC",
-      "p": 64759.52,
-      "c": 0.13
+      "p": 64983.99,
+      "c": 0.48
     },
     {
       "s": "ETH",
-      "p": 1934.17,
-      "c": 1.83
+      "p": 1942.85,
+      "c": 1.62
     },
     {
       "s": "SOL",
-      "p": 75.58,
-      "c": 0.79
+      "p": 75.87,
+      "c": 0.68
     },
     {
       "s": "LINK",
-      "p": 8.618,
-      "c": 1.51
+      "p": 8.622,
+      "c": 0.21
     },
     {
       "s": "DOGE",
-      "p": 0.07155,
-      "c": -1.89
+      "p": 0.07209,
+      "c": -1.44
     },
     {
       "s": "XRP",
-      "p": 1.0916,
-      "c": -0.8
+      "p": 1.0937,
+      "c": -0.74
     },
     {
       "s": "AVAX",
-      "p": 6.548,
-      "c": -1.92
+      "p": 6.581,
+      "c": -1.56
     }
   ],
   "float": {
-    "headline": "DOGE kurulumu izleniyor — tetik bekleniyor.",
-    "detail": "Düşüş trendi + tepki hazır (RSI tepe 62); EMA21 altına kapanış bekleniyor",
+    "headline": "DOGE SHORT sinyali aktif.",
+    "detail": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
     "candidate": {
       "dir": "SHORT",
       "pair": "DOGE / USDT",
-      "entry": "tetikte belirlenecek",
-      "stop": "+2×ATR",
-      "target": "2,5R"
+      "entry": "0,0714",
+      "stop": "0,0736",
+      "target": "0,0657"
     },
     "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }
