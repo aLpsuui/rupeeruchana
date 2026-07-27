@@ -413,7 +413,7 @@
   }
 
   function refresh(){
-    fetch('https://api.binance.com/api/v3/ticker/24hr?symbols=' + encodeURIComponent(JSON.stringify(PAIRS)))
+    fetch('https://data-api.binance.vision/api/v3/ticker/24hr?symbols=' + encodeURIComponent(JSON.stringify(PAIRS)))
       .then(function(r){ return r.json(); })
       .then(function(data){
         var items = data.map(function(d){

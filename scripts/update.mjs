@@ -14,7 +14,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const COINS = ['BTC', 'ETH', 'SOL', 'LINK', 'DOGE', 'XRP', 'AVAX'];
 const WATCH = ['ETH', 'LINK', 'SOL', 'DOGE', 'BTC']; // izleme listesi sırası
 const STATE_PATH = new URL('../data/state.json', import.meta.url);
-const API = 'https://api.binance.com/api/v3';
+const API = 'https://data-api.binance.vision/api/v3'; // küresel halka açık veri ucu (GitHub runner'larından erişilebilir)
 
 // ---- Anlık bildirim (ntfy.sh — telefonda ntfy uygulamasıyla bu konuya abone ol) ----
 const NTFY_TOPIC = 'rupeeruchana-sinyal-f28db1';
