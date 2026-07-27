@@ -2,11 +2,13 @@ name: Rupeeruchana 4 saatlik analiz
 
 on:
   schedule:
-    - cron: '17 */4 * * *'   # her 4 saatte bir (UTC), :17'de — tam saat yoğunluğundan kaçınır
+    - cron: '17 */4 * * *'   # her 4 saatte bir (UTC), :17'de — 4s mum kapanışından hemen sonra
   workflow_dispatch: {}       # elle tetikleme (Actions sekmesinden "Run workflow")
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: analyze
@@ -14,6 +16,9 @@ concurrency:
 
 jobs:
   analyze:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +33,7 @@ jobs:
       - name: Analizi çalıştır
         run: node scripts/update.mjs
 
-      - name: Değişiklik varsa yayınla
+      - name: Değişiklik varsa kaydet
         run: |
           git config user.name "rupeeruchana-agent"
           git config user.email "agent@rupeeruchana.local"
@@ -39,3 +44,14 @@ jobs:
           else
             echo "Değişiklik yok."
           fi
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
