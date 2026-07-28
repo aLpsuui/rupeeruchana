@@ -56,3 +56,21 @@ sonuçları ve tüm sinyal sicili halka açıktır.
   bir sonraki otomatik tur feed'in üstüne yenilerini ekler, eskiyi silmez (son 40 kayıt tutulur).
 - KPI kutuları TradingView Strateji Testçisi'ndeki backtest sonuçlarıdır; canlı sicil
   sinyaller biriktikçe bu sayfada oluşur.
+
+## Testnet Otomatik İşlem (sahte para)
+
+Motor, Binance **Spot Testnet** üzerinde LONG sinyallerini otomatik işler:
+market alış + borsada OCO (stop + hedef). Gerçek para SÖZ KONUSU DEĞİLDİR.
+
+Kurulum (bir kez):
+1. https://testnet.binance.vision → GitHub ile giriş → **Generate HMAC_SHA256 Key**
+   → API Key + Secret'ı kopyala.
+2. Repo → Settings → Secrets and variables → Actions → **New repository secret**:
+   - `BINANCE_TESTNET_KEY` = API Key
+   - `BINANCE_TESTNET_SECRET` = Secret
+3. Zincir testi: Actions → "Rupeeruchana 4 saatlik analiz" → Run workflow →
+   `test_trade: true` → minik bir BTC testnet işlemi açılır, ntfy bildirimi gelir.
+
+Notlar: Secret'lar yoksa modül tamamen devre dışıdır. Spot testnet short
+desteklemez — SHORT sinyaller yalnızca bildirim olarak kalır. Sicil:
+`data/autotrade.json`.

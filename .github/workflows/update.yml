@@ -3,7 +3,12 @@ name: Rupeeruchana 4 saatlik analiz
 on:
   schedule:
     - cron: '17 */4 * * *'   # her 4 saatte bir (UTC), :17'de — 4s mum kapanışından hemen sonra
-  workflow_dispatch: {}       # elle tetikleme (Actions sekmesinden "Run workflow")
+  workflow_dispatch:
+    inputs:
+      test_trade:
+        description: 'Testnet zincir testi: minik BTC işlemi aç (true/false)'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write
@@ -20,6 +25,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    env:
+      BINANCE_TESTNET_KEY: ${{ secrets.BINANCE_TESTNET_KEY }}
+      BINANCE_TESTNET_SECRET: ${{ secrets.BINANCE_TESTNET_SECRET }}
     steps:
       - uses: actions/checkout@v4
 
@@ -30,6 +38,10 @@ jobs:
       - name: Kural mantığı testi
         run: node scripts/update.mjs --selftest
 
+      - name: Zincir testi (yalnızca elle tetiklemede)
+        if: ${{ github.event.inputs.test_trade == 'true' }}
+        run: node scripts/update.mjs --test-trade
+
       - name: Analizi çalıştır
         run: node scripts/update.mjs
 
@@ -37,8 +49,8 @@ jobs:
         run: |
           git config user.name "rupeeruchana-agent"
           git config user.email "agent@rupeeruchana.local"
-          if ! git diff --quiet data/state.json; then
-            git add data/state.json
+          git add data/
+          if ! git diff --cached --quiet; then
             git commit -m "ajan: 4 saatlik analiz $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
           else
