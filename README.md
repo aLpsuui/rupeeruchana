@@ -57,20 +57,17 @@ sonuçları ve tüm sinyal sicili halka açıktır.
 - KPI kutuları TradingView Strateji Testçisi'ndeki backtest sonuçlarıdır; canlı sicil
   sinyaller biriktikçe bu sayfada oluşur.
 
-## Testnet Otomatik İşlem (sahte para)
+## Sanal Cüzdan — Otomatik İşlem Simülasyonu
 
-Motor, Binance **Spot Testnet** üzerinde LONG sinyallerini otomatik işler:
-market alış + borsada OCO (stop + hedef). Gerçek para SÖZ KONUSU DEĞİLDİR.
+Motor, kendi içinde **50$'lık sanal bir cüzdan** işletir (borsa yok, anahtar yok):
+sinyal doğduğunda sanal pozisyon açar (işlem başına %2 = 1$ risk), her turda
+gerçek piyasa verisiyle stop/hedefi kontrol eder, kapanışta PnL'i hesaplayıp
+ntfy'a bildirir. LONG ve SHORT ikisi de desteklenir. Sicil: `data/autotrade.json`.
 
-Kurulum (bir kez):
-1. https://testnet.binance.vision → GitHub ile giriş → **Generate HMAC_SHA256 Key**
-   → API Key + Secret'ı kopyala.
-2. Repo → Settings → Secrets and variables → Actions → **New repository secret**:
-   - `BINANCE_TESTNET_KEY` = API Key
-   - `BINANCE_TESTNET_SECRET` = Secret
-3. Zincir testi: Actions → "Rupeeruchana 4 saatlik analiz" → Run workflow →
-   `test_trade: true` → minik bir BTC testnet işlemi açılır, ntfy bildirimi gelir.
-
-Notlar: Secret'lar yoksa modül tamamen devre dışıdır. Spot testnet short
-desteklemez — SHORT sinyaller yalnızca bildirim olarak kalır. Sicil:
-`data/autotrade.json`.
+- Zincir testi: Actions → "Rupeeruchana 4 saatlik analiz" → Run workflow →
+  `test_trade: true` → dar bantlı minik bir sanal BTC işlemi açılır; birkaç saat
+  içinde doğal olarak kapanır ve iki bildirimi de (açılış + kapanış) doğrular.
+- Aynı mumda hem stop hem hedef dokunursa tutucu varsayım uygulanır: STOP sayılır.
+- Not: Binance testnet'i GitHub sunucularından coğrafi engelli (HTTP 451)
+  olduğu için gerçek-borsa simülasyonu yerine bu yerleşik sanal cüzdan kullanılır.
+  Canlı paraya geçiş, ayrı bir konum çözümü (ör. VPS) gerektirir.

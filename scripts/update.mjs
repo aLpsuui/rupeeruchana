@@ -222,11 +222,9 @@ async function main() {
     signals.push(ns);
   }
 
-  // --- testnet: açık pozisyonların durumunu kontrol et (hedef/stop dolmuş mu?)
-  if (executor.enabled()) {
-    try { await executor.reconcile(notify); }
-    catch (e) { console.error('testnet takip hatası:', e.message); }
-  }
+  // --- sanal cüzdan: açık pozisyonların durumunu kontrol et (hedef/stop dokundu mu?)
+  try { await executor.reconcile(notify); }
+  catch (e) { console.error('sanal takip hatası:', e.message); }
 
   // --- yeni sinyaller
   const feed = [];
@@ -252,16 +250,12 @@ async function main() {
         `Giriş ${px(a.signal.entry)} · Stop ${px(a.signal.stop)} · Hedef ${px(a.signal.target)} (2,5R)`,
         a.signal.dir === 'LONG' ? 'green_circle' : 'red_circle'
       );
-      // --- testnet otomatik işlem (yalnızca LONG — spot testnet short desteklemez)
-      if (executor.enabled() && a.signal.dir === 'LONG') {
-        try {
-          await executor.openLong({ coinRaw: c, entryNum: a.signal.entry, stopNum: a.signal.stop, targetNum: a.signal.target }, notify);
-        } catch (e) {
-          console.error(`testnet emir hatası ${c}:`, e.message);
-          await notify(`⚠️ TESTNET emir hatası: ${c}`, e.message.slice(0, 150), 'warning');
-        }
-      } else if (executor.enabled() && a.signal.dir === 'SHORT') {
-        await notify(`ℹ️ ${c} SHORT sinyali`, 'Spot testnet short desteklemiyor — yalnızca bildirim.', 'information_source');
+      // --- sanal cüzdan otomatik işlem (LONG + SHORT)
+      try {
+        await executor.openTrade({ coinRaw: c, dir: a.signal.dir, entryNum: a.signal.entry, stopNum: a.signal.stop, targetNum: a.signal.target }, notify);
+      } catch (e) {
+        console.error(`sanal işlem hatası ${c}:`, e.message);
+        await notify(`⚠️ Sanal işlem hatası: ${c}`, e.message.slice(0, 150), 'warning');
       }
     }
   }
@@ -328,12 +322,9 @@ if (process.argv.includes('--selftest')) {
   const { runSelfTest } = await import('./selftest.mjs');
   runSelfTest({ analyzeCoin });
 } else if (process.argv.includes('--test-trade')) {
-  // Elle tetiklenen zincir testi: minik bir testnet işlemi açar (sahte para)
-  if (!executor.enabled()) { console.error('BINANCE_TESTNET_KEY/SECRET tanımlı değil.'); process.exit(1); }
-  const r = await fetch('https://data-api.binance.vision/api/v3/ticker/price?symbol=BTCUSDT');
-  const p = parseFloat((await r.json()).price);
-  await executor.forceTestTrade(notify, p);
-  console.log('Test işlemi gönderildi.');
+  // Elle tetiklenen zincir testi: dar bantlı minik sanal işlem açar
+  await executor.forceTestTrade(notify);
+  console.log('Sanal test işlemi açıldı.');
 } else {
   main().catch(e => { console.error('GÜNCELLEME BAŞARISIZ:', e.message); process.exit(1); });
 }
