@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-28T03:36:33.487Z",
+  "updated": "2026-07-28T06:41:07.063Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -43,48 +43,66 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +11%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +12%); gerçek bir geri çekilme bekleniyor",
       "hi": "1.981",
       "lo": "1.838"
     },
     {
       "coin": "LINK",
-      "status": "LONG ADAYI",
+      "status": "KURULUM",
       "dir": "LONG",
-      "star": false,
-      "note": "Trend yukarı (50 günde +4%); gerçek bir geri çekilme bekleniyor",
+      "star": true,
+      "note": "Trend + geri çekilme hazır (RSI dip 40); 4s EMA21 kapanışı bekleniyor",
       "hi": "8,916",
       "lo": "8,211"
     },
     {
       "coin": "SOL",
-      "status": "SİNYAL",
+      "status": "KURULUM",
       "dir": "SHORT",
       "star": true,
-      "note": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
+      "note": "Düşüş trendi + tepki hazır (RSI tepe 62); EMA21 altına kapanış bekleniyor",
       "hi": "80,78",
       "lo": "73,44"
     },
     {
       "coin": "DOGE",
-      "status": "SİNYAL",
+      "status": "KURULUM",
       "dir": "SHORT",
       "star": true,
-      "note": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
+      "note": "Düşüş trendi + tepki hazır (RSI tepe 61); EMA21 altına kapanış bekleniyor",
       "hi": "0,0756",
       "lo": "0,0682"
     },
     {
       "coin": "BTC",
-      "status": "SİNYAL",
+      "status": "KURULUM",
       "dir": "SHORT",
       "star": true,
-      "note": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
+      "note": "Düşüş trendi + tepki hazır (RSI tepe 60); EMA21 altına kapanış bekleniyor",
       "hi": "66.956",
       "lo": "63.100"
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-28T06:41:07.063Z",
+      "kind": "ok",
+      "body": "BTC 63.576 — günlük EMA50'nin (64.976) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-28T06:41:07.063Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 44) · LINK: kurulum (RSI 40) · SOL: kurulum (RSI 36) · DOGE: kurulum (RSI 41)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-28T06:41:07.063Z",
+      "kind": "dot",
+      "body": "LINK, SOL, DOGE, BTC kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Tarayıcı bir sinyal yayınladı",
       "ts": "2026-07-28T03:36:33.487Z",
@@ -303,49 +321,49 @@
   "ticker": [
     {
       "s": "BTC",
-      "p": 63292.89,
-      "c": -3.07
+      "p": 63575.99,
+      "c": -2.94
     },
     {
       "s": "ETH",
-      "p": 1877.76,
-      "c": -3.49
+      "p": 1885.77,
+      "c": -4.24
     },
     {
       "s": "SOL",
-      "p": 73.28,
-      "c": -4.11
+      "p": 73.47,
+      "c": -4.34
     },
     {
       "s": "LINK",
-      "p": 8.33,
-      "c": -4.81
+      "p": 8.353,
+      "c": -5.57
     },
     {
       "s": "DOGE",
-      "p": 0.07011,
-      "c": -3.69
+      "p": 0.07035,
+      "c": -3.76
     },
     {
       "s": "XRP",
-      "p": 1.0582,
-      "c": -4.37
+      "p": 1.06,
+      "c": -4.59
     },
     {
       "s": "AVAX",
-      "p": 6.432,
-      "c": -3.79
+      "p": 6.444,
+      "c": -3.95
     }
   ],
   "float": {
-    "headline": "SOL SHORT sinyali aktif.",
-    "detail": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
+    "headline": "LINK kurulumu izleniyor — tetik bekleniyor.",
+    "detail": "Trend + geri çekilme hazır (RSI dip 40); 4s EMA21 kapanışı bekleniyor",
     "candidate": {
-      "dir": "SHORT",
-      "pair": "SOL / USDT",
-      "entry": "74,2",
-      "stop": "76,26",
-      "target": "69,05"
+      "dir": "LONG",
+      "pair": "LINK / USDT",
+      "entry": "tetikte belirlenecek",
+      "stop": "−2×ATR",
+      "target": "2,5R"
     },
     "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }
