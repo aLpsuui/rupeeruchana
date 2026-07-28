@@ -1,0 +1,17 @@
+{
+  "note": "SANAL CÜZDAN — gerçek para değildir. Başlangıç: 50 USDT, işlem başına risk %2.",
+  "balance": 50,
+  "open": [
+    {
+      "symbol": "BTCUSDT",
+      "dir": "LONG",
+      "qty": 0.00317432,
+      "entry": 63005.7,
+      "stop": 62690.6715,
+      "target": 63320.72849999999,
+      "riskUsd": 1,
+      "ts": "2026-07-28T14:18:19.399Z"
+    }
+  ],
+  "closed": []
+}
