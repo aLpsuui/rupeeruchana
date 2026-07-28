@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-27T21:30:22.215Z",
+  "updated": "2026-07-28T03:36:33.487Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -9,6 +9,24 @@
     "profit_factor": 1.17
   },
   "signals": [
+    {
+      "coin": "BTC",
+      "dir": "SHORT",
+      "state": "AKTİF",
+      "ts": "2026-07-28T03:36:33.487Z",
+      "entry": "63.756",
+      "stop": "64.926",
+      "target": "60.829"
+    },
+    {
+      "coin": "SOL",
+      "dir": "SHORT",
+      "state": "AKTİF",
+      "ts": "2026-07-28T03:36:33.487Z",
+      "entry": "74,2",
+      "stop": "76,26",
+      "target": "69,05"
+    },
     {
       "coin": "DOGE",
       "dir": "SHORT",
@@ -25,48 +43,96 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +15%); gerçek bir geri çekilme bekleniyor",
-      "hi": "1.967",
-      "lo": "1.803"
+      "note": "Trend yukarı (50 günde +11%); gerçek bir geri çekilme bekleniyor",
+      "hi": "1.981",
+      "lo": "1.838"
     },
     {
       "coin": "LINK",
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +9%); gerçek bir geri çekilme bekleniyor",
-      "hi": "8,843",
-      "lo": "8,006"
+      "note": "Trend yukarı (50 günde +4%); gerçek bir geri çekilme bekleniyor",
+      "hi": "8,916",
+      "lo": "8,211"
     },
     {
       "coin": "SOL",
-      "status": "BEKLEMEDE",
-      "dir": null,
-      "star": false,
-      "note": "Fiyat günlük EMA50 altında ama ortalama yükseliyor — rejim arası",
-      "hi": "82,79",
-      "lo": "73,39"
+      "status": "SİNYAL",
+      "dir": "SHORT",
+      "star": true,
+      "note": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
+      "hi": "80,78",
+      "lo": "73,44"
     },
     {
       "coin": "DOGE",
-      "status": "KURULUM",
+      "status": "SİNYAL",
       "dir": "SHORT",
       "star": true,
-      "note": "Düşüş trendi + tepki hazır (RSI tepe 61); EMA21 altına kapanış bekleniyor",
-      "hi": "0,077",
+      "note": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
+      "hi": "0,0756",
       "lo": "0,0682"
     },
     {
       "coin": "BTC",
-      "status": "BEKLEMEDE",
-      "dir": null,
-      "star": false,
-      "note": "Fiyat günlük EMA50 altında ama ortalama yükseliyor — rejim arası",
+      "status": "SİNYAL",
+      "dir": "SHORT",
+      "star": true,
+      "note": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
       "hi": "66.956",
-      "lo": "62.538"
+      "lo": "63.100"
     }
   ],
   "feed": [
+    {
+      "who": "Tarayıcı bir sinyal yayınladı",
+      "ts": "2026-07-28T03:36:33.487Z",
+      "kind": "plus",
+      "candidate": {
+        "dir": "SHORT",
+        "pair": "SOL / USDT",
+        "tf": "4s kapanış teyitli",
+        "trigger": "Giriş 74,2",
+        "stop": "Stop 76,26",
+        "target": "Hedef 69,05",
+        "evidence": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi"
+      },
+      "footnote": "Stop = 2×ATR(14) · Hedef = 2,5R · Yatırım tavsiyesi değildir."
+    },
+    {
+      "who": "Tarayıcı bir sinyal yayınladı",
+      "ts": "2026-07-28T03:36:33.487Z",
+      "kind": "plus",
+      "candidate": {
+        "dir": "SHORT",
+        "pair": "BTC / USDT",
+        "tf": "4s kapanış teyitli",
+        "trigger": "Giriş 63.756",
+        "stop": "Stop 64.926",
+        "target": "Hedef 60.829",
+        "evidence": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi"
+      },
+      "footnote": "Stop = 2×ATR(14) · Hedef = 2,5R · Yatırım tavsiyesi değildir."
+    },
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-28T03:36:33.487Z",
+      "kind": "ok",
+      "body": "BTC 63.293 — SHORT sinyali oluştu. Detaylar sinyal kartında; stop ve hedef baştan belli."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-28T03:36:33.487Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 46) · LINK: long adayi (RSI 42) · SOL: si̇nyal (RSI 40) · DOGE: si̇nyal (RSI 41)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-28T03:36:33.487Z",
+      "kind": "dot",
+      "body": "Sinyal yok = pozisyon yok. Beklemek de bir karardır."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-07-27T21:30:22.215Z",
@@ -237,49 +303,49 @@
   "ticker": [
     {
       "s": "BTC",
-      "p": 64839.99,
-      "c": 0.03
+      "p": 63292.89,
+      "c": -3.07
     },
     {
       "s": "ETH",
-      "p": 1945.09,
-      "c": 1.18
+      "p": 1877.76,
+      "c": -3.49
     },
     {
       "s": "SOL",
-      "p": 75.65,
-      "c": 0.01
+      "p": 73.28,
+      "c": -4.11
     },
     {
       "s": "LINK",
-      "p": 8.594,
-      "c": -0.17
+      "p": 8.33,
+      "c": -4.81
     },
     {
       "s": "DOGE",
-      "p": 0.0719,
-      "c": -1.21
+      "p": 0.07011,
+      "c": -3.69
     },
     {
       "s": "XRP",
-      "p": 1.0887,
-      "c": -1.39
+      "p": 1.0582,
+      "c": -4.37
     },
     {
       "s": "AVAX",
-      "p": 6.586,
-      "c": -1.42
+      "p": 6.432,
+      "c": -3.79
     }
   ],
   "float": {
-    "headline": "DOGE kurulumu izleniyor — tetik bekleniyor.",
-    "detail": "Düşüş trendi + tepki hazır (RSI tepe 61); EMA21 altına kapanış bekleniyor",
+    "headline": "SOL SHORT sinyali aktif.",
+    "detail": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
     "candidate": {
       "dir": "SHORT",
-      "pair": "DOGE / USDT",
-      "entry": "tetikte belirlenecek",
-      "stop": "+2×ATR",
-      "target": "2,5R"
+      "pair": "SOL / USDT",
+      "entry": "74,2",
+      "stop": "76,26",
+      "target": "69,05"
     },
     "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }
