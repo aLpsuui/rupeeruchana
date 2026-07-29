@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-28T21:32:46.212Z",
+  "updated": "2026-07-29T03:41:27.444Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -43,9 +43,9 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +14%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +16%); gerçek bir geri çekilme bekleniyor",
       "hi": "1.981",
-      "lo": "1.838"
+      "lo": "1.843"
     },
     {
       "coin": "LINK",
@@ -54,23 +54,23 @@
       "star": true,
       "note": "Trend + geri çekilme hazır (RSI dip 38); 4s EMA21 kapanışı bekleniyor",
       "hi": "8,916",
-      "lo": "8,211"
+      "lo": "8,192"
     },
     {
       "coin": "SOL",
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde 11%); satılacak bir tepki bekleniyor",
-      "hi": "80,78",
-      "lo": "73,44"
+      "note": "Trend aşağı (50 günde 13%); satılacak bir tepki bekleniyor",
+      "hi": "79,68",
+      "lo": "72,36"
     },
     {
       "coin": "DOGE",
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde -18%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde -17%); satılacak bir tepki bekleniyor",
       "hi": "0,0756",
       "lo": "0,0682"
     },
@@ -79,12 +79,30 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde 1%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde 3%); satılacak bir tepki bekleniyor",
       "hi": "66.956",
-      "lo": "63.100"
+      "lo": "62.742"
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-29T03:41:27.444Z",
+      "kind": "ok",
+      "body": "BTC 63.788 — günlük EMA50'nin (64.942) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-29T03:41:27.444Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 54) · LINK: kurulum (RSI 48) · SOL: short adayi (RSI 42) · DOGE: short adayi (RSI 46)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-29T03:41:27.444Z",
+      "kind": "dot",
+      "body": "LINK kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-07-28T21:32:46.212Z",
@@ -334,64 +352,43 @@
       "kind": "ok",
       "title": null,
       "body": "REJİM DEĞİŞTİ: BTC 65.238 — günlük EMA50'nin (65.017) üstüne kapandı ve ortalama yükseliyor. Long kapısı açıldı. Sıradaki dirençler: 65.765 (alçalan tepe) ve 66.921 (ana tepe). Sinyal için hâlâ kural geçerli: önce sağlıklı bir geri çekilme, sonra EMA21 geri alımı."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-07-26T17:05:00Z",
-      "kind": "dot",
-      "title": null,
-      "body": "Kapının açılması içeri dalmak demek değildir. ETH'de az önce gördük: kovalayan, sistemin korumasından çıkar. BTC ve ETH artık aynı durumda — ikisi de long adayı, ikisi de geri çekilme bekliyor."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-07-26T16:45:00Z",
-      "kind": "ok",
-      "title": null,
-      "body": "ETH tepeyi (1.956) kırdı, 1.967 gördü — ama tetik dizilimi tamamlanmadan. Resmî sinyal yok: RSI 68'e ısındı, kovalamıyoruz. Yeni plan: ~1.900 (EMA21) bölgesine sağlıklı bir geri çekilme gelirse kurulum yeniden kurulur."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-07-26T16:45:00Z",
-      "kind": "dot",
-      "title": null,
-      "body": "Kaçan hareket zarar değildir; kural dışı giriş zarardır. Sistem sinyalsiz fırlayan trene binmez — bir sonraki istasyonu bekler. 1.900 geri çekilme alarmı kuruldu."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 63907.94,
-      "c": -1.47
+      "p": 63785.63,
+      "c": 0.66
     },
     {
       "s": "ETH",
-      "p": 1919.89,
-      "c": -1.26
+      "p": 1899.09,
+      "c": 0.93
     },
     {
       "s": "SOL",
-      "p": 74.12,
-      "c": -2.01
+      "p": 73.22,
+      "c": -0.2
     },
     {
       "s": "LINK",
-      "p": 8.383,
-      "c": -2.4
+      "p": 8.361,
+      "c": 0.24
     },
     {
       "s": "DOGE",
-      "p": 0.07081,
-      "c": -1.54
+      "p": 0.07047,
+      "c": 0.41
     },
     {
       "s": "XRP",
-      "p": 1.0655,
-      "c": -2.15
+      "p": 1.0732,
+      "c": 1.25
     },
     {
       "s": "AVAX",
-      "p": 6.617,
-      "c": 0.52
+      "p": 6.436,
+      "c": -0.02
     }
   ],
   "float": {
