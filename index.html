@@ -242,12 +242,12 @@
         <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Sicil</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="awRecord">0✓ / 0✗</div></div>
       </div>
       <table>
-        <thead><tr><th>Durum</th><th>Parite</th><th>Yön</th><th>Giriş</th><th>Stop</th><th>Hedef</th><th>Sonuç / PnL</th></tr></thead>
+        <thead><tr><th>Durum</th><th>Parite</th><th>Yön</th><th>Giriş</th><th>Pozisyon</th><th>Kaldıraç</th><th>Stop</th><th>Hedef</th><th>Sonuç / PnL</th></tr></thead>
         <tbody id="awBody">
-          <tr><td><span class="chip g">AÇIK</span></td><td><b>BTCUSDT</b></td><td>LONG</td><td class="lv">63.006</td><td class="lv">62.691</td><td class="lv">63.321</td><td class="lv">— zincir testi</td></tr>
+          <tr><td colspan="9" style="text-align:center; color:var(--ink3); padding:14px;">— Sicil yükleniyor… —</td></tr>
         </tbody>
       </table>
-      <p style="margin:8px 0 0; font-size:10.5px; color:var(--ink3);">Motor sinyalde sanal pozisyon açar, stop ve hedefi gerçek piyasa verisiyle izler. Aynı mumda ikisi de dokunursa tutucu varsayım: STOP sayılır.</p>
+      <p style="margin:8px 0 0; font-size:10.5px; color:var(--ink3);">Motor her resmî sinyali sanal cüzdana yansıtır (%2 risk/işlem), stop ve hedefi gerçek piyasa verisiyle izler. Aynı mumda ikisi de dokunursa tutucu varsayım: STOP sayılır. 7 günde çözülmeyen pozisyon son fiyattan kapatılır (SÜRE ⏱).</p>
     </div>
 
     <div class="acthead">Sistem — Açık Kurallar</div>
@@ -411,18 +411,23 @@
         pe.style.color = pnl > 0 ? 'var(--mint)' : (pnl < 0 ? 'var(--red)' : 'var(--ink)');
         document.getElementById('awRecord').textContent = wins + '✓ / ' + (closed.length - wins) + '✗';
         var rows = '';
+        var lv = function(p){ return (p.notional != null ? p.notional.toFixed(0)+'$' : '—'); };
+        var lx = function(p){ return (p.leverage != null ? p.leverage.toFixed(1).replace('.',',')+'x' : '—'); };
         open.forEach(function(p){
           rows += '<tr><td><span class="chip g">AÇIK</span></td><td><b>'+esc(p.symbol)+'</b></td><td>'+esc(p.dir)+'</td>'+
-            '<td class="lv">'+pxa(p.entry)+'</td><td class="lv">'+pxa(p.stop)+'</td><td class="lv">'+pxa(p.target)+'</td>'+
+            '<td class="lv">'+pxa(p.entry)+'</td><td class="lv">'+lv(p)+'</td><td class="lv">'+lx(p)+'</td>'+
+            '<td class="lv">'+pxa(p.stop)+'</td><td class="lv">'+pxa(p.target)+'</td>'+
             '<td class="lv">risk '+(p.riskUsd||1)+'$</td></tr>';
         });
         closed.slice(0, 10).forEach(function(c){
           var win = (c.outcome||'').indexOf('HEDEF') > -1;
-          rows += '<tr style="opacity:.75;"><td><span class="chip '+(win?'g':'r')+'">'+esc(c.outcome)+'</span></td><td><b>'+esc(c.symbol)+'</b></td><td>'+esc(c.dir)+'</td>'+
-            '<td class="lv">'+pxa(c.entry)+'</td><td class="lv">'+pxa(c.stop)+'</td><td class="lv">'+pxa(c.target)+'</td>'+
+          var chipCls2 = win ? 'g' : ((c.outcome||'').indexOf('SÜRE') > -1 ? 'a' : 'r');
+          rows += '<tr style="opacity:.75;"><td><span class="chip '+chipCls2+'">'+esc(c.outcome)+'</span></td><td><b>'+esc(c.symbol)+'</b></td><td>'+esc(c.dir)+'</td>'+
+            '<td class="lv">'+pxa(c.entry)+'</td><td class="lv">'+lv(c)+'</td><td class="lv">'+lx(c)+'</td>'+
+            '<td class="lv">'+pxa(c.stop)+'</td><td class="lv">'+pxa(c.target)+'</td>'+
             '<td class="lv" style="color:'+((c.pnl||0)>=0?'var(--mint)':'var(--red)')+';">'+((c.pnl||0)>=0?'+':'')+(c.pnl||0).toFixed(2)+'$</td></tr>';
         });
-        if (!rows) rows = '<tr><td colspan="7" style="text-align:center; color:var(--ink3); padding:14px;">— Henüz sanal işlem yok. Motor sinyal bekliyor. —</td></tr>';
+        if (!rows) rows = '<tr><td colspan="9" style="text-align:center; color:var(--ink3); padding:14px;">— Henüz sanal işlem yok. Motor sinyal bekliyor. —</td></tr>';
         document.getElementById('awBody').innerHTML = rows;
       } catch(e) {}
     })

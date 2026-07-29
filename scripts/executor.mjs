@@ -41,27 +41,30 @@ export async function openTrade(sig, notify) {
     console.log(`${symbol}: zaten açık sanal pozisyon var, atlandı`);
     return;
   }
-  if (ledger.open.length >= 2) {
-    console.log('aynı anda en fazla 2 sanal pozisyon — atlandı');
+  if (ledger.open.length >= 4) {
+    console.log('aynı anda en fazla 4 sanal pozisyon — atlandı');
     return;
   }
   const risk = Math.max(0.5, ledger.balance * RISK_PCT / 100);
   const perUnit = Math.abs(sig.entryNum - sig.stopNum);
   if (perUnit <= 0) return;
   const qty = risk / perUnit;
+  const notional = +(qty * sig.entryNum).toFixed(2);           // pozisyona giren tutar ($)
+  const leverage = +(notional / ledger.balance).toFixed(2);    // bakiyeye oranla kaç x
 
   ledger.open.push({
     symbol, dir: sig.dir || 'LONG', qty: +qty.toPrecision(6),
     entry: sig.entryNum, stop: sig.stopNum, target: sig.targetNum,
-    riskUsd: +risk.toFixed(2), ts: new Date().toISOString(),
+    riskUsd: +risk.toFixed(2), notional, leverage,
+    ts: sig.tsISO || new Date().toISOString(),
   });
   saveLedger(ledger);
   await notify(
     `🤖 SANAL işlem açıldı: ${symbol} ${sig.dir || 'LONG'}`,
-    `Giriş ${sig.entryNum.toFixed(sig.entryNum < 1 ? 5 : 2)} · Stop ${sig.stopNum.toFixed(sig.stopNum < 1 ? 5 : 2)} · Hedef ${sig.targetNum.toFixed(sig.targetNum < 1 ? 5 : 2)} · Risk ${risk.toFixed(2)}$ (sanal cüzdan: ${ledger.balance.toFixed(2)}$)`,
+    `Giriş ${sig.entryNum.toFixed(sig.entryNum < 1 ? 5 : 2)} · Stop ${sig.stopNum.toFixed(sig.stopNum < 1 ? 5 : 2)} · Hedef ${sig.targetNum.toFixed(sig.targetNum < 1 ? 5 : 2)} · Pozisyon ${notional}$ (${leverage}x) · Risk ${risk.toFixed(2)}$ · Bakiye ${ledger.balance.toFixed(2)}$`,
     'robot'
   );
-  console.log(`SANAL AÇILDI: ${symbol} ${sig.dir} qty=${qty}`);
+  console.log(`SANAL AÇILDI: ${symbol} ${sig.dir} qty=${qty} notional=${notional}$ lev=${leverage}x`);
 }
 
 // ---------------------------- pozisyon takibi --------------------------------
@@ -90,6 +93,12 @@ export async function reconcile(notify) {
           if (low <= p.target)      { outcome = 'HEDEF ✓'; exitPx = p.target; break; }
         }
       }
+      // ZAMAN STOPU: 7 gün içinde ne stop ne hedef — pozisyon son fiyattan kapatılır.
+      // Gerekçe: çözülmeyen işlem sermayeyi kilitler; sistem "bekleyen umut" taşımaz.
+      if (!outcome && bars.length && (Date.now() - startMs) > 7 * 86400000) {
+        outcome = 'SÜRE ⏱';
+        exitPx = +bars[bars.length - 1][4];
+      }
       if (!outcome) { still.push(p); continue; }
 
       const sign = p.dir === 'LONG' ? 1 : -1;
@@ -110,6 +119,19 @@ export async function reconcile(notify) {
   ledger.closed = ledger.closed.slice(0, 200);
   ledger.open = still;
   saveLedger(ledger);
+}
+
+// ---------------------------- sinyal aynası ----------------------------------
+// Cüzdan, resmî AKTİF sinyallerin tamamını yansıtır: herhangi bir sebeple
+// (modül sonradan kuruldu, tur atlandı vs.) cüzdanda karşılığı olmayan aktif
+// sinyal varsa pozisyonu açar. openTrade zaten sembol bazında tekrarı engeller.
+export async function adoptSignals(signals, notify) {
+  for (const s of signals || []) {
+    if (s.state !== 'AKTİF' || s.entryN == null) continue;
+    try {
+      await openTrade({ coinRaw: s.coin, dir: s.dir, entryNum: s.entryN, stopNum: s.stopN, targetNum: s.targetN, tsISO: s.ts }, notify);
+    } catch (e) { console.error(`ayna hatası ${s.coin}:`, e.message); }
+  }
 }
 
 // ---------------------------- zincir testi -----------------------------------

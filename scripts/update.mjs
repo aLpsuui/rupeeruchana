@@ -208,10 +208,13 @@ async function main() {
     const a = analyses[s.coin];
     if (!a) { signals.push(s); continue; }
     let ns = s;
-    if (s.dir === 'LONG'  && a.price >= parseFloat(String(s.target).replace(/\./g,'').replace(',','.'))) ns = { ...s, state: 'HEDEF ✓', closed: now };
-    else if (s.dir === 'LONG'  && a.price <= parseFloat(String(s.stop).replace(/\./g,'').replace(',','.')))   ns = { ...s, state: 'STOP ✗', closed: now };
-    else if (s.dir === 'SHORT' && a.price <= parseFloat(String(s.target).replace(/\./g,'').replace(',','.'))) ns = { ...s, state: 'HEDEF ✓', closed: now };
-    else if (s.dir === 'SHORT' && a.price >= parseFloat(String(s.stop).replace(/\./g,'').replace(',','.')))   ns = { ...s, state: 'STOP ✗', closed: now };
+    const tgt = s.targetN != null ? s.targetN : parseFloat(String(s.target).replace(/\./g,'').replace(',','.'));
+    const stp = s.stopN   != null ? s.stopN   : parseFloat(String(s.stop).replace(/\./g,'').replace(',','.'));
+    if (s.dir === 'LONG'  && a.price >= tgt) ns = { ...s, state: 'HEDEF ✓', closed: now };
+    else if (s.dir === 'LONG'  && a.price <= stp) ns = { ...s, state: 'STOP ✗', closed: now };
+    else if (s.dir === 'SHORT' && a.price <= tgt) ns = { ...s, state: 'HEDEF ✓', closed: now };
+    else if (s.dir === 'SHORT' && a.price >= stp) ns = { ...s, state: 'STOP ✗', closed: now };
+    else if (Date.parse(now) - Date.parse(s.ts) > 7 * 86400000) ns = { ...s, state: 'SÜRE ⏱', closed: now }; // 7 günde çözülmeyen sinyal kapatılır
     if (ns !== s) {
       await notify(
         `${ns.state.includes('HEDEF') ? '🎯' : '🛑'} ${s.coin} ${s.dir} kapandı: ${ns.state}`,
@@ -225,6 +228,9 @@ async function main() {
   // --- sanal cüzdan: açık pozisyonların durumunu kontrol et (hedef/stop dokundu mu?)
   try { await executor.reconcile(notify); }
   catch (e) { console.error('sanal takip hatası:', e.message); }
+  // --- sinyal aynası: cüzdanda karşılığı olmayan aktif sinyalleri aç
+  try { await executor.adoptSignals(signals, notify); }
+  catch (e) { console.error('sinyal aynası hatası:', e.message); }
 
   // --- yeni sinyaller
   const feed = [];
@@ -234,6 +240,7 @@ async function main() {
       signals.unshift({
         coin: c, dir: a.signal.dir, state: 'AKTİF', ts: now,
         entry: px(a.signal.entry), stop: px(a.signal.stop), target: px(a.signal.target),
+        entryN: a.signal.entry, stopN: a.signal.stop, targetN: a.signal.target,
       });
       feed.push({
         who: 'Tarayıcı bir sinyal yayınladı', ts: now, kind: 'plus',
