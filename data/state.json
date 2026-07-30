@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-30T10:34:19.011Z",
+  "updated": "2026-07-30T14:33:04.403Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -9,6 +9,18 @@
     "profit_factor": 1.17
   },
   "signals": [
+    {
+      "coin": "LINK",
+      "dir": "LONG",
+      "state": "AKTİF",
+      "ts": "2026-07-30T14:33:04.403Z",
+      "entry": "8,463",
+      "stop": "8,185",
+      "target": "9,159",
+      "entryN": 8.463,
+      "stopN": 8.184579845812308,
+      "targetN": 9.159050385469225
+    },
     {
       "coin": "BTC",
       "dir": "SHORT",
@@ -43,16 +55,16 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +18%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +19%); gerçek bir geri çekilme bekleniyor",
       "hi": "1.981",
       "lo": "1.843"
     },
     {
       "coin": "LINK",
-      "status": "KURULUM",
+      "status": "SİNYAL",
       "dir": "LONG",
       "star": true,
-      "note": "Trend + geri çekilme hazır (RSI dip 39); 4s EMA21 kapanışı bekleniyor",
+      "note": "AKTİF SİNYAL — geri çekilme sonrası EMA21 geri alındı",
       "hi": "8,916",
       "lo": "8,162"
     },
@@ -61,7 +73,7 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde 17%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde 18%); satılacak bir tepki bekleniyor",
       "hi": "79,68",
       "lo": "72,32"
     },
@@ -85,6 +97,39 @@
     }
   ],
   "feed": [
+    {
+      "who": "Tarayıcı bir sinyal yayınladı",
+      "ts": "2026-07-30T14:33:04.403Z",
+      "kind": "plus",
+      "candidate": {
+        "dir": "LONG",
+        "pair": "LINK / USDT",
+        "tf": "4s kapanış teyitli",
+        "trigger": "Giriş 8,463",
+        "stop": "Stop 8,185",
+        "target": "Hedef 9,159",
+        "evidence": "AKTİF SİNYAL — geri çekilme sonrası EMA21 geri alındı"
+      },
+      "footnote": "Stop = 2×ATR(14) · Hedef = 2,5R · Yatırım tavsiyesi değildir."
+    },
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-30T14:33:04.403Z",
+      "kind": "ok",
+      "body": "BTC 64.836 — günlük EMA50'nin (64.912) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-30T14:33:04.403Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 54) · LINK: si̇nyal (RSI 52) · SOL: short adayi (RSI 50) · DOGE: short adayi (RSI 44)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-30T14:33:04.403Z",
+      "kind": "dot",
+      "body": "Sistemin işi sık işlem değil, doğru anda işlem. Şu an doğru an değilse sayfa sessiz kalır."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-07-30T10:34:19.011Z",
@@ -300,78 +345,54 @@
       "ts": "2026-07-28T14:38:25.289Z",
       "kind": "dot",
       "body": "LINK, SOL kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-07-28T14:18:19.519Z",
-      "kind": "ok",
-      "body": "BTC 63.006 — günlük EMA50'nin (64.976) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-07-28T14:18:19.519Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 43) · LINK: beklemede (RSI 38) · SOL: kurulum (RSI 35) · DOGE: short adayi (RSI 39)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-07-28T14:18:19.519Z",
-      "kind": "dot",
-      "body": "SOL kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-07-28T10:45:38.670Z",
-      "kind": "ok",
-      "body": "BTC 63.531 — günlük EMA50'nin (64.976) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 64590.13,
-      "c": -0.05
+      "p": 64828.84,
+      "c": 0.85
     },
     {
       "s": "ETH",
-      "p": 1919.07,
-      "c": -0.03
+      "p": 1922.96,
+      "c": 1.08
     },
     {
       "s": "SOL",
-      "p": 74.06,
-      "c": 0.05
+      "p": 74.7,
+      "c": 1.74
     },
     {
       "s": "LINK",
-      "p": 8.364,
-      "c": -0.9
+      "p": 8.493,
+      "c": 2.35
     },
     {
       "s": "DOGE",
-      "p": 0.07021,
-      "c": -0.67
+      "p": 0.07052,
+      "c": 0.06
     },
     {
       "s": "XRP",
-      "p": 1.0801,
-      "c": -0.62
+      "p": 1.0885,
+      "c": 1.32
     },
     {
       "s": "AVAX",
-      "p": 6.461,
-      "c": 0.72
+      "p": 6.482,
+      "c": 1.39
     }
   ],
   "float": {
-    "headline": "LINK kurulumu izleniyor — tetik bekleniyor.",
-    "detail": "Trend + geri çekilme hazır (RSI dip 39); 4s EMA21 kapanışı bekleniyor",
+    "headline": "LINK LONG sinyali aktif.",
+    "detail": "AKTİF SİNYAL — geri çekilme sonrası EMA21 geri alındı",
     "candidate": {
       "dir": "LONG",
       "pair": "LINK / USDT",
-      "entry": "tetikte belirlenecek",
-      "stop": "−2×ATR",
-      "target": "2,5R"
+      "entry": "8,463",
+      "stop": "8,185",
+      "target": "9,159"
     },
     "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }

@@ -1,20 +1,7 @@
 {
   "note": "SANAL CÜZDAN — gerçek para değildir. Başlangıç: 50 USDT, işlem başına risk %2.",
-  "balance": 51,
+  "balance": 49.98,
   "open": [
-    {
-      "symbol": "BTCUSDT",
-      "dir": "SHORT",
-      "qty": 0.000871795,
-      "entry": 63756,
-      "stop": 64926,
-      "target": 60829,
-      "riskUsd": 1.02,
-      "notional": 55.58,
-      "leverage": 1.09,
-      "ts": "2026-07-28T03:36:33.487Z",
-      "note": "resmî sinyalden (ayna)"
-    },
     {
       "symbol": "SOLUSDT",
       "dir": "SHORT",
@@ -40,9 +27,38 @@
       "leverage": 0.65,
       "ts": "2026-07-27T17:56:11.515Z",
       "note": "resmî sinyalden (ayna)"
+    },
+    {
+      "symbol": "LINKUSDT",
+      "dir": "LONG",
+      "qty": 3.59026,
+      "entry": 8.463,
+      "stop": 8.184579845812308,
+      "target": 9.159050385469225,
+      "riskUsd": 1,
+      "notional": 30.38,
+      "leverage": 0.61,
+      "ts": "2026-07-30T14:33:06.594Z"
     }
   ],
   "closed": [
+    {
+      "symbol": "BTCUSDT",
+      "dir": "SHORT",
+      "qty": 0.000871795,
+      "entry": 63756,
+      "stop": 64926,
+      "target": 60829,
+      "riskUsd": 1.02,
+      "notional": 55.58,
+      "leverage": 1.09,
+      "ts": "2026-07-28T03:36:33.487Z",
+      "note": "resmî sinyalden (ayna)",
+      "outcome": "STOP ✗",
+      "exit": 64926,
+      "pnl": -1.02,
+      "closedTs": "2026-07-30T14:33:06.372Z"
+    },
     {
       "symbol": "BTCUSDT",
       "dir": "LONG",
