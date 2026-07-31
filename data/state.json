@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-31T03:51:10.349Z",
+  "updated": "2026-07-31T07:14:18.029Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -56,16 +56,16 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +14%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +13%); gerçek bir geri çekilme bekleniyor",
       "hi": "1.981",
       "lo": "1.848"
     },
     {
       "coin": "LINK",
-      "status": "KURULUM",
+      "status": "LONG ADAYI",
       "dir": "LONG",
-      "star": true,
-      "note": "Trend + geri çekilme hazır (RSI dip 39); 4s EMA21 kapanışı bekleniyor",
+      "star": false,
+      "note": "Trend yukarı (50 günde +5%); gerçek bir geri çekilme bekleniyor",
       "hi": "8,916",
       "lo": "8,162"
     },
@@ -74,7 +74,7 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde 11%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde 10%); satılacak bir tepki bekleniyor",
       "hi": "79,04",
       "lo": "72,32"
     },
@@ -98,6 +98,24 @@
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-31T07:14:18.029Z",
+      "kind": "ok",
+      "body": "BTC 64.064 — günlük EMA50'nin (64.919) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-31T07:14:18.029Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 50) · LINK: long adayi (RSI 47) · SOL: short adayi (RSI 48) · DOGE: short adayi (RSI 44)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-31T07:14:18.029Z",
+      "kind": "dot",
+      "body": "Sistemin işi sık işlem değil, doğru anda işlem. Şu an doğru an değilse sayfa sessiz kalır."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-07-31T03:51:10.349Z",
@@ -328,73 +346,49 @@
       "ts": "2026-07-29T06:45:27.427Z",
       "kind": "dot",
       "body": "LINK kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-07-29T03:41:27.444Z",
-      "kind": "ok",
-      "body": "BTC 63.788 — günlük EMA50'nin (64.942) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-07-29T03:41:27.444Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 54) · LINK: kurulum (RSI 48) · SOL: short adayi (RSI 42) · DOGE: short adayi (RSI 46)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-07-29T03:41:27.444Z",
-      "kind": "dot",
-      "body": "LINK kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 64343.26,
-      "c": 0.2
+      "p": 64064.01,
+      "c": 0.01
     },
     {
       "s": "ETH",
-      "p": 1907.64,
-      "c": -0.24
+      "p": 1892.15,
+      "c": -0.68
     },
     {
       "s": "SOL",
-      "p": 74.16,
-      "c": 0.53
+      "p": 73.8,
+      "c": 0.1
     },
     {
       "s": "LINK",
-      "p": 8.372,
-      "c": 0.29
+      "p": 8.285,
+      "c": 0
     },
     {
       "s": "DOGE",
-      "p": 0.07006,
-      "c": -0.34
+      "p": 0.06978,
+      "c": -0.3
     },
     {
       "s": "XRP",
-      "p": 1.0811,
-      "c": 0.47
+      "p": 1.0753,
+      "c": -0.12
     },
     {
       "s": "AVAX",
-      "p": 6.451,
-      "c": -0.59
+      "p": 6.418,
+      "c": -0.48
     }
   ],
   "float": {
-    "headline": "LINK kurulumu izleniyor — tetik bekleniyor.",
-    "detail": "Trend + geri çekilme hazır (RSI dip 39); 4s EMA21 kapanışı bekleniyor",
-    "candidate": {
-      "dir": "LONG",
-      "pair": "LINK / USDT",
-      "entry": "tetikte belirlenecek",
-      "stop": "−2×ATR",
-      "target": "2,5R"
-    },
-    "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
+    "headline": "Şu an izlenen bir kurulum yok.",
+    "detail": "Tüm coinler rejim arası veya aday aşamasında. Ajan 4 saat sonra tekrar bakacak.",
+    "candidate": null,
+    "trailing": "Sabır da stratejinin parçası."
   }
 }
