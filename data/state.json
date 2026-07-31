@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-31T17:52:58.834Z",
+  "updated": "2026-07-31T21:28:43.855Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -75,7 +75,7 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde 10%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde 9%); satılacak bir tepki bekleniyor",
       "hi": "79,04",
       "lo": "72,32"
     },
@@ -99,6 +99,24 @@
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-07-31T21:28:43.855Z",
+      "kind": "ok",
+      "body": "BTC 63.000 — günlük EMA50'nin (64.919) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-07-31T21:28:43.855Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: kurulum (RSI 40) · LINK: beklemede (RSI 39) · SOL: short adayi (RSI 41) · DOGE: short adayi (RSI 44)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-07-31T21:28:43.855Z",
+      "kind": "dot",
+      "body": "ETH kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-07-31T17:52:58.834Z",
@@ -329,61 +347,43 @@
       "ts": "2026-07-29T21:13:05.117Z",
       "kind": "dot",
       "body": "Sistemin işi sık işlem değil, doğru anda işlem. Şu an doğru an değilse sayfa sessiz kalır."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-07-29T17:39:12.552Z",
-      "kind": "ok",
-      "body": "BTC 63.830 — günlük EMA50'nin (64.942) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-07-29T17:39:12.552Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 47) · LINK: kurulum (RSI 41) · SOL: short adayi (RSI 40) · DOGE: short adayi (RSI 43)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-07-29T17:39:12.552Z",
-      "kind": "dot",
-      "body": "LINK kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 63231.6,
-      "c": -2.55
+      "p": 63000,
+      "c": -2.7
     },
     {
       "s": "ETH",
-      "p": 1876.56,
-      "c": -2.36
+      "p": 1862.9,
+      "c": -3.07
     },
     {
       "s": "SOL",
-      "p": 73.38,
-      "c": -1.82
+      "p": 73.02,
+      "c": -1.91
     },
     {
       "s": "LINK",
-      "p": 8.196,
-      "c": -3.53
+      "p": 8.16,
+      "c": -3.66
     },
     {
       "s": "DOGE",
-      "p": 0.07014,
-      "c": -1.09
+      "p": 0.06978,
+      "c": -1.16
     },
     {
       "s": "XRP",
-      "p": 1.0702,
-      "c": -1.94
+      "p": 1.0633,
+      "c": -2.02
     },
     {
       "s": "AVAX",
-      "p": 6.459,
-      "c": -0.45
+      "p": 6.417,
+      "c": -0.6
     }
   ],
   "float": {
