@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-01T03:51:07.079Z",
+  "updated": "2026-08-01T06:41:14.327Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -84,7 +84,7 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde -18%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde -19%); satılacak bir tepki bekleniyor",
       "hi": "0,0754",
       "lo": "0,0682"
     },
@@ -99,6 +99,24 @@
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-01T06:41:14.327Z",
+      "kind": "ok",
+      "body": "BTC 63.072 — günlük EMA50'nin (64.851) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-01T06:41:14.327Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: kurulum (RSI 41) · LINK: short adayi (RSI 42) · SOL: short adayi (RSI 41) · DOGE: short adayi (RSI 48)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-01T06:41:14.327Z",
+      "kind": "dot",
+      "body": "ETH kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-01T03:51:07.079Z",
@@ -329,61 +347,43 @@
       "ts": "2026-07-30T06:41:56.658Z",
       "kind": "dot",
       "body": "LINK kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-07-30T03:29:38.457Z",
-      "kind": "ok",
-      "body": "BTC 64.264 — günlük EMA50'nin (64.912) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-07-30T03:29:38.457Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 51) · LINK: kurulum (RSI 45) · SOL: short adayi (RSI 45) · DOGE: short adayi (RSI 44)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-07-30T03:29:38.457Z",
-      "kind": "dot",
-      "body": "LINK kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 63015.94,
-      "c": -2.06
+      "p": 63072,
+      "c": -2.01
     },
     {
       "s": "ETH",
-      "p": 1869.22,
-      "c": -2.02
+      "p": 1870.32,
+      "c": -1.77
     },
     {
       "s": "SOL",
-      "p": 72.96,
-      "c": -1.6
+      "p": 72.98,
+      "c": -1.78
     },
     {
       "s": "LINK",
-      "p": 8.199,
-      "c": -2.06
+      "p": 8.17,
+      "c": -2.26
     },
     {
       "s": "DOGE",
-      "p": 0.07012,
-      "c": 0.09
+      "p": 0.07001,
+      "c": -0.18
     },
     {
       "s": "XRP",
-      "p": 1.0655,
-      "c": -1.44
+      "p": 1.0644,
+      "c": -1.66
     },
     {
       "s": "AVAX",
-      "p": 6.411,
-      "c": -0.64
+      "p": 6.408,
+      "c": -0.6
     }
   ],
   "float": {
