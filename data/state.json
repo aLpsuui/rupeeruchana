@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-01T21:09:36.140Z",
+  "updated": "2026-08-02T03:53:54.112Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -57,27 +57,27 @@
       "status": "BEKLEMEDE",
       "dir": null,
       "star": false,
-      "note": "Fiyat günlük EMA50 altında ama ortalama yükseliyor — rejim arası",
+      "note": "Yön belirsiz — rejim arası sıkışma",
       "hi": "1.981",
-      "lo": "1.848"
+      "lo": "1.822"
     },
     {
       "coin": "LINK",
-      "status": "SHORT ADAYI",
-      "dir": "SHORT",
+      "status": "BEKLEMEDE",
+      "dir": null,
       "star": false,
-      "note": "Trend aşağı (50 günde 2%); satılacak bir tepki bekleniyor",
+      "note": "Yön belirsiz — rejim arası sıkışma",
       "hi": "8,916",
-      "lo": "8,021"
+      "lo": "7,888"
     },
     {
       "coin": "SOL",
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde 7%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde 6%); satılacak bir tepki bekleniyor",
       "hi": "79,04",
-      "lo": "72,32"
+      "lo": "70,58"
     },
     {
       "coin": "DOGE",
@@ -86,19 +86,37 @@
       "star": false,
       "note": "Trend aşağı (50 günde -20%); satılacak bir tepki bekleniyor",
       "hi": "0,0754",
-      "lo": "0,0682"
+      "lo": "0,0677"
     },
     {
       "coin": "BTC",
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde -1%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde -2%); satılacak bir tepki bekleniyor",
       "hi": "66.956",
-      "lo": "62.466"
+      "lo": "62.275"
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-02T03:53:54.112Z",
+      "kind": "ok",
+      "body": "BTC 63.435 — günlük EMA50'nin (64.783) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-02T03:53:54.112Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: beklemede (RSI 37) · LINK: beklemede (RSI 38) · SOL: short adayi (RSI 37) · DOGE: short adayi (RSI 42)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-02T03:53:54.112Z",
+      "kind": "dot",
+      "body": "Risk sabit, kurallar açık. Sinyal gelmeden bu sayfada alım-satım önerisi göremezsiniz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-01T21:09:36.140Z",
@@ -320,61 +338,43 @@
       "ts": "2026-07-30T21:33:05.913Z",
       "kind": "ok",
       "body": "BTC 64.753 — günlük EMA50'nin (64.912) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-07-30T21:33:05.913Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 54) · LINK: kurulum (RSI 54) · SOL: short adayi (RSI 53) · DOGE: short adayi (RSI 50)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-07-30T21:33:05.913Z",
-      "kind": "dot",
-      "body": "LINK kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-07-30T17:49:18.992Z",
-      "kind": "ok",
-      "body": "BTC 64.940 — günlük EMA50 (64.912) etrafında rejim arası. İki yönde de kapı kapalı; bir sonraki 4s kapanışını izliyorum."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 62750.22,
-      "c": -0.33
+      "p": 63435.38,
+      "c": 0.66
     },
     {
       "s": "ETH",
-      "p": 1839.31,
-      "c": -1.26
+      "p": 1876.1,
+      "c": 0.35
     },
     {
       "s": "SOL",
-      "p": 71.65,
-      "c": -1.89
+      "p": 73.15,
+      "c": 0.2
     },
     {
       "s": "LINK",
-      "p": 8.04,
-      "c": -1.34
+      "p": 8.281,
+      "c": 0.95
     },
     {
       "s": "DOGE",
-      "p": 0.06893,
-      "c": -1.06
+      "p": 0.07003,
+      "c": -0.17
     },
     {
       "s": "XRP",
-      "p": 1.0573,
-      "c": -0.54
+      "p": 1.0777,
+      "c": 1.13
     },
     {
       "s": "AVAX",
-      "p": 6.17,
-      "c": -3.77
+      "p": 6.326,
+      "c": -1.33
     }
   ],
   "float": {
