@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-02T06:45:39.410Z",
+  "updated": "2026-08-02T10:08:15.819Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -75,7 +75,7 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde 7%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde 6%); satılacak bir tepki bekleniyor",
       "hi": "79,04",
       "lo": "70,58"
     },
@@ -99,6 +99,24 @@
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-02T10:08:15.819Z",
+      "kind": "ok",
+      "body": "BTC 63.242 — günlük EMA50'nin (64.783) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-02T10:08:15.819Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: beklemede (RSI 48) · LINK: beklemede (RSI 56) · SOL: short adayi (RSI 50) · DOGE: short adayi (RSI 53)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-02T10:08:15.819Z",
+      "kind": "dot",
+      "body": "Sinyal yok = pozisyon yok. Beklemek de bir karardır."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-02T06:45:39.410Z",
@@ -320,61 +338,43 @@
       "ts": "2026-07-31T07:14:18.029Z",
       "kind": "ok",
       "body": "BTC 64.064 — günlük EMA50'nin (64.919) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-07-31T07:14:18.029Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 50) · LINK: long adayi (RSI 47) · SOL: short adayi (RSI 48) · DOGE: short adayi (RSI 44)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-07-31T07:14:18.029Z",
-      "kind": "dot",
-      "body": "Sistemin işi sık işlem değil, doğru anda işlem. Şu an doğru an değilse sayfa sessiz kalır."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-07-31T03:51:10.349Z",
-      "kind": "ok",
-      "body": "BTC 64.343 — günlük EMA50'nin (64.919) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 63488.59,
-      "c": 0.68
+      "p": 63242,
+      "c": 0.4
     },
     {
       "s": "ETH",
-      "p": 1877.09,
-      "c": 0.37
+      "p": 1870.4,
+      "c": 0.35
     },
     {
       "s": "SOL",
-      "p": 73.53,
-      "c": 0.74
+      "p": 73.33,
+      "c": 0.78
     },
     {
       "s": "LINK",
-      "p": 8.368,
-      "c": 2.44
+      "p": 8.336,
+      "c": 2.95
     },
     {
       "s": "DOGE",
-      "p": 0.07037,
-      "c": 0.5
+      "p": 0.07018,
+      "c": 0.69
     },
     {
       "s": "XRP",
-      "p": 1.0835,
-      "c": 1.78
+      "p": 1.0816,
+      "c": 1.94
     },
     {
       "s": "AVAX",
-      "p": 6.601,
-      "c": 3.06
+      "p": 6.606,
+      "c": 4.26
     }
   ],
   "float": {
