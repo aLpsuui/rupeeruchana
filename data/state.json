@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-02T10:08:15.819Z",
+  "updated": "2026-08-02T13:55:29.604Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -99,6 +99,24 @@
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-02T13:55:29.604Z",
+      "kind": "ok",
+      "body": "BTC 63.116 — günlük EMA50'nin (64.783) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-02T13:55:29.604Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: beklemede (RSI 41) · LINK: beklemede (RSI 50) · SOL: short adayi (RSI 47) · DOGE: short adayi (RSI 49)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-02T13:55:29.604Z",
+      "kind": "dot",
+      "body": "Kural dışı işlem, backtest'te en pahalı hataydı. Disiplin sürüyor."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-02T10:08:15.819Z",
@@ -320,61 +338,43 @@
       "ts": "2026-07-31T10:59:12.761Z",
       "kind": "ok",
       "body": "BTC 63.929 — günlük EMA50'nin (64.919) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-07-31T10:59:12.761Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 45) · LINK: beklemede (RSI 43) · SOL: short adayi (RSI 45) · DOGE: short adayi (RSI 44)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-07-31T10:59:12.761Z",
-      "kind": "dot",
-      "body": "Sinyal yok = pozisyon yok. Beklemek de bir karardır."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-07-31T07:14:18.029Z",
-      "kind": "ok",
-      "body": "BTC 64.064 — günlük EMA50'nin (64.919) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 63242,
-      "c": 0.4
+      "p": 63116,
+      "c": 0.08
     },
     {
       "s": "ETH",
-      "p": 1870.4,
-      "c": 0.35
+      "p": 1855.84,
+      "c": -0.7
     },
     {
       "s": "SOL",
-      "p": 73.33,
-      "c": 0.78
+      "p": 72.96,
+      "c": 0
     },
     {
       "s": "LINK",
-      "p": 8.336,
-      "c": 2.95
+      "p": 8.296,
+      "c": 2.39
     },
     {
       "s": "DOGE",
-      "p": 0.07018,
-      "c": 0.69
+      "p": 0.07019,
+      "c": 0.09
     },
     {
       "s": "XRP",
-      "p": 1.0816,
-      "c": 1.94
+      "p": 1.081,
+      "c": 1.64
     },
     {
       "s": "AVAX",
-      "p": 6.606,
-      "c": 4.26
+      "p": 6.593,
+      "c": 3.73
     }
   ],
   "float": {
