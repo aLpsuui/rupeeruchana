@@ -1,6 +1,6 @@
 {
   "note": "SANAL CÜZDAN — gerçek para değildir. Başlangıç: 50 USDT, işlem başına risk %2.",
-  "balance": 48.98,
+  "balance": 49.44,
   "open": [
     {
       "symbol": "SOLUSDT",
@@ -14,7 +14,9 @@
       "leverage": 0.72,
       "ts": "2026-07-28T03:36:33.487Z",
       "note": "resmî sinyalden (ayna)"
-    },
+    }
+  ],
+  "closed": [
     {
       "symbol": "DOGEUSDT",
       "dir": "SHORT",
@@ -26,10 +28,12 @@
       "notional": 33.1,
       "leverage": 0.65,
       "ts": "2026-07-27T17:56:11.515Z",
-      "note": "resmî sinyalden (ayna)"
-    }
-  ],
-  "closed": [
+      "note": "resmî sinyalden (ayna)",
+      "outcome": "SÜRE ⏱",
+      "exit": 0.07041,
+      "pnl": 0.46,
+      "closedTs": "2026-08-03T18:06:00.971Z"
+    },
     {
       "symbol": "LINKUSDT",
       "dir": "LONG",
