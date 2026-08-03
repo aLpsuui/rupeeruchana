@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-03T18:05:58.595Z",
+  "updated": "2026-08-03T21:30:39.438Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -9,6 +9,18 @@
     "profit_factor": 1.17
   },
   "signals": [
+    {
+      "coin": "ETH",
+      "dir": "LONG",
+      "state": "AKTİF",
+      "ts": "2026-08-03T21:30:39.438Z",
+      "entry": "1.870",
+      "stop": "1.821",
+      "target": "1.992",
+      "entryN": 1870.2,
+      "stopN": 1821.384047935209,
+      "targetN": 1992.2398801619775
+    },
     {
       "coin": "LINK",
       "dir": "LONG",
@@ -55,10 +67,10 @@
   "watchlist": [
     {
       "coin": "ETH",
-      "status": "KURULUM",
+      "status": "SİNYAL",
       "dir": "LONG",
       "star": true,
-      "note": "Trend + geri çekilme hazır (RSI dip 40); 4s EMA21 kapanışı bekleniyor",
+      "note": "AKTİF SİNYAL — geri çekilme sonrası EMA21 geri alındı",
       "hi": "1.981",
       "lo": "1.822"
     },
@@ -100,6 +112,39 @@
     }
   ],
   "feed": [
+    {
+      "who": "Tarayıcı bir sinyal yayınladı",
+      "ts": "2026-08-03T21:30:39.438Z",
+      "kind": "plus",
+      "candidate": {
+        "dir": "LONG",
+        "pair": "ETH / USDT",
+        "tf": "4s kapanış teyitli",
+        "trigger": "Giriş 1.870",
+        "stop": "Stop 1.821",
+        "target": "Hedef 1.992",
+        "evidence": "AKTİF SİNYAL — geri çekilme sonrası EMA21 geri alındı"
+      },
+      "footnote": "Stop = 2×ATR(14) · Hedef = 2,5R · Yatırım tavsiyesi değildir."
+    },
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-03T21:30:39.438Z",
+      "kind": "ok",
+      "body": "BTC 63.730 — günlük EMA50'nin (64.745) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-03T21:30:39.438Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: si̇nyal (RSI 49) · LINK: beklemede (RSI 48) · SOL: short adayi (RSI 56) · DOGE: short adayi (RSI 52)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-03T21:30:39.438Z",
+      "kind": "dot",
+      "body": "Kural dışı işlem, backtest'te en pahalı hataydı. Disiplin sürüyor."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-03T18:05:58.595Z",
@@ -315,78 +360,54 @@
       "ts": "2026-08-01T21:09:36.140Z",
       "kind": "dot",
       "body": "Kural dışı işlem, backtest'te en pahalı hataydı. Disiplin sürüyor."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-01T17:16:40.833Z",
-      "kind": "ok",
-      "body": "BTC 62.862 — günlük EMA50'nin (64.851) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-08-01T17:16:40.833Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: kurulum (RSI 42) · LINK: short adayi (RSI 37) · SOL: short adayi (RSI 39) · DOGE: short adayi (RSI 48)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-01T17:16:40.833Z",
-      "kind": "dot",
-      "body": "ETH kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-01T13:56:02.087Z",
-      "kind": "ok",
-      "body": "BTC 63.068 — günlük EMA50'nin (64.851) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 63918.14,
-      "c": 0.96
+      "p": 63730,
+      "c": 0.25
     },
     {
       "s": "ETH",
-      "p": 1870.44,
-      "c": 0.04
+      "p": 1867.02,
+      "c": -1.09
     },
     {
       "s": "SOL",
-      "p": 73.83,
-      "c": 0.68
+      "p": 73.81,
+      "c": 0
     },
     {
       "s": "LINK",
-      "p": 8.259,
-      "c": -0.94
+      "p": 8.226,
+      "c": -1.73
     },
     {
       "s": "DOGE",
-      "p": 0.07041,
-      "c": -0.21
+      "p": 0.0705,
+      "c": -0.42
     },
     {
       "s": "XRP",
-      "p": 1.0822,
-      "c": 0.03
+      "p": 1.0812,
+      "c": -0.38
     },
     {
       "s": "AVAX",
-      "p": 6.542,
-      "c": -1.77
+      "p": 6.576,
+      "c": -0.77
     }
   ],
   "float": {
-    "headline": "ETH kurulumu izleniyor — tetik bekleniyor.",
-    "detail": "Trend + geri çekilme hazır (RSI dip 40); 4s EMA21 kapanışı bekleniyor",
+    "headline": "ETH LONG sinyali aktif.",
+    "detail": "AKTİF SİNYAL — geri çekilme sonrası EMA21 geri alındı",
     "candidate": {
       "dir": "LONG",
       "pair": "ETH / USDT",
-      "entry": "tetikte belirlenecek",
-      "stop": "−2×ATR",
-      "target": "2,5R"
+      "entry": "1.870",
+      "stop": "1.821",
+      "target": "1.992"
     },
     "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }

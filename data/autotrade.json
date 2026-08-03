@@ -14,6 +14,18 @@
       "leverage": 0.72,
       "ts": "2026-07-28T03:36:33.487Z",
       "note": "resmî sinyalden (ayna)"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "dir": "LONG",
+      "qty": 0.0202557,
+      "entry": 1870.2,
+      "stop": 1821.384047935209,
+      "target": 1992.2398801619775,
+      "riskUsd": 0.99,
+      "notional": 37.88,
+      "leverage": 0.77,
+      "ts": "2026-08-03T21:30:40.901Z"
     }
   ],
   "closed": [
