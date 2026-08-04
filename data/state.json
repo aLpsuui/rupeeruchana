@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-04T18:04:04.402Z",
+  "updated": "2026-08-04T21:36:40.370Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -68,10 +68,10 @@
   "watchlist": [
     {
       "coin": "ETH",
-      "status": "KURULUM",
+      "status": "LONG ADAYI",
       "dir": "LONG",
-      "star": true,
-      "note": "Trend + geri çekilme hazır (RSI dip 40); 4s EMA21 kapanışı bekleniyor",
+      "star": false,
+      "note": "Trend yukarı (50 günde +4%); gerçek bir geri çekilme bekleniyor",
       "hi": "1.981",
       "lo": "1.822"
     },
@@ -89,7 +89,7 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde -0%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde 0%); satılacak bir tepki bekleniyor",
       "hi": "79,04",
       "lo": "70,58"
     },
@@ -104,15 +104,33 @@
     },
     {
       "coin": "BTC",
-      "status": "SHORT ADAYI",
+      "status": "KURULUM",
       "dir": "SHORT",
-      "star": false,
-      "note": "Trend aşağı (50 günde -3%); satılacak bir tepki bekleniyor",
+      "star": true,
+      "note": "Düşüş trendi + tepki hazır (RSI tepe 59); EMA21 altına kapanış bekleniyor",
       "hi": "66.956",
       "lo": "62.275"
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-04T21:36:40.370Z",
+      "kind": "ok",
+      "body": "BTC 64.236 — günlük EMA50'nin (64.708) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-04T21:36:40.370Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 52) · LINK: short adayi (RSI 48) · SOL: short adayi (RSI 57) · DOGE: short adayi (RSI 53)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-04T21:36:40.370Z",
+      "kind": "dot",
+      "body": "BTC kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-04T18:04:04.402Z",
@@ -343,71 +361,53 @@
       "ts": "2026-08-02T21:10:45.214Z",
       "kind": "dot",
       "body": "Sistemin işi sık işlem değil, doğru anda işlem. Şu an doğru an değilse sayfa sessiz kalır."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-02T17:16:00.234Z",
-      "kind": "ok",
-      "body": "BTC 63.192 — günlük EMA50'nin (64.783) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-08-02T17:16:00.234Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: beklemede (RSI 44) · LINK: beklemede (RSI 50) · SOL: short adayi (RSI 47) · DOGE: short adayi (RSI 52)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-02T17:16:00.234Z",
-      "kind": "dot",
-      "body": "Risk sabit, kurallar açık. Sinyal gelmeden bu sayfada alım-satım önerisi göremezsiniz."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 64079.37,
-      "c": 0.27
+      "p": 64236,
+      "c": 0.88
     },
     {
       "s": "ETH",
-      "p": 1873.8,
-      "c": 0.17
+      "p": 1872.76,
+      "c": 0.29
     },
     {
       "s": "SOL",
-      "p": 73.97,
-      "c": 0.27
+      "p": 74.09,
+      "c": 0.43
     },
     {
       "s": "LINK",
-      "p": 8.191,
-      "c": -0.79
+      "p": 8.2,
+      "c": -0.32
     },
     {
       "s": "DOGE",
-      "p": 0.07034,
-      "c": -0.04
+      "p": 0.0703,
+      "c": -0.28
     },
     {
       "s": "XRP",
-      "p": 1.0756,
-      "c": -0.6
+      "p": 1.0775,
+      "c": -0.32
     },
     {
       "s": "AVAX",
-      "p": 6.712,
-      "c": 2.57
+      "p": 6.706,
+      "c": 1.99
     }
   ],
   "float": {
-    "headline": "ETH kurulumu izleniyor — tetik bekleniyor.",
-    "detail": "Trend + geri çekilme hazır (RSI dip 40); 4s EMA21 kapanışı bekleniyor",
+    "headline": "BTC kurulumu izleniyor — tetik bekleniyor.",
+    "detail": "Düşüş trendi + tepki hazır (RSI tepe 59); EMA21 altına kapanış bekleniyor",
     "candidate": {
-      "dir": "LONG",
-      "pair": "ETH / USDT",
+      "dir": "SHORT",
+      "pair": "BTC / USDT",
       "entry": "tetikte belirlenecek",
-      "stop": "−2×ATR",
+      "stop": "+2×ATR",
       "target": "2,5R"
     },
     "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
