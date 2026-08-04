@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-04T10:50:30.349Z",
+  "updated": "2026-08-04T14:40:09.728Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -68,10 +68,10 @@
   "watchlist": [
     {
       "coin": "ETH",
-      "status": "KURULUM",
+      "status": "SİNYAL",
       "dir": "LONG",
       "star": true,
-      "note": "Trend + geri çekilme hazır (RSI dip 40); 4s EMA21 kapanışı bekleniyor",
+      "note": "AKTİF SİNYAL — geri çekilme sonrası EMA21 geri alındı",
       "hi": "1.981",
       "lo": "1.822"
     },
@@ -89,7 +89,7 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde -1%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde -0%); satılacak bir tepki bekleniyor",
       "hi": "79,04",
       "lo": "70,58"
     },
@@ -107,12 +107,30 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde -4%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde -3%); satılacak bir tepki bekleniyor",
       "hi": "66.956",
       "lo": "62.275"
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-04T14:40:09.728Z",
+      "kind": "ok",
+      "body": "BTC 64.008 — günlük EMA50'nin (64.708) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-04T14:40:09.728Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: si̇nyal (RSI 51) · LINK: short adayi (RSI 48) · SOL: short adayi (RSI 55) · DOGE: short adayi (RSI 54)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-04T14:40:09.728Z",
+      "kind": "dot",
+      "body": "Kural dışı işlem, backtest'te en pahalı hataydı. Disiplin sürüyor."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-04T10:50:30.349Z",
@@ -343,72 +361,54 @@
       "ts": "2026-08-02T13:55:29.604Z",
       "kind": "dot",
       "body": "Kural dışı işlem, backtest'te en pahalı hataydı. Disiplin sürüyor."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-02T10:08:15.819Z",
-      "kind": "ok",
-      "body": "BTC 63.242 — günlük EMA50'nin (64.783) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-08-02T10:08:15.819Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: beklemede (RSI 48) · LINK: beklemede (RSI 56) · SOL: short adayi (RSI 50) · DOGE: short adayi (RSI 53)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-02T10:08:15.819Z",
-      "kind": "dot",
-      "body": "Sinyal yok = pozisyon yok. Beklemek de bir karardır."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 63747.62,
-      "c": 1.8
+      "p": 64017.99,
+      "c": 0.27
     },
     {
       "s": "ETH",
-      "p": 1867.28,
-      "c": 1.33
+      "p": 1871.81,
+      "c": 0.2
     },
     {
       "s": "SOL",
-      "p": 73.56,
-      "c": 1.39
+      "p": 73.69,
+      "c": 0.03
     },
     {
       "s": "LINK",
-      "p": 8.198,
-      "c": -0.05
+      "p": 8.234,
+      "c": -0.94
     },
     {
       "s": "DOGE",
-      "p": 0.07036,
-      "c": 1.34
+      "p": 0.07013,
+      "c": -0.38
     },
     {
       "s": "XRP",
-      "p": 1.0755,
-      "c": 0.6
+      "p": 1.0751,
+      "c": -0.64
     },
     {
       "s": "AVAX",
-      "p": 6.833,
-      "c": 6.17
+      "p": 6.733,
+      "c": 3.08
     }
   ],
   "float": {
-    "headline": "ETH kurulumu izleniyor — tetik bekleniyor.",
-    "detail": "Trend + geri çekilme hazır (RSI dip 40); 4s EMA21 kapanışı bekleniyor",
+    "headline": "ETH LONG sinyali aktif.",
+    "detail": "AKTİF SİNYAL — geri çekilme sonrası EMA21 geri alındı",
     "candidate": {
       "dir": "LONG",
       "pair": "ETH / USDT",
-      "entry": "tetikte belirlenecek",
-      "stop": "−2×ATR",
-      "target": "2,5R"
+      "entry": "1.873",
+      "stop": "1.824",
+      "target": "1.995"
     },
     "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }
