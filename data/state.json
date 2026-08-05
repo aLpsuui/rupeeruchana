@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-04T21:36:40.370Z",
+  "updated": "2026-08-05T03:33:34.333Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -80,7 +80,7 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde -1%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde -2%); satılacak bir tepki bekleniyor",
       "hi": "8,916",
       "lo": "7,888"
     },
@@ -90,7 +90,7 @@
       "dir": "SHORT",
       "star": false,
       "note": "Trend aşağı (50 günde 0%); satılacak bir tepki bekleniyor",
-      "hi": "79,04",
+      "hi": "78,88",
       "lo": "70,58"
     },
     {
@@ -99,7 +99,7 @@
       "dir": "SHORT",
       "star": false,
       "note": "Trend aşağı (50 günde -20%); satılacak bir tepki bekleniyor",
-      "hi": "0,0753",
+      "hi": "0,0745",
       "lo": "0,0677"
     },
     {
@@ -113,6 +113,24 @@
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-05T03:33:34.333Z",
+      "kind": "ok",
+      "body": "BTC 64.108 — günlük EMA50'nin (64.694) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-05T03:33:34.333Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 49) · LINK: short adayi (RSI 43) · SOL: short adayi (RSI 52) · DOGE: short adayi (RSI 49)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-05T03:33:34.333Z",
+      "kind": "dot",
+      "body": "BTC kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-04T21:36:40.370Z",
@@ -343,61 +361,43 @@
       "ts": "2026-08-03T03:55:29.894Z",
       "kind": "dot",
       "body": "ETH kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-02T21:10:45.214Z",
-      "kind": "ok",
-      "body": "BTC 63.542 — günlük EMA50'nin (64.783) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-08-02T21:10:45.214Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: beklemede (RSI 51) · LINK: beklemede (RSI 53) · SOL: short adayi (RSI 53) · DOGE: short adayi (RSI 55)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-02T21:10:45.214Z",
-      "kind": "dot",
-      "body": "Sistemin işi sık işlem değil, doğru anda işlem. Şu an doğru an değilse sayfa sessiz kalır."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 64236,
-      "c": 0.88
+      "p": 64107.57,
+      "c": 0.45
     },
     {
       "s": "ETH",
-      "p": 1872.76,
-      "c": 0.29
+      "p": 1866.35,
+      "c": 0.1
     },
     {
       "s": "SOL",
-      "p": 74.09,
-      "c": 0.43
+      "p": 73.79,
+      "c": 0.19
     },
     {
       "s": "LINK",
-      "p": 8.2,
-      "c": -0.32
+      "p": 8.107,
+      "c": -1.01
     },
     {
       "s": "DOGE",
-      "p": 0.0703,
-      "c": -0.28
+      "p": 0.06978,
+      "c": -0.92
     },
     {
       "s": "XRP",
-      "p": 1.0775,
-      "c": -0.32
+      "p": 1.0672,
+      "c": -0.89
     },
     {
       "s": "AVAX",
-      "p": 6.706,
-      "c": 1.99
+      "p": 6.63,
+      "c": -3.96
     }
   ],
   "float": {
