@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-05T17:54:05.244Z",
+  "updated": "2026-08-05T21:33:06.751Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -80,16 +80,16 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde -0%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde -2%); satılacak bir tepki bekleniyor",
       "hi": "8,916",
       "lo": "7,888"
     },
     {
       "coin": "SOL",
-      "status": "SHORT ADAYI",
+      "status": "KURULUM",
       "dir": "SHORT",
-      "star": false,
-      "note": "Trend aşağı (50 günde 1%); satılacak bir tepki bekleniyor",
+      "star": true,
+      "note": "Düşüş trendi + tepki hazır (RSI tepe 59); EMA21 altına kapanış bekleniyor",
       "hi": "78,88",
       "lo": "70,58"
     },
@@ -98,7 +98,7 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde -19%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde -20%); satılacak bir tepki bekleniyor",
       "hi": "0,0745",
       "lo": "0,0677"
     },
@@ -113,6 +113,24 @@
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-05T21:33:06.751Z",
+      "kind": "ok",
+      "body": "BTC 64.704 — günlük EMA50 (64.694) etrafında rejim arası. İki yönde de kapı kapalı; bir sonraki 4s kapanışını izliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-05T21:33:06.751Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 66) · LINK: short adayi (RSI 48) · SOL: kurulum (RSI 59) · DOGE: short adayi (RSI 52)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-05T21:33:06.751Z",
+      "kind": "dot",
+      "body": "SOL kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-05T17:54:05.244Z",
@@ -343,67 +361,55 @@
       "ts": "2026-08-03T21:30:39.438Z",
       "kind": "dot",
       "body": "Kural dışı işlem, backtest'te en pahalı hataydı. Disiplin sürüyor."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-03T18:05:58.595Z",
-      "kind": "ok",
-      "body": "BTC 63.918 — günlük EMA50'nin (64.745) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-08-03T18:05:58.595Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: kurulum (RSI 47) · LINK: beklemede (RSI 49) · SOL: short adayi (RSI 53) · DOGE: short adayi (RSI 53)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-03T18:05:58.595Z",
-      "kind": "dot",
-      "body": "ETH kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 64740.67,
-      "c": 1.21
+      "p": 64703.98,
+      "c": 0.74
     },
     {
       "s": "ETH",
-      "p": 1914.68,
-      "c": 2.4
+      "p": 1910,
+      "c": 1.96
     },
     {
       "s": "SOL",
-      "p": 74.56,
-      "c": 0.93
+      "p": 74.16,
+      "c": 0.11
     },
     {
       "s": "LINK",
-      "p": 8.242,
-      "c": 0.77
+      "p": 8.147,
+      "c": -0.62
     },
     {
       "s": "DOGE",
-      "p": 0.07029,
-      "c": -0.03
+      "p": 0.07017,
+      "c": -0.11
     },
     {
       "s": "XRP",
-      "p": 1.0706,
-      "c": -0.33
+      "p": 1.0651,
+      "c": -1.13
     },
     {
       "s": "AVAX",
-      "p": 6.677,
-      "c": -0.49
+      "p": 6.647,
+      "c": -0.85
     }
   ],
   "float": {
-    "headline": "Şu an izlenen bir kurulum yok.",
-    "detail": "Tüm coinler rejim arası veya aday aşamasında. Ajan 4 saat sonra tekrar bakacak.",
-    "candidate": null,
-    "trailing": "Sabır da stratejinin parçası."
+    "headline": "SOL kurulumu izleniyor — tetik bekleniyor.",
+    "detail": "Düşüş trendi + tepki hazır (RSI tepe 59); EMA21 altına kapanış bekleniyor",
+    "candidate": {
+      "dir": "SHORT",
+      "pair": "SOL / USDT",
+      "entry": "tetikte belirlenecek",
+      "stop": "+2×ATR",
+      "target": "2,5R"
+    },
+    "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }
 }
