@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-06T06:46:37.678Z",
+  "updated": "2026-08-06T10:49:28.062Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -92,16 +92,16 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde 1%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde -0%); satılacak bir tepki bekleniyor",
       "hi": "8,916",
       "lo": "7,888"
     },
     {
       "coin": "SOL",
-      "status": "SİNYAL",
+      "status": "KURULUM",
       "dir": "SHORT",
       "star": true,
-      "note": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
+      "note": "Düşüş trendi + tepki hazır (RSI tepe 59); EMA21 altına kapanış bekleniyor",
       "hi": "78,88",
       "lo": "70,58"
     },
@@ -110,21 +110,39 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde -19%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde -20%); satılacak bir tepki bekleniyor",
       "hi": "0,074",
       "lo": "0,0677"
     },
     {
       "coin": "BTC",
-      "status": "BEKLEMEDE",
-      "dir": null,
-      "star": false,
-      "note": "Yön belirsiz — rejim arası sıkışma",
+      "status": "KURULUM",
+      "dir": "SHORT",
+      "star": true,
+      "note": "Düşüş trendi + tepki hazır (RSI tepe 65); EMA21 altına kapanış bekleniyor",
       "hi": "66.956",
       "lo": "62.275"
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-06T10:49:28.062Z",
+      "kind": "ok",
+      "body": "BTC 64.644 — günlük EMA50'nin (64.705) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-06T10:49:28.062Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 61) · LINK: short adayi (RSI 49) · SOL: kurulum (RSI 52) · DOGE: short adayi (RSI 47)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-06T10:49:28.062Z",
+      "kind": "dot",
+      "body": "SOL, BTC kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Tarayıcı bir sinyal yayınladı",
       "ts": "2026-08-06T06:46:37.678Z",
@@ -355,72 +373,54 @@
       "ts": "2026-08-04T10:50:30.349Z",
       "kind": "dot",
       "body": "ETH kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-04T06:41:27.698Z",
-      "kind": "ok",
-      "body": "BTC 63.705 — günlük EMA50'nin (64.708) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-08-04T06:41:27.698Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: kurulum (RSI 48) · LINK: short adayi (RSI 46) · SOL: short adayi (RSI 53) · DOGE: short adayi (RSI 52)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-04T06:41:27.698Z",
-      "kind": "dot",
-      "body": "ETH kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 64830.01,
-      "c": 0.9
+      "p": 64644.01,
+      "c": 0.95
     },
     {
       "s": "ETH",
-      "p": 1913.88,
-      "c": 2.4
+      "p": 1904.51,
+      "c": 1.88
     },
     {
       "s": "SOL",
-      "p": 74.13,
-      "c": 0.08
+      "p": 73.35,
+      "c": -0.65
     },
     {
       "s": "LINK",
-      "p": 8.203,
-      "c": 0.42
+      "p": 8.091,
+      "c": -0.83
     },
     {
       "s": "DOGE",
-      "p": 0.06993,
-      "c": 0.17
+      "p": 0.06907,
+      "c": -0.92
     },
     {
       "s": "XRP",
-      "p": 1.0519,
-      "c": -1.58
+      "p": 1.0473,
+      "c": -1.38
     },
     {
       "s": "AVAX",
-      "p": 6.679,
-      "c": -0.3
+      "p": 6.414,
+      "c": -3.72
     }
   ],
   "float": {
-    "headline": "SOL SHORT sinyali aktif.",
-    "detail": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
+    "headline": "SOL kurulumu izleniyor — tetik bekleniyor.",
+    "detail": "Düşüş trendi + tepki hazır (RSI tepe 59); EMA21 altına kapanış bekleniyor",
     "candidate": {
       "dir": "SHORT",
       "pair": "SOL / USDT",
-      "entry": "73,5",
-      "stop": "75,24",
-      "target": "69,16"
+      "entry": "tetikte belirlenecek",
+      "stop": "+2×ATR",
+      "target": "2,5R"
     },
     "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }
