@@ -13,6 +13,18 @@
       "notional": 37.88,
       "leverage": 0.77,
       "ts": "2026-08-03T21:30:40.901Z"
+    },
+    {
+      "symbol": "SOLUSDT",
+      "dir": "SHORT",
+      "qty": 0.572277,
+      "entry": 73.5,
+      "stop": 75.23692113651073,
+      "target": 69.15769715872318,
+      "riskUsd": 0.99,
+      "notional": 42.06,
+      "leverage": 0.85,
+      "ts": "2026-08-06T06:46:39.299Z"
     }
   ],
   "closed": [
