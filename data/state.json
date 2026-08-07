@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-07T05:50:52.033Z",
+  "updated": "2026-08-07T09:15:51.300Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -83,7 +83,7 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +11%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +12%); gerçek bir geri çekilme bekleniyor",
       "hi": "1.981",
       "lo": "1.822"
     },
@@ -92,7 +92,7 @@
       "status": "SHORT ADAYI",
       "dir": "SHORT",
       "star": false,
-      "note": "Trend aşağı (50 günde 2%); satılacak bir tepki bekleniyor",
+      "note": "Trend aşağı (50 günde 3%); satılacak bir tepki bekleniyor",
       "hi": "8,916",
       "lo": "7,888"
     },
@@ -116,15 +116,33 @@
     },
     {
       "coin": "BTC",
-      "status": "KURULUM",
-      "dir": "SHORT",
-      "star": true,
-      "note": "Düşüş trendi + tepki hazır (RSI tepe 63); EMA21 altına kapanış bekleniyor",
+      "status": "BEKLEMEDE",
+      "dir": null,
+      "star": false,
+      "note": "Yön belirsiz — rejim arası sıkışma",
       "hi": "66.956",
       "lo": "62.275"
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-07T09:15:51.300Z",
+      "kind": "ok",
+      "body": "BTC 64.741 — günlük EMA50 (64.701) etrafında rejim arası. İki yönde de kapı kapalı; bir sonraki 4s kapanışını izliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-07T09:15:51.300Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 56) · LINK: short adayi (RSI 49) · SOL: short adayi (RSI 44) · DOGE: short adayi (RSI 45)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-07T09:15:51.300Z",
+      "kind": "dot",
+      "body": "Risk sabit, kurallar açık. Sinyal gelmeden bu sayfada alım-satım önerisi göremezsiniz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-07T05:50:52.033Z",
@@ -355,73 +373,49 @@
       "ts": "2026-08-05T03:33:34.333Z",
       "kind": "dot",
       "body": "BTC kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-04T21:36:40.370Z",
-      "kind": "ok",
-      "body": "BTC 64.236 — günlük EMA50'nin (64.708) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-08-04T21:36:40.370Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 52) · LINK: short adayi (RSI 48) · SOL: short adayi (RSI 57) · DOGE: short adayi (RSI 53)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-04T21:36:40.370Z",
-      "kind": "dot",
-      "body": "BTC kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 64370.46,
-      "c": -0.77
+      "p": 64741.25,
+      "c": -0.05
     },
     {
       "s": "ETH",
-      "p": 1901.31,
-      "c": -0.58
+      "p": 1912.57,
+      "c": 0.28
     },
     {
       "s": "SOL",
-      "p": 72.89,
-      "c": -1.73
+      "p": 73.39,
+      "c": -0.28
     },
     {
       "s": "LINK",
-      "p": 8.157,
-      "c": -0.35
+      "p": 8.235,
+      "c": 1.85
     },
     {
       "s": "DOGE",
-      "p": 0.0692,
-      "c": -1.04
+      "p": 0.06948,
+      "c": -0.01
     },
     {
       "s": "XRP",
-      "p": 1.0201,
-      "c": -2.88
+      "p": 1.0348,
+      "c": -1.35
     },
     {
       "s": "AVAX",
-      "p": 6.401,
-      "c": -3.99
+      "p": 6.436,
+      "c": -3.06
     }
   ],
   "float": {
-    "headline": "BTC kurulumu izleniyor — tetik bekleniyor.",
-    "detail": "Düşüş trendi + tepki hazır (RSI tepe 63); EMA21 altına kapanış bekleniyor",
-    "candidate": {
-      "dir": "SHORT",
-      "pair": "BTC / USDT",
-      "entry": "tetikte belirlenecek",
-      "stop": "+2×ATR",
-      "target": "2,5R"
-    },
-    "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
+    "headline": "Şu an izlenen bir kurulum yok.",
+    "detail": "Tüm coinler rejim arası veya aday aşamasında. Ajan 4 saat sonra tekrar bakacak.",
+    "candidate": null,
+    "trailing": "Sabır da stratejinin parçası."
   }
 }
