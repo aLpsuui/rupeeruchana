@@ -126,8 +126,13 @@ export async function reconcile(notify) {
 // (modül sonradan kuruldu, tur atlandı vs.) cüzdanda karşılığı olmayan aktif
 // sinyal varsa pozisyonu açar. openTrade zaten sembol bazında tekrarı engeller.
 export async function adoptSignals(signals, notify) {
+  const ledger = loadLedger();
   for (const s of signals || []) {
     if (s.state !== 'AKTİF' || s.entryN == null) continue;
+    // koruma: bu sinyalin pozisyonu daha önce kapandıysa yeniden AÇMA
+    const closedAlready = (ledger.closed || []).some(c =>
+      c.symbol === `${s.coin}USDT` && Date.parse(c.closedTs) > Date.parse(s.ts));
+    if (closedAlready) continue;
     try {
       await openTrade({ coinRaw: s.coin, dir: s.dir, entryNum: s.entryN, stopNum: s.stopN, targetNum: s.targetN, tsISO: s.ts }, notify);
     } catch (e) { console.error(`ayna hatası ${s.coin}:`, e.message); }

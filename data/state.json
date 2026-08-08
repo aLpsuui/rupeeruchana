@@ -12,14 +12,15 @@
     {
       "coin": "SOL",
       "dir": "SHORT",
-      "state": "AKTİF",
+      "state": "STOP ✗",
       "ts": "2026-08-06T06:46:37.678Z",
       "entry": "73,5",
       "stop": "75,24",
       "target": "69,16",
       "entryN": 73.5,
       "stopN": 75.23692113651073,
-      "targetN": 69.15769715872318
+      "targetN": 69.15769715872318,
+      "closed": "2026-08-08T11:52:26.000Z"
     },
     {
       "coin": "ETH",
@@ -125,6 +126,13 @@
     }
   ],
   "feed": [
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-08T11:52:26.000Z",
+      "kind": "dot",
+      "title": null,
+      "body": "DÜZELTME: SOL SHORT stop seviyesine (75,24) dokundu — sinyal STOP ✗ ile kapatıldı. Ayrıca kapanış kontrolü güçlendirildi: artık turlar arasındaki mumların tepe/dipleri de taranıyor; stop'a anlık dokunuşlar kaçmayacak."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-08T09:01:01.588Z",

@@ -201,7 +201,27 @@ async function main() {
   }
   const tick = await ticker24(COINS);
 
-  // --- eski aktif sinyalleri fiyata göre kapat/güncelle (+ bildirim)
+  // --- eski aktif sinyalleri MUM TARAMASIYLA kapat/güncelle (+ bildirim)
+  // Anlık fiyat kontrolü yeterli değildir: turlar arasında stop/hedefe dokunulup
+  // geri dönülebilir. Sinyal açılışından bu yana 1 saatlik mumların tepe/dipleri
+  // taranır; aynı mumda ikisi de dokunduysa tutucu varsayım: STOP sayılır.
+  async function barScanOutcome(s, stp, tgt) {
+    const r = await fetch(`${API}/klines?symbol=${s.coin}USDT&interval=1h&startTime=${Date.parse(s.ts)}&limit=1000`);
+    if (!r.ok) throw new Error(`sinyal tarama klines HTTP ${r.status}`);
+    const bars = await r.json();
+    for (const k of bars) {
+      const high = +k[2], low = +k[3];
+      if (s.dir === 'LONG') {
+        if (low <= stp)  return 'STOP ✗';
+        if (high >= tgt) return 'HEDEF ✓';
+      } else {
+        if (high >= stp) return 'STOP ✗';
+        if (low <= tgt)  return 'HEDEF ✓';
+      }
+    }
+    return null;
+  }
+
   const signals = [];
   for (const s of (old.signals || [])) {
     if (s.state !== 'AKTİF') { signals.push(s); continue; }
@@ -210,10 +230,17 @@ async function main() {
     let ns = s;
     const tgt = s.targetN != null ? s.targetN : parseFloat(String(s.target).replace(/\./g,'').replace(',','.'));
     const stp = s.stopN   != null ? s.stopN   : parseFloat(String(s.stop).replace(/\./g,'').replace(',','.'));
-    if (s.dir === 'LONG'  && a.price >= tgt) ns = { ...s, state: 'HEDEF ✓', closed: now };
-    else if (s.dir === 'LONG'  && a.price <= stp) ns = { ...s, state: 'STOP ✗', closed: now };
-    else if (s.dir === 'SHORT' && a.price <= tgt) ns = { ...s, state: 'HEDEF ✓', closed: now };
-    else if (s.dir === 'SHORT' && a.price >= stp) ns = { ...s, state: 'STOP ✗', closed: now };
+    let outcome = null;
+    try { outcome = await barScanOutcome(s, stp, tgt); }
+    catch (e) {
+      console.error(`sinyal taraması başarısız (${s.coin}):`, e.message);
+      // yedek: anlık fiyat kontrolü
+      if (s.dir === 'LONG'  && a.price >= tgt) outcome = 'HEDEF ✓';
+      else if (s.dir === 'LONG'  && a.price <= stp) outcome = 'STOP ✗';
+      else if (s.dir === 'SHORT' && a.price <= tgt) outcome = 'HEDEF ✓';
+      else if (s.dir === 'SHORT' && a.price >= stp) outcome = 'STOP ✗';
+    }
+    if (outcome) ns = { ...s, state: outcome, closed: now };
     else if (Date.parse(now) - Date.parse(s.ts) > 7 * 86400000) ns = { ...s, state: 'SÜRE ⏱', closed: now }; // 7 günde çözülmeyen sinyal kapatılır
     if (ns !== s) {
       await notify(
