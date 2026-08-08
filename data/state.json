@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-08T02:22:02.615Z",
+  "updated": "2026-08-08T05:09:49.526Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -89,19 +89,19 @@
     },
     {
       "coin": "LINK",
-      "status": "SHORT ADAYI",
-      "dir": "SHORT",
+      "status": "BEKLEMEDE",
+      "dir": null,
       "star": false,
-      "note": "Trend aşağı (50 günde 3%); satılacak bir tepki bekleniyor",
+      "note": "Yön belirsiz — rejim arası sıkışma",
       "hi": "8,916",
       "lo": "7,888"
     },
     {
       "coin": "SOL",
-      "status": "SHORT ADAYI",
+      "status": "KURULUM",
       "dir": "SHORT",
-      "star": false,
-      "note": "Trend aşağı (50 günde 6%); satılacak bir tepki bekleniyor",
+      "star": true,
+      "note": "Düşüş trendi + tepki hazır (RSI tepe 62); EMA21 altına kapanış bekleniyor",
       "hi": "78,88",
       "lo": "70,58"
     },
@@ -125,6 +125,24 @@
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-08T05:09:49.526Z",
+      "kind": "ok",
+      "body": "BTC 65.007 — günlük EMA50'nin (64.720) üzerinde ve ortalama yükseliyor. Long tarafı açık; kaliteli bir geri çekilme bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-08T05:09:49.526Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 61) · LINK: beklemede (RSI 55) · SOL: kurulum (RSI 62) · DOGE: short adayi (RSI 57)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-08T05:09:49.526Z",
+      "kind": "dot",
+      "body": "SOL kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-08T02:22:02.615Z",
@@ -355,67 +373,55 @@
       "ts": "2026-08-05T21:33:06.751Z",
       "kind": "dot",
       "body": "SOL kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-05T17:54:05.244Z",
-      "kind": "ok",
-      "body": "BTC 64.735 — günlük EMA50 (64.694) etrafında rejim arası. İki yönde de kapı kapalı; bir sonraki 4s kapanışını izliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-08-05T17:54:05.244Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 51) · LINK: short adayi (RSI 42) · SOL: short adayi (RSI 54) · DOGE: short adayi (RSI 45)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-05T17:54:05.244Z",
-      "kind": "dot",
-      "body": "Sinyal yok = pozisyon yok. Beklemek de bir karardır."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 64908.82,
-      "c": 0.85
+      "p": 65007.19,
+      "c": 1.18
     },
     {
       "s": "ETH",
-      "p": 1913.06,
-      "c": 0.58
+      "p": 1917.06,
+      "c": 1.02
     },
     {
       "s": "SOL",
-      "p": 73.94,
-      "c": 1.75
+      "p": 74.59,
+      "c": 2.6
     },
     {
       "s": "LINK",
-      "p": 8.186,
-      "c": -0.35
+      "p": 8.26,
+      "c": 1.35
     },
     {
       "s": "DOGE",
-      "p": 0.06994,
-      "c": 0.89
+      "p": 0.07014,
+      "c": 1.62
     },
     {
       "s": "XRP",
-      "p": 1.0306,
-      "c": -0.34
+      "p": 1.0349,
+      "c": 1.46
     },
     {
       "s": "AVAX",
-      "p": 6.543,
-      "c": 1.96
+      "p": 6.531,
+      "c": 2.11
     }
   ],
   "float": {
-    "headline": "Şu an izlenen bir kurulum yok.",
-    "detail": "Tüm coinler rejim arası veya aday aşamasında. Ajan 4 saat sonra tekrar bakacak.",
-    "candidate": null,
-    "trailing": "Sabır da stratejinin parçası."
+    "headline": "SOL kurulumu izleniyor — tetik bekleniyor.",
+    "detail": "Düşüş trendi + tepki hazır (RSI tepe 62); EMA21 altına kapanış bekleniyor",
+    "candidate": {
+      "dir": "SHORT",
+      "pair": "SOL / USDT",
+      "entry": "tetikte belirlenecek",
+      "stop": "+2×ATR",
+      "target": "2,5R"
+    },
+    "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }
 }
