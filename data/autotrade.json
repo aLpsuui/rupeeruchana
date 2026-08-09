@@ -13,6 +13,18 @@
       "notional": 37.88,
       "leverage": 0.77,
       "ts": "2026-08-03T21:30:40.901Z"
+    },
+    {
+      "symbol": "DOGEUSDT",
+      "dir": "SHORT",
+      "qty": 687.436,
+      "entry": 0.07001,
+      "stop": 0.07142715043495955,
+      "target": 0.06646712391260114,
+      "riskUsd": 0.97,
+      "notional": 48.13,
+      "leverage": 0.99,
+      "ts": "2026-08-09T05:18:37.755Z"
     }
   ],
   "closed": [

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-09T02:29:05.804Z",
+  "updated": "2026-08-09T05:18:36.170Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -9,6 +9,18 @@
     "profit_factor": 1.17
   },
   "signals": [
+    {
+      "coin": "DOGE",
+      "dir": "SHORT",
+      "state": "AKTİF",
+      "ts": "2026-08-09T05:18:36.170Z",
+      "entry": "0,07",
+      "stop": "0,0714",
+      "target": "0,0665",
+      "entryN": 0.07001,
+      "stopN": 0.07142715043495955,
+      "targetN": 0.06646712391260114
+    },
     {
       "coin": "SOL",
       "dir": "SHORT",
@@ -108,10 +120,10 @@
     },
     {
       "coin": "DOGE",
-      "status": "KURULUM",
+      "status": "SİNYAL",
       "dir": "SHORT",
       "star": true,
-      "note": "Düşüş trendi + tepki hazır (RSI tepe 65); EMA21 altına kapanış bekleniyor",
+      "note": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
       "hi": "0,074",
       "lo": "0,0677"
     },
@@ -126,6 +138,39 @@
     }
   ],
   "feed": [
+    {
+      "who": "Tarayıcı bir sinyal yayınladı",
+      "ts": "2026-08-09T05:18:36.170Z",
+      "kind": "plus",
+      "candidate": {
+        "dir": "SHORT",
+        "pair": "DOGE / USDT",
+        "tf": "4s kapanış teyitli",
+        "trigger": "Giriş 0,07",
+        "stop": "Stop 0,0714",
+        "target": "Hedef 0,0665",
+        "evidence": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi"
+      },
+      "footnote": "Stop = 2×ATR(14) · Hedef = 2,5R · Yatırım tavsiyesi değildir."
+    },
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-09T05:18:36.170Z",
+      "kind": "ok",
+      "body": "BTC 64.790 — günlük EMA50'nin (64.739) üzerinde ve ortalama yükseliyor. Long tarafı açık; kaliteli bir geri çekilme bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-09T05:18:36.170Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 56) · LINK: long adayi (RSI 54) · SOL: long adayi (RSI 67) · DOGE: si̇nyal (RSI 50)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-09T05:18:36.170Z",
+      "kind": "dot",
+      "body": "Kural dışı işlem, backtest'te en pahalı hataydı. Disiplin sürüyor."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-09T02:29:05.804Z",
@@ -342,78 +387,54 @@
       "ts": "2026-08-07T05:50:52.033Z",
       "kind": "dot",
       "body": "Tarama — ETH: long adayi (RSI 54) · LINK: short adayi (RSI 45) · SOL: short adayi (RSI 40) · DOGE: short adayi (RSI 41)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-07T05:50:52.033Z",
-      "kind": "dot",
-      "body": "BTC kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-07T00:55:30.715Z",
-      "kind": "ok",
-      "body": "BTC 64.284 — günlük EMA50'nin (64.701) altında ve ortalama düşüyor. Short tarafı açık; satılacak tepki bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-08-07T00:55:30.715Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 58) · LINK: short adayi (RSI 50) · SOL: kurulum (RSI 40) · DOGE: short adayi (RSI 42)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-07T00:55:30.715Z",
-      "kind": "dot",
-      "body": "SOL, BTC kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 64848.96,
-      "c": -0.12
+      "p": 64790.18,
+      "c": -0.33
     },
     {
       "s": "ETH",
-      "p": 1916.26,
-      "c": 0.17
+      "p": 1915.03,
+      "c": -0.07
     },
     {
       "s": "SOL",
-      "p": 75.92,
-      "c": 2.66
+      "p": 76.02,
+      "c": 1.97
     },
     {
       "s": "LINK",
-      "p": 8.311,
-      "c": 1.53
+      "p": 8.293,
+      "c": 0.39
     },
     {
       "s": "DOGE",
-      "p": 0.07008,
-      "c": 0.21
+      "p": 0.06999,
+      "c": -0.26
     },
     {
       "s": "XRP",
-      "p": 1.0366,
-      "c": 0.6
+      "p": 1.0375,
+      "c": 0.25
     },
     {
       "s": "AVAX",
-      "p": 6.493,
-      "c": -0.64
+      "p": 6.457,
+      "c": -1.24
     }
   ],
   "float": {
-    "headline": "DOGE kurulumu izleniyor — tetik bekleniyor.",
-    "detail": "Düşüş trendi + tepki hazır (RSI tepe 65); EMA21 altına kapanış bekleniyor",
+    "headline": "DOGE SHORT sinyali aktif.",
+    "detail": "AKTİF SİNYAL — tepki sonrası EMA21 kaybedildi",
     "candidate": {
       "dir": "SHORT",
       "pair": "DOGE / USDT",
-      "entry": "tetikte belirlenecek",
-      "stop": "+2×ATR",
-      "target": "2,5R"
+      "entry": "0,07",
+      "stop": "0,0714",
+      "target": "0,0665"
     },
     "trailing": "Bir sonraki mum kapanışında durumu yeniden değerlendireceğim."
   }
