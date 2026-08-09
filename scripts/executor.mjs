@@ -12,8 +12,11 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 
 const DATA_API = 'https://data-api.binance.vision/api/v3';
 const LEDGER_PATH = new URL('../data/autotrade.json', import.meta.url);
-const START_BALANCE = 50;      // sanal USDT — gerçek test planıyla aynı
-const RISK_PCT = 2;            // işlem başına bakiye yüzdesi (50$ → 1$)
+const START_BALANCE = 50;      // sanal USDT
+// --- Boyutlama modu (kullanıcı talimatı, 8 Ağu 2026): her işlem sabit teminat × kaldıraç ---
+const MARGIN_USD = 10;         // işlem başına teminat
+const LEVERAGE = 10;           // kaldıraç → pozisyon = 10$ × 10x = 100$ nominal
+// Not: bu modda işlem başına gerçek risk stop mesafesine göre değişir (~%2,5 stop'ta ~2,5$).
 
 export const enabled = () => true; // sanal cüzdan her zaman aktif
 
@@ -45,26 +48,30 @@ export async function openTrade(sig, notify) {
     console.log('aynı anda en fazla 4 sanal pozisyon — atlandı');
     return;
   }
-  const risk = Math.max(0.5, ledger.balance * RISK_PCT / 100);
+  if (ledger.balance < MARGIN_USD) {
+    await notify('⚠️ Sanal cüzdan: bakiye yetersiz', `Bakiye ${ledger.balance.toFixed(2)}$ — ${MARGIN_USD}$ teminatlı yeni işlem açılamıyor.`, 'warning');
+    return;
+  }
   const perUnit = Math.abs(sig.entryNum - sig.stopNum);
   if (perUnit <= 0) return;
-  const qty = risk / perUnit;
-  const notional = +(qty * sig.entryNum).toFixed(2);           // pozisyona giren tutar ($)
-  const leverage = +(notional / ledger.balance).toFixed(2);    // bakiyeye oranla kaç x
+  const notional = MARGIN_USD * LEVERAGE;                       // 10$ × 10x = 100$ pozisyon
+  const qty = notional / sig.entryNum;
+  const risk = +(qty * perUnit).toFixed(2);                     // stop'ta gerçekleşecek kayıp
+  const leverage = LEVERAGE;
 
   ledger.open.push({
     symbol, dir: sig.dir || 'LONG', qty: +qty.toPrecision(6),
     entry: sig.entryNum, stop: sig.stopNum, target: sig.targetNum,
-    riskUsd: +risk.toFixed(2), notional, leverage,
+    riskUsd: risk, notional, leverage, marginUsd: MARGIN_USD,
     ts: sig.tsISO || new Date().toISOString(),
   });
   saveLedger(ledger);
   await notify(
     `🤖 SANAL işlem açıldı: ${symbol} ${sig.dir || 'LONG'}`,
-    `Giriş ${sig.entryNum.toFixed(sig.entryNum < 1 ? 5 : 2)} · Stop ${sig.stopNum.toFixed(sig.stopNum < 1 ? 5 : 2)} · Hedef ${sig.targetNum.toFixed(sig.targetNum < 1 ? 5 : 2)} · Pozisyon ${notional}$ (${leverage}x) · Risk ${risk.toFixed(2)}$ · Bakiye ${ledger.balance.toFixed(2)}$`,
+    `Giriş ${sig.entryNum.toFixed(sig.entryNum < 1 ? 5 : 2)} · Stop ${sig.stopNum.toFixed(sig.stopNum < 1 ? 5 : 2)} · Hedef ${sig.targetNum.toFixed(sig.targetNum < 1 ? 5 : 2)} · Pozisyon ${notional}$ (${MARGIN_USD}$ × ${LEVERAGE}x) · Stop'ta kayıp ~${risk.toFixed(2)}$ · Bakiye ${ledger.balance.toFixed(2)}$`,
     'robot'
   );
-  console.log(`SANAL AÇILDI: ${symbol} ${sig.dir} qty=${qty} notional=${notional}$ lev=${leverage}x`);
+  console.log(`SANAL AÇILDI: ${symbol} ${sig.dir} qty=${qty} notional=${notional}$ lev=${leverage}x risk=${risk}$`);
 }
 
 // ---------------------------- pozisyon takibi --------------------------------
