@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-09T09:02:58.988Z",
+  "updated": "2026-08-09T13:15:47.077Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -114,7 +114,7 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +4%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +5%); gerçek bir geri çekilme bekleniyor",
       "hi": "78,88",
       "lo": "70,58"
     },
@@ -138,6 +138,24 @@
     }
   ],
   "feed": [
+    {
+      "who": "Trend Ajanı",
+      "ts": "2026-08-09T13:15:47.077Z",
+      "kind": "ok",
+      "body": "BTC 65.030 — günlük EMA50'nin (64.739) üzerinde ve ortalama yükseliyor. Long tarafı açık; kaliteli bir geri çekilme bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-08-09T13:15:47.077Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 59) · LINK: long adayi (RSI 54) · SOL: long adayi (RSI 70) · DOGE: kurulum (RSI 51)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-08-09T13:15:47.077Z",
+      "kind": "dot",
+      "body": "DOGE kurulum aşamasında — tetik kapanışı gelmeden sinyal yayınlanmaz."
+    },
     {
       "who": "Trend Ajanı",
       "ts": "2026-08-09T09:02:58.988Z",
@@ -369,61 +387,43 @@
       "ts": "2026-08-07T13:39:59.205Z",
       "kind": "dot",
       "body": "Tarama — ETH: long adayi (RSI 61) · LINK: beklemede (RSI 52) · SOL: short adayi (RSI 52) · DOGE: short adayi (RSI 49)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-08-07T13:39:59.205Z",
-      "kind": "dot",
-      "body": "Sistemin işi sık işlem değil, doğru anda işlem. Şu an doğru an değilse sayfa sessiz kalır."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-08-07T09:15:51.300Z",
-      "kind": "ok",
-      "body": "BTC 64.741 — günlük EMA50 (64.701) etrafında rejim arası. İki yönde de kapı kapalı; bir sonraki 4s kapanışını izliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-08-07T09:15:51.300Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 56) · LINK: short adayi (RSI 49) · SOL: short adayi (RSI 44) · DOGE: short adayi (RSI 45)."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 64826.44,
-      "c": -0.26
+      "p": 65030.03,
+      "c": 0.04
     },
     {
       "s": "ETH",
-      "p": 1915.99,
-      "c": -0.05
+      "p": 1920.31,
+      "c": 0.04
     },
     {
       "s": "SOL",
-      "p": 76.36,
-      "c": 2.06
+      "p": 76.61,
+      "c": 1.55
     },
     {
       "s": "LINK",
-      "p": 8.318,
-      "c": 0.63
+      "p": 8.301,
+      "c": -0.08
     },
     {
       "s": "DOGE",
-      "p": 0.0701,
-      "c": -0.55
+      "p": 0.0703,
+      "c": -0.21
     },
     {
       "s": "XRP",
-      "p": 1.0337,
-      "c": -0.19
+      "p": 1.0391,
+      "c": -0.12
     },
     {
       "s": "AVAX",
-      "p": 6.472,
-      "c": -1.02
+      "p": 6.469,
+      "c": -0.77
     }
   ],
   "float": {
