@@ -256,7 +256,7 @@
       <table>
         <thead><tr><th>Coin</th><th class="num">Fiyat</th><th class="num">24s</th><th>Durum</th><th class="num">RSI</th><th>Ajanın Notu</th></tr></thead>
         <tbody id="altBody">
-          <tr><td colspan="6" class="cnote">Radar verisi yükleniyor…</td></tr>
+          <tr><td colspan="6" class="cnote">Radar bir sonraki analiz turunda dolar (4 saatte bir).</td></tr>
         </tbody>
       </table>
       <div class="radarfoot">Radardaki coinler sinyal listesine ve sanal cüzdana dahil değildir; kurulum ve sinyal durumları yalnızca bilgi amaçlıdır. Sanal işlemler yalnızca çekirdek evrende (BTC · ETH · SOL · LINK · DOGE) açılır.</div>
@@ -411,6 +411,9 @@
         }).join('');
         var ac = document.getElementById('altCount');
         if (ac) ac.textContent = st.alts.length;
+      } else if (ab) {
+        // state.json henüz radarsız (motor bu sürümle bir tur atmamış)
+        ab.innerHTML = '<tr><td colspan="6" class="cnote">Radar bir sonraki analiz turunda dolar (4 saatte bir).</td></tr>';
       }
       // float panel
       var flb = document.getElementById('floatBody');
