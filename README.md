@@ -129,6 +129,18 @@ Kalıcı önlemler:
    (giriş + 7 gün) sonraki stop/hedef dokunuşları artık sayılmaz; pozisyon süre
    dolduğu andaki kapanıştan kapatılır (`executor.scanBars`, testleri selftest'te).
 
+**11 Ağustos 2026: aynı arıza ikinci kez.** Bu kez `pages.yml` çalıştırması (#13)
+aynı şekilde askıda kaldı: `github-pages` ortamı için oluşturulan deployment kaydı
+hiç durum almadı, job hiç başlamadı. Veri tarafı bu sefer hiç etkilenmedi (1. maddedeki
+ayrım işe yaradı), ama site yayını dondu. Alınan ek önlem: **`pages.yml` tamamen
+kaldırıldı.** Artık `github-pages` ortamına yalnızca tek bir yer talip: `update.yml`
+içindeki `deploy` job'ı. O da zaten her turda tüm siteyi (`path: .`) yayınlıyor, yani
+ikinci workflow hiçbir şey eklemiyordu, sadece kilitlenme yüzeyini iki katına çıkarıyordu.
+
+> Elle yaptığın bir değişikliği (ör. `index.html`) hemen yayınlamak istersen:
+> Actions → "Rupeeruchana 4 saatlik analiz" → **Run workflow**. Beklersen bir sonraki
+> 4 saatlik tur zaten yayınlar.
+
 **Motor durdu mu, nasıl anlarım?** `data/state.json` içindeki `updated` alanı 4-5
 saatten eskiyse tur atlanmış demektir. Actions sekmesinde "queued" durumda asılı bir
 çalıştırma varsa iptal et; ayrıca Settings → Environments → github-pages altında
