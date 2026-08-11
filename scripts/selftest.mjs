@@ -1,6 +1,11 @@
 // Sentetik veriyle kural mantığı testi — ağ gerektirmez.
 // node scripts/update.mjs --selftest
 
+import { scanBars, TIME_STOP_MS } from './executor.mjs';
+
+// [openTime, open, high, low, close, ...] — Binance kline biçimi (test için kısaltılmış)
+const bar = (tMs, high, low, close) => [tMs, close, high, low, close];
+
 function seriesFrom(closes) {
   return {
     opens:  closes.map(c => c * 0.999),
@@ -101,6 +106,59 @@ export function runSelfTest({ analyzeCoin }) {
   check('tepki kanıtı (RSI>58)', a3.hadBounce, `rsiMax8=${a3.rsiMax8}`);
   check('SHORT sinyali üretildi', a3.signal?.dir === 'SHORT', `status=${a3.status} signal=${JSON.stringify(a3.signal)}`);
   if (a3.signal) check('stop girişin üstünde', a3.signal.stop > a3.signal.entry, '');
+
+  console.log('SENTETİK TEST 4: mum taraması — stop/hedef/süre stopu');
+  const T0 = 1_700_000_000_000;   // sabit başlangıç (saat başı)
+  const HR = 3_600_000;
+  const long = { dir: 'LONG', stop: 90, target: 120, startMs: T0 };
+
+  const hitStop = scanBars(
+    [bar(T0, 105, 100, 102), bar(T0 + HR, 104, 89, 91)],
+    { ...long, nowMs: T0 + 2 * HR }
+  );
+  check('LONG stop dokunuşu yakalanır', hitStop.outcome === 'STOP ✗' && hitStop.exit === 90, JSON.stringify(hitStop));
+
+  const hitTarget = scanBars(
+    [bar(T0, 105, 100, 102), bar(T0 + HR, 121, 110, 120)],
+    { ...long, nowMs: T0 + 2 * HR }
+  );
+  check('LONG hedef dokunuşu yakalanır', hitTarget.outcome === 'HEDEF ✓' && hitTarget.exit === 120, JSON.stringify(hitTarget));
+
+  const both = scanBars(
+    [bar(T0, 125, 85, 100)],   // aynı mumda hem stop hem hedef
+    { ...long, nowMs: T0 + HR }
+  );
+  check('aynı mumda ikisi de → tutucu: STOP', both.outcome === 'STOP ✗', JSON.stringify(both));
+
+  const short = { dir: 'SHORT', stop: 110, target: 80, startMs: T0 };
+  const shortStop = scanBars(
+    [bar(T0, 111, 99, 110)],
+    { ...short, nowMs: T0 + HR }
+  );
+  check('SHORT stop dokunuşu yakalanır', shortStop.outcome === 'STOP ✗' && shortStop.exit === 110, JSON.stringify(shortStop));
+
+  // Süre stopu: 7 gün doldu, dokunuş yok → süre dolduğu andaki kapanıştan çıkılır
+  const timeStop = scanBars(
+    [bar(T0, 105, 95, 100), bar(T0 + TIME_STOP_MS - HR, 106, 96, 103)],
+    { ...long, nowMs: T0 + TIME_STOP_MS + HR }
+  );
+  check('süre stopu son kapanıştan uygular', timeStop.outcome === 'SÜRE ⏱' && timeStop.exit === 103, JSON.stringify(timeStop));
+
+  // Motor günlerce durursa: süre stopundan SONRAKİ dokunuş geriye dönük işlenmez
+  const lateTouch = scanBars(
+    [bar(T0, 105, 95, 100),
+     bar(T0 + TIME_STOP_MS - HR, 106, 96, 103),
+     bar(T0 + TIME_STOP_MS + 5 * HR, 130, 60, 70)],   // gecikmiş tur: hem stop hem hedef bölgesi
+    { ...long, nowMs: T0 + TIME_STOP_MS + 48 * HR }
+  );
+  check('süre stopu sonrası dokunuş sayılmaz', lateTouch.outcome === 'SÜRE ⏱' && lateTouch.exit === 103, JSON.stringify(lateTouch));
+
+  // Süre dolmadan sonuç yoksa pozisyon açık kalır
+  const stillOpen = scanBars(
+    [bar(T0, 105, 95, 100)],
+    { ...long, nowMs: T0 + 3 * HR }
+  );
+  check('sonuç yoksa pozisyon açık kalır', stillOpen.outcome === null, JSON.stringify(stillOpen));
 
   console.log(`\nSONUÇ: ${pass} geçti, ${fail} kaldı`);
   process.exit(fail ? 1 : 0);

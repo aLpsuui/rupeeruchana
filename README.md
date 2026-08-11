@@ -25,8 +25,10 @@ sonuçları ve tüm sinyal sicili halka açıktır.
 - **`scripts/update.mjs`** — analiz motoru. Binance halka açık API'sinden mum verisi
   çeker, kuralları hesaplar, sinyalleri/izleme listesini/ajan yorumlarını
   `data/state.json`'a yazar. Aktif sinyalleri sonraki turlarda stop/hedefe göre kapatır.
-- **`scripts/selftest.mjs`** — sentetik veriyle kural mantığı testi (`node scripts/update.mjs --selftest`).
+- **`scripts/selftest.mjs`** — sentetik veriyle 20 kural testi (`node scripts/update.mjs --selftest`).
   Workflow her koşuda önce bu testi çalıştırır; test geçmezse yayın yapılmaz.
+- **`scripts/http.mjs`** — ağ katmanı: her dış istek 25 sn zaman aşımlı ve 2 tekrar
+  denemeli. Zaman aşımı olmayan tek bir istek turu saatlerce asabilir (bkz. Bakım notları).
 - **`index.html`** — tek dosyalık site. `state.json`'ı okur; üstte canlı fiyat
   marquee'si (ziyaretçinin tarayıcısı 30 sn'de bir Binance'den tazeler).
 
@@ -49,9 +51,20 @@ sonuçları ve tüm sinyal sicili halka açıktır.
 5. Actions'ı doğrula: repo → Actions → "Rupeeruchana 4 saatlik analiz" →
    **Run workflow** ile ilk analizi elle tetikle. Yeşil ✓ görünce sistem tam otonomdur.
 
+## Geliştirme / yerel çalıştırma
+
+Bağımlılık yok, kurulum gerekmez. Node 20+ yeterli (`AbortSignal.timeout` kullanılıyor).
+
+```bash
+node scripts/update.mjs --selftest        # ağsız kural testleri (20 test)
+RUPEE_NO_NOTIFY=1 node scripts/update.mjs # gerçek turu telefona bildirim atmadan dene
+git checkout -- data/                     # deneme turunun yazdığı veriyi geri al
+```
+
 ## Notlar
 
-- Cron UTC'dedir; `17 */4 * * *` ≈ günde 6 analiz.
+- Cron UTC'dedir; `17 */4 * * *` ≈ günde 6 analiz. Tayland saatiyle (UTC+7)
+  yaklaşık 03:17, 07:17, 11:17, 15:17, 19:17, 23:17.
 - `data/state.json` elle de düzenlenebilir (ör. özel bir ajan yorumu eklemek için) —
   bir sonraki otomatik tur feed'in üstüne yenilerini ekler, eskiyi silmez (son 40 kayıt tutulur).
 - KPI kutuları TradingView Strateji Testçisi'ndeki backtest sonuçlarıdır; canlı sicil
@@ -71,3 +84,34 @@ ntfy'a bildirir. LONG ve SHORT ikisi de desteklenir. Sicil: `data/autotrade.json
 - Not: Binance testnet'i GitHub sunucularından coğrafi engelli (HTTP 451)
   olduğu için gerçek-borsa simülasyonu yerine bu yerleşik sanal cüzdan kullanılır.
   Canlı paraya geçiş, ayrı bir konum çözümü (ör. VPS) gerektirir.
+
+## Bakım notları
+
+**10 Ağustos 2026 kilitlenmesi ve alınan önlemler.** Motor 9 Ağustos 20:51'den 11
+Ağustos'a kadar durdu. Zincir şöyleydi: `analyze` job'ı `environment: github-pages`
+kullanıyordu; 10 Ağustos 02:34'te oluşan Pages deployment kaydı hiçbir durum almadan
+askıda kaldı, ortam kilidi açılmadığı için job hiç başlayamadı ("queued"), ve
+`concurrency: cancel-in-progress: false` yüzünden sonraki 8 tur sırada bekleyip
+"higher priority waiting request" ile iptal oldu.
+
+Kalıcı önlemler:
+
+1. **Veri ile yayın ayrıldı.** `analyze` job'ında artık `environment:` yok; Pages
+   yayınını ayrı bir `deploy` job'ı yapar. Ortam bir daha kilitlenirse site
+   güncellenmez ama analiz ve commit çalışmaya devam eder.
+2. **`cancel-in-progress: true`.** Yeni tur her zaman eski turu devirir. 4 saatte bir
+   çalışan bir motorda taze veri, biten tur'dan önemlidir.
+3. **Zaman aşımları.** Job'lara `timeout-minutes` (analiz 15, yayın 10), kritik
+   adımlara ayrı sınırlar. Dikkat: `timeout-minutes` yalnızca job **başladıktan**
+   sonra işler, sırada beklerken değil. Sırada takılmaya karşı koruyan şey
+   `cancel-in-progress: true`'dur.
+4. **Ağ zaman aşımı.** `scripts/http.mjs`: her istek 25 sn sınırlı, 429/5xx ve ağ
+   hatalarında artan beklemeyle 2 kez tekrar denenir. Bildirimler 8 sn / tekrarsız.
+5. **Süre stopu geçmişe doğru işlenir.** Motor günlerce durursa, süre stopu anından
+   (giriş + 7 gün) sonraki stop/hedef dokunuşları artık sayılmaz; pozisyon süre
+   dolduğu andaki kapanıştan kapatılır (`executor.scanBars`, testleri selftest'te).
+
+**Motor durdu mu, nasıl anlarım?** `data/state.json` içindeki `updated` alanı 4-5
+saatten eskiyse tur atlanmış demektir. Actions sekmesinde "queued" durumda asılı bir
+çalıştırma varsa iptal et; ayrıca Settings → Environments → github-pages altında
+askıda deployment kalmadığını kontrol et.

@@ -11,21 +11,26 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import * as executor from './executor.mjs';
+import { fetchJson, httpFetch } from './http.mjs';
 
 const COINS = ['BTC', 'ETH', 'SOL', 'LINK', 'DOGE', 'XRP', 'AVAX'];
 const WATCH = ['ETH', 'LINK', 'SOL', 'DOGE', 'BTC']; // izleme listesi sırası
+const BATCH = 4; // aynı anda kaç coin çekilsin (tarama evreni büyüyünce tur süresi patlamasın)
 const STATE_PATH = new URL('../data/state.json', import.meta.url);
 const API = 'https://data-api.binance.vision/api/v3'; // küresel halka açık veri ucu (GitHub runner'larından erişilebilir)
 
 // ---- Anlık bildirim (ntfy.sh — telefonda ntfy uygulamasıyla bu konuya abone ol) ----
+// Bildirim asla turu bloke etmemeli: kısa zaman aşımı, tekrar denemesiz.
 const NTFY_TOPIC = 'rupeeruchana-sinyal-f28db1';
 async function notify(title, body, tags = 'chart_with_upwards_trend') {
+  // yerel deneme turlarında telefona bildirim gitmesin: RUPEE_NO_NOTIFY=1 node scripts/update.mjs
+  if (process.env.RUPEE_NO_NOTIFY === '1') { console.log(`[bildirim atlandı] ${title} — ${body}`); return; }
   try {
-    await fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+    await httpFetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
       method: 'POST',
       headers: { Title: title, Priority: 'high', Tags: tags },
       body,
-    });
+    }, { timeoutMs: 8_000, retries: 0 });
   } catch (e) { console.error('bildirim gönderilemedi:', e.message); }
 }
 
@@ -83,9 +88,10 @@ function atr(highs, lows, closes, len = 14) {
 
 // ---------------------------- veri çekme ------------------------------------
 async function klines(symbol, interval, limit) {
-  const r = await fetch(`${API}/klines?symbol=${symbol}USDT&interval=${interval}&limit=${limit}`);
-  if (!r.ok) throw new Error(`${symbol} ${interval} klines: HTTP ${r.status}`);
-  const raw = await r.json();
+  const raw = await fetchJson(
+    `${API}/klines?symbol=${symbol}USDT&interval=${interval}&limit=${limit}`,
+    `${symbol} ${interval} klines`
+  );
   return {
     opens:  raw.map(k => +k[1]),
     highs:  raw.map(k => +k[2]),
@@ -97,9 +103,7 @@ async function klines(symbol, interval, limit) {
 
 async function ticker24(symbols) {
   const q = encodeURIComponent(JSON.stringify(symbols.map(s => s + 'USDT')));
-  const r = await fetch(`${API}/ticker/24hr?symbols=${q}`);
-  if (!r.ok) throw new Error(`ticker24: HTTP ${r.status}`);
-  const data = await r.json();
+  const data = await fetchJson(`${API}/ticker/24hr?symbols=${q}`, 'ticker24');
   return data
     .map(d => ({ s: d.symbol.replace('USDT', ''), p: +d.lastPrice, c: +d.priceChangePercent }))
     .sort((a, b) => symbols.indexOf(a.s) - symbols.indexOf(b.s));
@@ -195,31 +199,31 @@ async function main() {
   const now = new Date().toISOString();
 
   const analyses = {};
-  for (const c of COINS) {
-    const [d, h] = await Promise.all([klines(c, '1d', 120), klines(c, '4h', 260)]);
-    analyses[c] = analyzeCoin(c, d, h);
+  // BATCH'li paralel çekim: 7 coinde de hızlı, tarama evreni 25-30 coine
+  // çıktığında tur süresi job zaman aşımını aşmasın diye.
+  for (let i = 0; i < COINS.length; i += BATCH) {
+    const chunk = COINS.slice(i, i + BATCH);
+    const done = await Promise.all(chunk.map(async c => {
+      const [d, h] = await Promise.all([klines(c, '1d', 120), klines(c, '4h', 260)]);
+      return [c, analyzeCoin(c, d, h)];
+    }));
+    for (const [c, a] of done) analyses[c] = a;
   }
   const tick = await ticker24(COINS);
 
   // --- eski aktif sinyalleri MUM TARAMASIYLA kapat/güncelle (+ bildirim)
   // Anlık fiyat kontrolü yeterli değildir: turlar arasında stop/hedefe dokunulup
   // geri dönülebilir. Sinyal açılışından bu yana 1 saatlik mumların tepe/dipleri
-  // taranır; aynı mumda ikisi de dokunduysa tutucu varsayım: STOP sayılır.
+  // taranır (kurallar için bkz. executor.scanBars — cüzdanla birebir aynı mantık).
   async function barScanOutcome(s, stp, tgt) {
-    const r = await fetch(`${API}/klines?symbol=${s.coin}USDT&interval=1h&startTime=${Date.parse(s.ts)}&limit=1000`);
-    if (!r.ok) throw new Error(`sinyal tarama klines HTTP ${r.status}`);
-    const bars = await r.json();
-    for (const k of bars) {
-      const high = +k[2], low = +k[3];
-      if (s.dir === 'LONG') {
-        if (low <= stp)  return 'STOP ✗';
-        if (high >= tgt) return 'HEDEF ✓';
-      } else {
-        if (high >= stp) return 'STOP ✗';
-        if (low <= tgt)  return 'HEDEF ✓';
-      }
-    }
-    return null;
+    const startMs = Date.parse(s.ts);
+    const bars = await fetchJson(
+      `${API}/klines?symbol=${s.coin}USDT&interval=1h&startTime=${startMs}&limit=1000`,
+      `${s.coin} sinyal tarama klines`
+    );
+    return executor.scanBars(bars, {
+      dir: s.dir, stop: stp, target: tgt, startMs, nowMs: Date.parse(now),
+    }).outcome;
   }
 
   const signals = [];

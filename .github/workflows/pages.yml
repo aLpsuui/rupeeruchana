@@ -3,6 +3,8 @@ name: Pages yayını
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'data/**'   # ajan turları yayını update.yml içindeki deploy job'ında yapar
   workflow_dispatch: {}
 
 permissions:
@@ -20,6 +22,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5

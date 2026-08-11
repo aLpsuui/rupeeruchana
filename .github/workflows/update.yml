@@ -15,16 +15,21 @@ permissions:
   pages: write
   id-token: write
 
+# cancel-in-progress: true ZORUNLU.
+# 10 Ağu 2026: bir tur "queued" halinde süresiz asılı kaldı (github-pages ortamında
+# durumu hiç gelmeyen bir deployment kaydı ortamı kilitlemişti) ve cancel-in-progress
+# false olduğu için sonraki tüm turlar 2 gün boyunca iptal oldu. Yeni tur her zaman
+# eskisini devirir: 4 saatte bir çalışan bir motorda taze veri, biten tur'dan önemlidir.
 concurrency:
   group: analyze
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
+  # 1) VERİ: analiz + commit. Bu job'ın `environment:` tanımı YOK — Pages ortam
+  #    kilidi bir daha veri üretimini durduramaz. Site yayını ayrı job'ın işi.
   analyze:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       BINANCE_TESTNET_KEY: ${{ secrets.BINANCE_TESTNET_KEY }}
       BINANCE_TESTNET_SECRET: ${{ secrets.BINANCE_TESTNET_SECRET }}
@@ -36,13 +41,16 @@ jobs:
           node-version: 20
 
       - name: Kural mantığı testi
+        timeout-minutes: 3
         run: node scripts/update.mjs --selftest
 
       - name: Zincir testi (yalnızca elle tetiklemede)
         if: ${{ github.event.inputs.test_trade == 'true' }}
+        timeout-minutes: 5
         run: node scripts/update.mjs --test-trade
 
       - name: Analizi çalıştır
+        timeout-minutes: 10
         run: node scripts/update.mjs
 
       - name: Değişiklik varsa kaydet
@@ -50,12 +58,20 @@ jobs:
           git config user.name "rupeeruchana-agent"
           git config user.email "agent@rupeeruchana.local"
           git add data/
-          if ! git diff --cached --quiet; then
-            git commit -m "ajan: 4 saatlik analiz $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git push
-          else
+          if git diff --cached --quiet; then
             echo "Değişiklik yok."
+            exit 0
           fi
+          git commit -m "ajan: 4 saatlik analiz $(date -u +'%Y-%m-%d %H:%M UTC')"
+          # push yarışı (elle yapılan bir push araya girerse) rebase ile çözülür
+          for i in 1 2 3; do
+            if git push; then exit 0; fi
+            echo "push başarısız (deneme $i) — rebase edip tekrar denenecek"
+            git pull --rebase --autostash origin main || true
+            sleep 5
+          done
+          echo "push 3 denemede de başarısız oldu"
+          exit 1
 
       - uses: actions/configure-pages@v5
         with:
@@ -65,5 +81,16 @@ jobs:
         with:
           path: .
 
+  # 2) YAYIN: yalnızca bu job github-pages ortamına girer. Ortam kilitlenirse
+  #    burada asılı kalır, ama veri zaten commit'lendi ve bir sonraki tur
+  #    cancel-in-progress ile bu job'ı devirir.
+  deploy:
+    needs: analyze
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4

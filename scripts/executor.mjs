@@ -9,10 +9,12 @@
 // ============================================================================
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { fetchJson } from './http.mjs';
 
 const DATA_API = 'https://data-api.binance.vision/api/v3';
 const LEDGER_PATH = new URL('../data/autotrade.json', import.meta.url);
 const START_BALANCE = 50;      // sanal USDT
+export const TIME_STOP_MS = 7 * 86400000; // süre stopu: 7 gün
 // --- Boyutlama modu (kullanıcı talimatı, 8 Ağu 2026): her işlem sabit teminat × kaldıraç ---
 const MARGIN_USD = 10;         // işlem başına teminat
 const LEVERAGE = 10;           // kaldıraç → pozisyon = 10$ × 10x = 100$ nominal
@@ -74,9 +76,36 @@ export async function openTrade(sig, notify) {
   console.log(`SANAL AÇILDI: ${symbol} ${sig.dir} qty=${qty} notional=${notional}$ lev=${leverage}x risk=${risk}$`);
 }
 
-// ---------------------------- pozisyon takibi --------------------------------
+// ---------------------------- mum taraması (saf, test edilebilir) ------------
 // Girişten bu yana 1 saatlik mumları gezer: stop mu hedef mi önce dokunuldu?
-// Aynı mumda ikisi de dokunduysa tutucu varsayım: STOP önce (aleyhimize say).
+// İki kural:
+//   1) Aynı mumda ikisi de dokunduysa tutucu varsayım: STOP önce (aleyhimize say).
+//   2) Süre stopu anından (giriş + 7 gün) SONRAKİ mumlar sayılmaz. Motor günlerce
+//      durursa (bkz. 10 Ağu 2026 kilitlenmesi) pozisyon süre stopunda kapanmış
+//      olmalıdır; gecikmiş dokunuşlar geriye dönük işlenmez.
+export function scanBars(bars, { dir, stop, target, startMs, nowMs }) {
+  const deadline = startMs + TIME_STOP_MS;
+  let lastClose = null;
+
+  for (const k of bars) {
+    if (+k[0] > deadline) break;           // süre stopundan sonraki mumlar sayılmaz
+    const high = +k[2], low = +k[3];
+    lastClose = +k[4];
+    if (dir === 'SHORT') {
+      if (high >= stop)   return { outcome: 'STOP ✗',  exit: stop };
+      if (low  <= target) return { outcome: 'HEDEF ✓', exit: target };
+    } else { // LONG
+      if (low  <= stop)   return { outcome: 'STOP ✗',  exit: stop };
+      if (high >= target) return { outcome: 'HEDEF ✓', exit: target };
+    }
+  }
+  // ZAMAN STOPU: 7 gün içinde ne stop ne hedef — süre dolduğu andaki kapanıştan çık.
+  // Gerekçe: çözülmeyen işlem sermayeyi kilitler; sistem "bekleyen umut" taşımaz.
+  if (lastClose != null && nowMs > deadline) return { outcome: 'SÜRE ⏱', exit: lastClose };
+  return { outcome: null, exit: null };
+}
+
+// ---------------------------- pozisyon takibi --------------------------------
 export async function reconcile(notify) {
   const ledger = loadLedger();
   if (!ledger.open.length) return;
@@ -85,27 +114,14 @@ export async function reconcile(notify) {
   for (const p of ledger.open) {
     try {
       const startMs = Date.parse(p.ts);
-      const r = await fetch(`${DATA_API}/klines?symbol=${p.symbol}&interval=1h&startTime=${startMs}&limit=1000`);
-      if (!r.ok) throw new Error(`klines HTTP ${r.status}`);
-      const bars = await r.json();
+      const bars = await fetchJson(
+        `${DATA_API}/klines?symbol=${p.symbol}&interval=1h&startTime=${startMs}&limit=1000`,
+        `${p.symbol} takip klines`
+      );
 
-      let outcome = null, exitPx = null;
-      for (const k of bars) {
-        const high = +k[2], low = +k[3];
-        if (p.dir === 'LONG') {
-          if (low <= p.stop)        { outcome = 'STOP ✗';  exitPx = p.stop;   break; }
-          if (high >= p.target)     { outcome = 'HEDEF ✓'; exitPx = p.target; break; }
-        } else { // SHORT
-          if (high >= p.stop)       { outcome = 'STOP ✗';  exitPx = p.stop;   break; }
-          if (low <= p.target)      { outcome = 'HEDEF ✓'; exitPx = p.target; break; }
-        }
-      }
-      // ZAMAN STOPU: 7 gün içinde ne stop ne hedef — pozisyon son fiyattan kapatılır.
-      // Gerekçe: çözülmeyen işlem sermayeyi kilitler; sistem "bekleyen umut" taşımaz.
-      if (!outcome && bars.length && (Date.now() - startMs) > 7 * 86400000) {
-        outcome = 'SÜRE ⏱';
-        exitPx = +bars[bars.length - 1][4];
-      }
+      const { outcome, exit: exitPx } = scanBars(bars, {
+        dir: p.dir, stop: p.stop, target: p.target, startMs, nowMs: Date.now(),
+      });
       if (!outcome) { still.push(p); continue; }
 
       const sign = p.dir === 'LONG' ? 1 : -1;
@@ -150,8 +166,8 @@ export async function adoptSignals(signals, notify) {
 // Dar bantlı minik test pozisyonu: birkaç saat içinde doğal olarak kapanır ve
 // açılış + kapanış bildirimlerinin ikisini de doğrular.
 export async function forceTestTrade(notify) {
-  const r = await fetch(`${DATA_API}/ticker/price?symbol=BTCUSDT`);
-  const price = parseFloat((await r.json()).price);
+  const t = await fetchJson(`${DATA_API}/ticker/price?symbol=BTCUSDT`, 'test işlemi fiyatı');
+  const price = parseFloat(t.price);
   await openTrade({
     coinRaw: 'BTC', dir: 'LONG',
     entryNum: price, stopNum: price * 0.995, targetNum: price * 1.005,
