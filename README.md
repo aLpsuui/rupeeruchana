@@ -32,6 +32,24 @@ sonuçları ve tüm sinyal sicili halka açıktır.
 - **`index.html`** — tek dosyalık site. `state.json`'ı okur; üstte canlı fiyat
   marquee'si (ziyaretçinin tarayıcısı 30 sn'de bir Binance'den tazeler).
 
+## Tarama evreni
+
+| | Coinler | Sinyal üretir | Sanal cüzdan |
+|---|---|---|---|
+| **Çekirdek** | BTC · ETH · SOL · LINK · DOGE | evet | evet |
+| **Altcoin radarı** | XRP · AVAX · ADA · POL · DOT · ATOM · NEAR · APT · ARB · OP · INJ · SUI · TIA · SEI · LTC · BCH · UNI · AAVE · FIL · RENDER | hayır | hayır |
+
+Radar, aynı v3 kurallarıyla 20 altcoinin durumunu (sinyal / kurulum / aday) hesaplar
+ve sitede ayrı bir tabloda gösterir, ama sinyal listesine girmez ve pozisyon açmaz.
+Gerekçe: 4 pozisyonluk kontenjan düşük likiditeli alt sinyalleriyle dolarsa çekirdek
+coinlerin sinyalleri kaçar ve sicil kıyaslanamaz hale gelir. Radardaki bir coini
+gerçekten işleme dahil etmek istersen `scripts/update.mjs` içinde `ALTS`'tan çıkarıp
+`COINS` ve `WATCH` listelerine ekle.
+
+Sembol notu: MATIC artık **POL**, RNDR artık **RENDER**. Listeye coin eklerken
+sembolün Binance'te `TRADING` durumunda olduğunu doğrula, yoksa o coin radardan
+sessizce düşer (tur çökmez, konsola uyarı yazılır).
+
 ## Kurulum (bir kez)
 
 1. GitHub'da `rupeeruchana` adında boş bir repo aç.

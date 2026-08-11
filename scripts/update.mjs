@@ -13,8 +13,19 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import * as executor from './executor.mjs';
 import { fetchJson, httpFetch } from './http.mjs';
 
-const COINS = ['BTC', 'ETH', 'SOL', 'LINK', 'DOGE', 'XRP', 'AVAX'];
+// --- Tarama evreni ---
+// COINS: sinyal üretebilen ve sanal cüzdana işlem açabilen çekirdek evren.
+// ALTS : yalnızca RADAR — durumu hesaplanır ve sitede gösterilir, ama sinyal
+//        listesine girmez, bildirim yollamaz ve sanal cüzdanda pozisyon açmaz.
+//        Gerekçe: 4 pozisyonluk kontenjan düşük likiditeli alt sinyalleriyle
+//        dolarsa çekirdek coinlerin sinyalleri kaçar ve sicil kıyaslanamaz olur.
+const COINS = ['BTC', 'ETH', 'SOL', 'LINK', 'DOGE'];
 const WATCH = ['ETH', 'LINK', 'SOL', 'DOGE', 'BTC']; // izleme listesi sırası
+const ALTS = [
+  'XRP', 'AVAX', 'ADA', 'POL', 'DOT', 'ATOM', 'NEAR', 'APT', 'ARB', 'OP',
+  'INJ', 'SUI', 'TIA', 'SEI', 'LTC', 'BCH', 'UNI', 'AAVE', 'FIL', 'RENDER',
+]; // POL (eski MATIC) ve RENDER (eski RNDR) güncel Binance sembolleridir
+const ALL = [...COINS, ...ALTS];
 const BATCH = 4; // aynı anda kaç coin çekilsin (tarama evreni büyüyünce tur süresi patlamasın)
 const STATE_PATH = new URL('../data/state.json', import.meta.url);
 const API = 'https://data-api.binance.vision/api/v3'; // küresel halka açık veri ucu (GitHub runner'larından erişilebilir)
@@ -199,17 +210,32 @@ async function main() {
   const now = new Date().toISOString();
 
   const analyses = {};
-  // BATCH'li paralel çekim: 7 coinde de hızlı, tarama evreni 25-30 coine
-  // çıktığında tur süresi job zaman aşımını aşmasın diye.
-  for (let i = 0; i < COINS.length; i += BATCH) {
-    const chunk = COINS.slice(i, i + BATCH);
+  // BATCH'li paralel çekim: 25 coinlik evrende tur süresi job zaman aşımının
+  // çok altında kalsın diye. Tek bir coinin verisi gelmezse tur çökmesin:
+  // o coin radardan düşer, analiz devam eder.
+  const failed = [];
+  for (let i = 0; i < ALL.length; i += BATCH) {
+    const chunk = ALL.slice(i, i + BATCH);
     const done = await Promise.all(chunk.map(async c => {
-      const [d, h] = await Promise.all([klines(c, '1d', 120), klines(c, '4h', 260)]);
-      return [c, analyzeCoin(c, d, h)];
+      try {
+        const [d, h] = await Promise.all([klines(c, '1d', 120), klines(c, '4h', 260)]);
+        return [c, analyzeCoin(c, d, h)];
+      } catch (e) {
+        console.error(`${c} verisi alınamadı:`, e.message);
+        return [c, null];
+      }
     }));
-    for (const [c, a] of done) analyses[c] = a;
+    for (const [c, a] of done) {
+      if (a) analyses[c] = a; else failed.push(c);
+    }
   }
-  const tick = await ticker24(COINS);
+  // Çekirdek evrende veri eksikse tur güvenilir değildir — sessizce yanlış
+  // yayınlamaktansa başarısız ol (bir önceki state.json yerinde kalır).
+  const coreMissing = COINS.filter(c => !analyses[c]);
+  if (coreMissing.length) throw new Error(`çekirdek coin verisi eksik: ${coreMissing.join(', ')}`);
+  if (failed.length) console.warn(`radar dışı kalan coinler: ${failed.join(', ')}`);
+
+  const tick = await ticker24(ALL.filter(c => analyses[c]));
 
   // --- eski aktif sinyalleri MUM TARAMASIYLA kapat/güncelle (+ bildirim)
   // Anlık fiyat kontrolü yeterli değildir: turlar arasında stop/hedefe dokunulup
@@ -313,6 +339,30 @@ async function main() {
       : RISK_LINES[Math.floor(Date.parse(now) / 14400000) % RISK_LINES.length],
   });
 
+  // --- altcoin radarı (yalnızca izleme; sinyal/cüzdan akışına girmez)
+  const tickMap = Object.fromEntries(tick.map(t => [t.s, t]));
+  const STATUS_RANK = { 'SİNYAL': 0, 'KURULUM': 1, 'LONG ADAYI': 2, 'SHORT ADAYI': 2, 'BEKLEMEDE': 3 };
+  const alts = ALTS.filter(c => analyses[c]).map(c => {
+    const a = analyses[c];
+    return {
+      coin: c, price: px(a.price), chg: tickMap[c] ? +tickMap[c].c.toFixed(2) : null,
+      status: a.status, dir: a.dir, rsi: Math.round(a.rsiNow),
+      star: a.status === 'KURULUM' || a.status === 'SİNYAL',
+      note: noteFor(a),
+    };
+  }).sort((x, y) =>
+    (STATUS_RANK[x.status] ?? 9) - (STATUS_RANK[y.status] ?? 9) ||
+    x.coin.localeCompare(y.coin, 'tr')
+  );
+
+  const altHot = alts.filter(a => a.star);
+  feed.push({
+    who: 'Altcoin Radarı', ts: now, kind: 'dot',
+    body: altHot.length
+      ? `${alts.length} altcoin tarandı — öne çıkanlar: ${altHot.map(a => `${a.coin} (${a.status.toLowerCase()})`).join(', ')}. Radar izleme amaçlıdır; sanal cüzdana işlem açmaz.`
+      : `${alts.length} altcoin tarandı — kurulum aşamasında olan yok. Radar izleme amaçlıdır; sanal cüzdana işlem açmaz.`,
+  });
+
   // --- izleme listesi
   const watchlist = WATCH.map(c => {
     const a = analyses[c];
@@ -346,6 +396,7 @@ async function main() {
     kpi: old.kpi,
     signals: signals.slice(0, 12),
     watchlist,
+    alts,
     feed: [...feed, ...(old.feed || [])].slice(0, 40),
     ticker: tick.map(t => ({ s: t.s, p: t.p, c: +t.c.toFixed(2) })),
     float,
@@ -353,6 +404,7 @@ async function main() {
 
   writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + '\n');
   console.log(`OK ${now} — sinyal: ${signals.filter(s => s.state === 'AKTİF').length} aktif, izleme: ${watchlist.map(w => `${w.coin}:${w.status}`).join(' ')}`);
+  console.log(`radar: ${alts.length} altcoin${altHot.length ? ` — öne çıkan: ${altHot.map(a => `${a.coin}:${a.status}`).join(' ')}` : ''}`);
 }
 
 // test modu: `node update.mjs --selftest` → sentetik veriyle kural mantığını doğrula
