@@ -46,6 +46,11 @@ coinlerin sinyalleri kaçar ve sicil kıyaslanamaz hale gelir. Radardaki bir coi
 gerçekten işleme dahil etmek istersen `scripts/update.mjs` içinde `ALTS`'tan çıkarıp
 `COINS` ve `WATCH` listelerine ekle.
 
+Radar sinyalleri `data/state.json` içinde `altSignals` olarak kalıcı tutulur: tetik
+geldiğinde açılır, sonraki turlarda mum taramasıyla stop/hedef kontrol edilir, kapanır.
+Böylece "bu kurallar altcoinlerde işe yarıyor mu" sorusu sicille cevaplanabilir. Bu
+kayıtlar bildirim yollamaz ve sanal cüzdana dokunmaz.
+
 Sembol notu: MATIC artık **POL**, RNDR artık **RENDER**. Listeye coin eklerken
 sembolün Binance'te `TRADING` durumunda olduğunu doğrula, yoksa o coin radardan
 sessizce düşer (tur çökmez, konsola uyarı yazılır).

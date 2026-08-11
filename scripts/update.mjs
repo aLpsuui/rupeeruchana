@@ -355,6 +355,39 @@ async function main() {
     x.coin.localeCompare(y.coin, 'tr')
   );
 
+  // --- radar sinyal sicili
+  // "SİNYAL" durumu yalnızca kesişimin olduğu mumda görünür, bir sonraki turda
+  // kaybolur. Radar sinyalini de çekirdek sinyaller gibi kalıcı tutuyoruz:
+  // açılır, sonraki turlarda mum taramasıyla stop/hedef kontrol edilir, kapanır.
+  // Fark: bildirim yollamaz ve sanal cüzdanda pozisyon AÇMAZ — sadece sicil.
+  const altSignals = [];
+  for (const s of (old.altSignals || [])) {
+    if (s.state !== 'AKTİF') { altSignals.push(s); continue; }
+    let outcome = null;
+    try {
+      const startMs = Date.parse(s.ts);
+      const bars = await fetchJson(
+        `${API}/klines?symbol=${s.coin}USDT&interval=1h&startTime=${startMs}&limit=1000`,
+        `${s.coin} radar tarama klines`
+      );
+      outcome = executor.scanBars(bars, {
+        dir: s.dir, stop: s.stopN, target: s.targetN, startMs, nowMs: Date.parse(now),
+      }).outcome;
+    } catch (e) { console.error(`radar taraması başarısız (${s.coin}):`, e.message); }
+    altSignals.push(outcome ? { ...s, state: outcome, closed: now } : s);
+  }
+  for (const c of ALTS) {
+    const a = analyses[c];
+    if (a?.signal && !altSignals.some(s => s.coin === c && s.state === 'AKTİF')) {
+      altSignals.unshift({
+        coin: c, dir: a.signal.dir, state: 'AKTİF', ts: now,
+        entry: px(a.signal.entry), stop: px(a.signal.stop), target: px(a.signal.target),
+        entryN: a.signal.entry, stopN: a.signal.stop, targetN: a.signal.target,
+      });
+      console.log(`radar sinyali acildi (islem yok): ${c} ${a.signal.dir}`);
+    }
+  }
+
   const altHot = alts.filter(a => a.star);
   feed.push({
     who: 'Altcoin Radarı', ts: now, kind: 'dot',
@@ -397,6 +430,7 @@ async function main() {
     signals: signals.slice(0, 12),
     watchlist,
     alts,
+    altSignals: altSignals.slice(0, 20),
     feed: [...feed, ...(old.feed || [])].slice(0, 40),
     ticker: tick.map(t => ({ s: t.s, p: t.p, c: +t.c.toFixed(2) })),
     float,
@@ -405,6 +439,7 @@ async function main() {
   writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + '\n');
   console.log(`OK ${now} — sinyal: ${signals.filter(s => s.state === 'AKTİF').length} aktif, izleme: ${watchlist.map(w => `${w.coin}:${w.status}`).join(' ')}`);
   console.log(`radar: ${alts.length} altcoin${altHot.length ? ` — öne çıkan: ${altHot.map(a => `${a.coin}:${a.status}`).join(' ')}` : ''}`);
+  console.log(`radar sinyalleri: ${altSignals.filter(s => s.state === 'AKTİF').length} aktif / ${altSignals.length} kayıt`);
 }
 
 // test modu: `node update.mjs --selftest` → sentetik veriyle kural mantığını doğrula
