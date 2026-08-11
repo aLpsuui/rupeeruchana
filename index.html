@@ -259,7 +259,7 @@
           <tr><td colspan="6" class="cnote">Radar bir sonraki analiz turunda dolar (4 saatte bir).</td></tr>
         </tbody>
       </table>
-      <div class="radarfoot">Radardaki coinler sinyal listesine ve sanal cüzdana dahil değildir; kurulum ve sinyal durumları yalnızca bilgi amaçlıdır. Sanal işlemler yalnızca çekirdek evrende (BTC · ETH · SOL · LINK · DOGE) açılır.</div>
+      <div class="radarfoot"><b style="color:var(--mint);">Yeşil = long tarafı</b> · <b style="color:var(--red);">kırmızı = short tarafı</b> · <b style="color:var(--amber);">sarı = yön belirsiz</b>. Radardaki coinler sinyal listesine ve sanal cüzdana dahil değildir; kurulum ve sinyal durumları yalnızca bilgi amaçlıdır. Sanal işlemler yalnızca çekirdek evrende (BTC · ETH · SOL · LINK · DOGE) açılır.</div>
     </div>
 
     <div class="acthead">🤖 Sanal Cüzdan <span style="font-weight:400; color:var(--ink3); font-size:11px;">— 50$ simülasyon · işlem başına %2 risk · gerçek para değildir</span></div>
@@ -324,11 +324,16 @@
     try { return new Date(iso).toLocaleString('tr-TR', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
     catch(e){ return iso; }
   };
-  var chipCls = function(st){
-    if (st === 'SHORT ADAYI') return 'r';
-    if (st === 'BEKLEMEDE') return 'a';
-    if (st === 'SİNYAL' ) return 'g';
-    return 'g';
+  // Rozet rengi DURUMA değil YÖNE bakar: yeşil = long tarafı, kırmızı = short
+  // tarafı, sarı = yön yok. (Eskiden SİNYAL/KURULUM yönü ne olursa olsun yeşildi;
+  // bir SHORT sinyali yeşil görünüyordu.)
+  var chipCls = function(st, dir){
+    if (!dir || st === 'BEKLEMEDE') return 'a';
+    return dir === 'SHORT' ? 'r' : 'g';
+  };
+  // "LONG ADAYI"/"SHORT ADAYI" yönü zaten içerir; SİNYAL ve KURULUM'a eklenir.
+  var chipTxt = function(st, dir){
+    return (dir && (st === 'SİNYAL' || st === 'KURULUM')) ? st + ' · ' + dir : st;
   };
 
   function sigCard(c){
@@ -390,7 +395,7 @@
       if (wl && st.watchlist) {
         wl.innerHTML = st.watchlist.map(function(w){
           return '<tr><td><b>'+esc(w.coin)+'</b></td>'+
-            '<td><span class="chip '+chipCls(w.status)+'">'+esc(w.status)+(w.star?' ⭐':'')+'</span></td>'+
+            '<td><span class="chip '+chipCls(w.status, w.dir)+'">'+esc(chipTxt(w.status, w.dir))+(w.star?' ⭐':'')+'</span></td>'+
             '<td>'+esc(w.note)+'</td>'+
             '<td class="lv">▲ '+esc(w.hi)+' · ▼ '+esc(w.lo)+'</td></tr>';
         }).join('');
@@ -405,7 +410,7 @@
           return '<tr class="'+(a.star?'hot':'')+'"><td><b>'+esc(a.coin)+'</b></td>'+
             '<td class="num">'+esc(a.price)+'</td>'+
             '<td class="num '+chgCls+'">'+esc(chg)+'</td>'+
-            '<td><span class="chip '+chipCls(a.status)+'">'+esc(a.status)+(a.star?' ⭐':'')+'</span></td>'+
+            '<td><span class="chip '+chipCls(a.status, a.dir)+'">'+esc(chipTxt(a.status, a.dir))+(a.star?' ⭐':'')+'</span></td>'+
             '<td class="num">'+esc(String(a.rsi))+'</td>'+
             '<td class="cnote">'+esc(a.note)+'</td></tr>';
         }).join('');
