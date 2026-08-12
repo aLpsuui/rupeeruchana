@@ -1,9 +1,25 @@
 {
   "note": "SANAL CÜZDAN — gerçek para değildir. Başlangıç: 1000 USDT, işlem başına risk %2 (sabit risk boyutlaması).",
   "startBalance": 1000,
-  "balance": 1000,
+  "balance": 980,
   "resetNote": "12 Ağu 2026: boyutlama sabit teminat (10$ × 10x) modundan sabit riske (bakiye × %2) döndürüldü ve başlangıç sermayesi 1000$ yapıldı. Gerekçe: 50$ bakiyede işlem başına risk gerçek borsanın minimum emir büyüklüğünün altında kalıyor, komisyon modellemesi anlamsızlaşıyordu. Eski kayıtlar legacyClosed altında duruyor; farklı boyutlamayla açıldıkları için yeni sicille birlikte istatistiğe katılmazlar.",
   "open": [
+    {
+      "symbol": "DOGEUSDT",
+      "dir": "SHORT",
+      "qty": 11199.2,
+      "entry": 0.0706,
+      "stop": 0.07235012934252287,
+      "target": 0.0662246766436928,
+      "riskUsd": 19.6,
+      "notional": 790.66,
+      "leverage": 10,
+      "marginUsd": 79.07,
+      "stopPct": 2.48,
+      "ts": "2026-08-12T21:03:55.964Z"
+    }
+  ],
+  "closed": [
     {
       "symbol": "ETHUSDT",
       "dir": "LONG",
@@ -18,11 +34,14 @@
       "stopPct": 1.84,
       "ts": "2026-08-12T13:47:42.290Z",
       "mfeR": 0,
-      "maeR": 0.88,
-      "bars": 4
+      "maeR": 1.06,
+      "bars": 6,
+      "outcome": "STOP ✗",
+      "exit": 1880.230839024107,
+      "pnl": -20,
+      "closedTs": "2026-08-12T21:03:54.680Z"
     }
   ],
-  "closed": [],
   "legacyClosed": [
     {
       "symbol": "DOGEUSDT",
@@ -161,17 +180,17 @@
     "note": "Tek \"HEDEF\" kaydı forceTestTrade ile açılan zincir testidir, strateji sinyali değildir."
   },
   "stats": {
-    "trades": 0,
+    "trades": 1,
     "hedef": 0,
-    "stop": 0,
+    "stop": 1,
     "sure": 0,
-    "winRate": null,
-    "pnlSum": null,
-    "avgMfeR": null,
-    "avgMaeR": null,
-    "missAvgMfeR": null,
-    "missMaxMfeR": null,
-    "avgBars": null,
-    "sample": 0
+    "winRate": 0,
+    "pnlSum": -20,
+    "avgMfeR": 0,
+    "avgMaeR": 1.06,
+    "missAvgMfeR": 0,
+    "missMaxMfeR": 0,
+    "avgBars": 6,
+    "sample": 1
   }
 }
