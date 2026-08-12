@@ -1,0 +1,36 @@
+name: Bildirim testi
+
+# Tek amaçlı, tek tıklık workflow: hiçbir kutu doldurmadan "Run workflow" demen
+# yeterli. Telefonuna tek bir test mesajı yollar, hangi kanalın (Telegram/ntfy)
+# kullanıldığını loga yazar. Analiz turuna dokunmaz, veri yazmaz, site yayınlamaz.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: notify-test
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Gizli anahtarlar tanımlı mı
+        run: |
+          if [ -n "$TELEGRAM_TOKEN" ]; then echo "TELEGRAM_TOKEN: tanımlı"; else echo "TELEGRAM_TOKEN: YOK"; fi
+          if [ -n "$TELEGRAM_CHAT_ID" ]; then echo "TELEGRAM_CHAT_ID: tanımlı"; else echo "TELEGRAM_CHAT_ID: YOK"; fi
+
+      - name: Test bildirimi yolla
+        run: node scripts/update.mjs --test-notify

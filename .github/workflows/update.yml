@@ -5,14 +5,20 @@ on:
     - cron: '17 */4 * * *'   # her 4 saatte bir (UTC), :17'de — 4s mum kapanışından hemen sonra
   workflow_dispatch:
     inputs:
+      # type: choice → GitHub açılır liste gösterir; elle 'true' yazmak gerekmez.
+      # (Bildirim testi için ayrıca tek tıklık notify-test.yml workflow'u var.)
       test_trade:
-        description: 'Zincir testi: minik BTC sanal işlemi aç (true/false)'
+        description: 'Zincir testi: minik BTC sanal işlemi aç'
         required: false
         default: 'false'
+        type: choice
+        options: ['false', 'true']
       test_notify:
-        description: 'Bildirim testi: telefona tek mesaj yolla (true/false)'
+        description: 'Bildirim testi: telefona tek mesaj yolla'
         required: false
         default: 'false'
+        type: choice
+        options: ['false', 'true']
 
 permissions:
   contents: write
