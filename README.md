@@ -46,6 +46,23 @@ coinlerin sinyalleri kaçar ve sicil kıyaslanamaz hale gelir. Radardaki bir coi
 gerçekten işleme dahil etmek istersen `scripts/update.mjs` içinde `ALTS`'tan çıkarıp
 `COINS` ve `WATCH` listelerine ekle.
 
+### MFE/MAE ölçümü
+
+Her kapanan kayda üç alan yazılır: `mfeR` (kapanana kadar **lehe** en fazla kaç R
+gidildi), `maeR` (**aleyhe** en fazla kaç R) ve `bars` (kaç saatlik mum tutuldu).
+Ölçüm `executor.scanBars` içinde, çıkış mumu da dahil edilerek yapılır.
+
+Bunun tek bir amacı var: "hedefe niye ulaşılamıyor" sorusunu tahminle değil veriyle
+cevaplamak. `executor.summarize` sicilden şu teşhis satırını üretir: **hedefe
+ulaşamayan işlemler ortalama kaç R'ye kadar gitti.** Bu sayı 2,5R'ye yakınsa sorun
+sabırda veya süre stopundadır (hedefin kılpayı kaçırılıyor). 1R civarındaysa hedef
+fazla iddialıdır, 1,5R'ye çekmek ya da iz süren stop koymak gerekir. 0,5R'nin
+altındaysa sorun hedefte değil girişte demektir.
+
+Özetler `data/autotrade.json` içinde `stats`, radar için `data/state.json` içinde
+`altStats` olarak durur ve sitede teşhis satırı olarak gösterilir. Radar 20 coinle
+çalıştığı için bu veri sanal cüzdandan çok daha hızlı birikir.
+
 Radar sinyalleri `data/state.json` içinde `altSignals` olarak kalıcı tutulur: tetik
 geldiğinde açılır, sonraki turlarda mum taramasıyla stop/hedef kontrol edilir, kapanır.
 Böylece "bu kurallar altcoinlerde işe yarıyor mu" sorusu sicille cevaplanabilir. Bu

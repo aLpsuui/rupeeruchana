@@ -363,18 +363,23 @@ async function main() {
   const altSignals = [];
   for (const s of (old.altSignals || [])) {
     if (s.state !== 'AKTİF') { altSignals.push(s); continue; }
-    let outcome = null;
+    let r = null;
     try {
       const startMs = Date.parse(s.ts);
       const bars = await fetchJson(
         `${API}/klines?symbol=${s.coin}USDT&interval=1h&startTime=${startMs}&limit=1000`,
         `${s.coin} radar tarama klines`
       );
-      outcome = executor.scanBars(bars, {
-        dir: s.dir, stop: s.stopN, target: s.targetN, startMs, nowMs: Date.parse(now),
-      }).outcome;
+      r = executor.scanBars(bars, {
+        dir: s.dir, stop: s.stopN, target: s.targetN, entry: s.entryN,
+        startMs, nowMs: Date.parse(now),
+      });
     } catch (e) { console.error(`radar taraması başarısız (${s.coin}):`, e.message); }
-    altSignals.push(outcome ? { ...s, state: outcome, closed: now } : s);
+    // MFE/MAE hem açık hem kapalı kayda yazılır: radar 20 coinle çalıştığı için
+    // teşhis verisi buradan çekirdek cüzdandan çok daha hızlı birikir.
+    altSignals.push(r?.outcome
+      ? { ...s, state: r.outcome, closed: now, mfeR: r.mfeR, maeR: r.maeR, bars: r.bars }
+      : (r ? { ...s, mfeR: r.mfeR, maeR: r.maeR, bars: r.bars } : s));
   }
   for (const c of ALTS) {
     const a = analyses[c];
@@ -430,7 +435,11 @@ async function main() {
     signals: signals.slice(0, 12),
     watchlist,
     alts,
-    altSignals: altSignals.slice(0, 20),
+    altSignals: altSignals.slice(0, 40),
+    // radar sicilinin teşhis özeti: hedefe ulaşamayanlar ortalama kaç R'ye gitti?
+    altStats: executor.summarize(
+      altSignals.filter(s => s.state !== 'AKTİF').map(s => ({ outcome: s.state, mfeR: s.mfeR, maeR: s.maeR, bars: s.bars }))
+    ),
     feed: [...feed, ...(old.feed || [])].slice(0, 40),
     ticker: tick.map(t => ({ s: t.s, p: t.p, c: +t.c.toFixed(2) })),
     float,

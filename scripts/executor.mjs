@@ -124,32 +124,87 @@ export async function openTrade(sig, notify) {
 //   2) Süre stopu anından (giriş + 7 gün) SONRAKİ mumlar sayılmaz. Motor günlerce
 //      durursa (bkz. 10 Ağu 2026 kilitlenmesi) pozisyon süre stopunda kapanmış
 //      olmalıdır; gecikmiş dokunuşlar geriye dönük işlenmez.
-export function scanBars(bars, { dir, stop, target, startMs, nowMs }) {
+// Ayrıca MFE/MAE ölçer (entry verilirse): işlem kapanana kadar lehe ve aleyhe
+// en fazla kaç R gidildi. Bu iki sayı, "hedefe niye ulaşılamıyor" sorusunun
+// tek veriye dayalı cevabıdır: hedef mi uzak, stop mu dar, yoksa giriş mi kötü.
+export function scanBars(bars, { dir, stop, target, entry, startMs, nowMs }) {
   const deadline = startMs + TIME_STOP_MS;
-  let lastClose = null;
+  const R = (entry != null && stop != null) ? Math.abs(entry - stop) : null;
+  let lastClose = null, n = 0, mfe = 0, mae = 0;
+
+  const track = (high, low) => {
+    if (!R) return;
+    const fav = dir === 'SHORT' ? entry - low  : high - entry;
+    const adv = dir === 'SHORT' ? high - entry : entry - low;
+    if (fav / R > mfe) mfe = fav / R;
+    if (adv / R > mae) mae = adv / R;
+  };
+  const done = (outcome, exit) => ({
+    outcome, exit,
+    mfeR: R ? +mfe.toFixed(2) : null,   // lehe en fazla kaç R
+    maeR: R ? +mae.toFixed(2) : null,   // aleyhe en fazla kaç R
+    bars: n,                            // kaç saatlik mum tutuldu
+  });
 
   for (const k of bars) {
     if (+k[0] > deadline) break;           // süre stopundan sonraki mumlar sayılmaz
     const high = +k[2], low = +k[3];
-    lastClose = +k[4];
+    lastClose = +k[4]; n++;
+    track(high, low);                      // çıkış mumu da ölçüme dahildir
     if (dir === 'SHORT') {
-      if (high >= stop)   return { outcome: 'STOP ✗',  exit: stop };
-      if (low  <= target) return { outcome: 'HEDEF ✓', exit: target };
+      if (high >= stop)   return done('STOP ✗',  stop);
+      if (low  <= target) return done('HEDEF ✓', target);
     } else { // LONG
-      if (low  <= stop)   return { outcome: 'STOP ✗',  exit: stop };
-      if (high >= target) return { outcome: 'HEDEF ✓', exit: target };
+      if (low  <= stop)   return done('STOP ✗',  stop);
+      if (high >= target) return done('HEDEF ✓', target);
     }
   }
   // ZAMAN STOPU: 7 gün içinde ne stop ne hedef — süre dolduğu andaki kapanıştan çık.
   // Gerekçe: çözülmeyen işlem sermayeyi kilitler; sistem "bekleyen umut" taşımaz.
-  if (lastClose != null && nowMs > deadline) return { outcome: 'SÜRE ⏱', exit: lastClose };
-  return { outcome: null, exit: null };
+  if (lastClose != null && nowMs > deadline) return done('SÜRE ⏱', lastClose);
+  return done(null, null);
+}
+
+// ---------------------------- sicil özeti (saf) ------------------------------
+// Asıl teşhis satırı: hedefe ULAŞMAYAN işlemler ortalama kaç R'ye kadar gitti?
+// Bu sayı hedefe (2,5R) yakınsa sorun sabırda/zaman stopunda, çok uzaksa ya
+// hedef fazla iddialı ya da giriş kötü.
+export function summarize(closed = []) {
+  const withR = closed.filter(c => c.mfeR != null);
+  const avg = arr => arr.length ? +(arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(2) : null;
+  const hedef = closed.filter(c => (c.outcome || '').includes('HEDEF'));
+  const stop  = closed.filter(c => (c.outcome || '').includes('STOP'));
+  const sure  = closed.filter(c => (c.outcome || '').includes('SÜRE'));
+  const miss  = withR.filter(c => !(c.outcome || '').includes('HEDEF'));
+
+  return {
+    trades: closed.length,
+    hedef: hedef.length, stop: stop.length, sure: sure.length,
+    winRate: closed.length ? +((hedef.length / closed.length) * 100).toFixed(1) : null,
+    pnlSum: closed.length ? +closed.reduce((a, c) => a + (c.pnl || 0), 0).toFixed(2) : null,
+    avgMfeR: avg(withR.map(c => c.mfeR)),
+    avgMaeR: avg(withR.map(c => c.maeR)),
+    // teşhis: hedefe ulaşamayanların en iyi anı
+    missAvgMfeR: avg(miss.map(c => c.mfeR)),
+    missMaxMfeR: miss.length ? Math.max(...miss.map(c => c.mfeR)) : null,
+    avgBars: avg(withR.map(c => c.bars || 0)),
+    sample: withR.length,
+  };
 }
 
 // ---------------------------- pozisyon takibi --------------------------------
 export async function reconcile(notify) {
   const ledger = loadLedger();
-  if (!ledger.open.length) return;
+  if (!ledger.open.length) {
+    // açık pozisyon yokken bile özet güncel kalsın (yalnızca değiştiyse yaz,
+    // aksi halde her tur gereksiz commit üretir)
+    const stats = summarize(ledger.closed || []);
+    if (JSON.stringify(ledger.stats) !== JSON.stringify(stats)) {
+      ledger.stats = stats;
+      saveLedger(ledger);
+    }
+    return;
+  }
   const still = [];
 
   for (const p of ledger.open) {
@@ -160,19 +215,23 @@ export async function reconcile(notify) {
         `${p.symbol} takip klines`
       );
 
-      const { outcome, exit: exitPx } = scanBars(bars, {
-        dir: p.dir, stop: p.stop, target: p.target, startMs, nowMs: Date.now(),
+      const { outcome, exit: exitPx, mfeR, maeR, bars: nBars } = scanBars(bars, {
+        dir: p.dir, stop: p.stop, target: p.target, entry: p.entry, startMs, nowMs: Date.now(),
       });
-      if (!outcome) { still.push(p); continue; }
+      // açık pozisyonda da yolculuğu göster (site "en iyi anı" yazabilsin)
+      if (!outcome) { still.push({ ...p, mfeR, maeR, bars: nBars }); continue; }
 
       const sign = p.dir === 'LONG' ? 1 : -1;
       const pnl = sign * (exitPx - p.entry) * p.qty;
       ledger.balance = +(ledger.balance + pnl).toFixed(2);
-      ledger.closed.unshift({ ...p, outcome, exit: exitPx, pnl: +pnl.toFixed(2), closedTs: new Date().toISOString() });
+      ledger.closed.unshift({
+        ...p, outcome, exit: exitPx, pnl: +pnl.toFixed(2),
+        mfeR, maeR, bars: nBars, closedTs: new Date().toISOString(),
+      });
 
       await notify(
         `${outcome.includes('HEDEF') ? '🎯' : '🛑'} SANAL kapandı: ${p.symbol} ${p.dir} ${outcome}`,
-        `PnL ${fmt(pnl)}$ · Yeni sanal bakiye: ${ledger.balance.toFixed(2)}$ · Sicil: ${ledger.closed.filter(c => c.outcome.includes('HEDEF')).length}✓/${ledger.closed.length}`,
+        `PnL ${fmt(pnl)}$ · Lehe en fazla ${mfeR}R, aleyhe ${maeR}R · Yeni sanal bakiye: ${ledger.balance.toFixed(2)}$ · Sicil: ${ledger.closed.filter(c => c.outcome.includes('HEDEF')).length}✓/${ledger.closed.length}`,
         outcome.includes('HEDEF') ? 'dart' : 'octagonal_sign'
       );
     } catch (e) {
@@ -182,6 +241,7 @@ export async function reconcile(notify) {
   }
   ledger.closed = ledger.closed.slice(0, 200);
   ledger.open = still;
+  ledger.stats = summarize(ledger.closed);
   saveLedger(ledger);
 }
 

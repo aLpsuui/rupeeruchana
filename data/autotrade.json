@@ -141,5 +141,19 @@
     "trades": 8,
     "wins": 1,
     "note": "Tek \"HEDEF\" kaydı forceTestTrade ile açılan zincir testidir, strateji sinyali değildir."
+  },
+  "stats": {
+    "trades": 0,
+    "hedef": 0,
+    "stop": 0,
+    "sure": 0,
+    "winRate": null,
+    "pnlSum": null,
+    "avgMfeR": null,
+    "avgMaeR": null,
+    "missAvgMfeR": null,
+    "missMaxMfeR": null,
+    "avgBars": null,
+    "sample": 0
   }
 }

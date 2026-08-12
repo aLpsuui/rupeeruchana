@@ -1,7 +1,7 @@
 // Sentetik veriyle kural mantığı testi — ağ gerektirmez.
 // node scripts/update.mjs --selftest
 
-import { scanBars, sizeTrade, TIME_STOP_MS, RISK_PCT, MAX_LEVERAGE, MAX_POSITIONS } from './executor.mjs';
+import { scanBars, sizeTrade, summarize, TIME_STOP_MS, RISK_PCT, MAX_LEVERAGE, MAX_POSITIONS } from './executor.mjs';
 
 // [openTime, open, high, low, close, ...] — Binance kline biçimi (test için kısaltılmış)
 const bar = (tMs, high, low, close) => [tMs, close, high, low, close];
@@ -180,6 +180,43 @@ export function runSelfTest({ analyzeCoin }) {
 
   check('SHORT yönü de aynı boyutlanır', Math.abs(sizeTrade({ balance: B, entry: 100, stop: 105 }).riskUsd - B * RISK_PCT) < 0.01, '');
   check('geçersiz stop null döner', sizeTrade({ balance: B, entry: 100, stop: 100 }) === null, '');
+
+  console.log('SENTETİK TEST 6: MFE/MAE ölçümü');
+  // giriş 100, stop 90, hedef 125 → R = 10
+  const mLong = { dir: 'LONG', stop: 90, target: 125, entry: 100, startMs: T0 };
+  const journey = scanBars(
+    [bar(T0, 115, 97, 110),                    // lehe 1,5R · aleyhe 0,3R
+     bar(T0 + HR, 118, 94, 96),                // lehe 1,8R · aleyhe 0,6R
+     bar(T0 + 2 * HR, 105, 89, 90)],           // stop
+    { ...mLong, nowMs: T0 + 3 * HR }
+  );
+  check('stop sonucu doğru', journey.outcome === 'STOP ✗', JSON.stringify(journey));
+  check('MFE en iyi anı yakalar (1,8R)', journey.mfeR === 1.8, `mfeR=${journey.mfeR}`);
+  check('MAE stop mumunu da sayar (1,1R)', journey.maeR === 1.1, `maeR=${journey.maeR}`);
+  check('tutulan mum sayısı', journey.bars === 3, `bars=${journey.bars}`);
+
+  const shortJourney = scanBars(
+    [bar(T0, 103, 88, 90)],                    // SHORT: giriş 100, lehe 1,2R, aleyhe 0,3R
+    { dir: 'SHORT', stop: 110, target: 75, entry: 100, startMs: T0, nowMs: T0 + HR }
+  );
+  check('SHORT MFE doğru yönde', shortJourney.mfeR === 1.2, `mfeR=${shortJourney.mfeR}`);
+  check('SHORT MAE doğru yönde', shortJourney.maeR === 0.3, `maeR=${shortJourney.maeR}`);
+
+  const noEntry = scanBars([bar(T0, 115, 97, 110)], { dir: 'LONG', stop: 90, target: 125, startMs: T0, nowMs: T0 + HR });
+  check('entry yoksa MFE/MAE null', noEntry.mfeR === null && noEntry.maeR === null, JSON.stringify(noEntry));
+
+  console.log('SENTETİK TEST 7: sicil özeti');
+  const sum = summarize([
+    { outcome: 'HEDEF ✓', mfeR: 2.6, maeR: 0.4, bars: 30, pnl: 50 },
+    { outcome: 'STOP ✗',  mfeR: 0.8, maeR: 1.1, bars: 12, pnl: -20 },
+    { outcome: 'SÜRE ⏱',  mfeR: 1.4, maeR: 0.9, bars: 42, pnl: 3 },
+  ]);
+  check('işlem sayısı', sum.trades === 3, JSON.stringify(sum));
+  check('isabet oranı %33,3', sum.winRate === 33.3, `winRate=${sum.winRate}`);
+  check('toplam PnL', sum.pnlSum === 33, `pnlSum=${sum.pnlSum}`);
+  check('hedefe ulaşamayanların ortalama MFE (1,1R)', sum.missAvgMfeR === 1.1, `missAvgMfeR=${sum.missAvgMfeR}`);
+  check('hedefe ulaşamayanların en iyisi (1,4R)', sum.missMaxMfeR === 1.4, `missMaxMfeR=${sum.missMaxMfeR}`);
+  check('boş sicil çökmeden özetlenir', summarize([]).trades === 0, JSON.stringify(summarize([])));
 
   console.log(`\nSONUÇ: ${pass} geçti, ${fail} kaldı`);
   process.exit(fail ? 1 : 0);
