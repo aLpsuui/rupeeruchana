@@ -1,7 +1,7 @@
 // Sentetik veriyle kural mantığı testi — ağ gerektirmez.
 // node scripts/update.mjs --selftest
 
-import { scanBars, TIME_STOP_MS } from './executor.mjs';
+import { scanBars, sizeTrade, TIME_STOP_MS, RISK_PCT, MAX_LEVERAGE, MAX_POSITIONS } from './executor.mjs';
 
 // [openTime, open, high, low, close, ...] — Binance kline biçimi (test için kısaltılmış)
 const bar = (tMs, high, low, close) => [tMs, close, high, low, close];
@@ -159,6 +159,27 @@ export function runSelfTest({ analyzeCoin }) {
     { ...long, nowMs: T0 + 3 * HR }
   );
   check('sonuç yoksa pozisyon açık kalır', stillOpen.outcome === null, JSON.stringify(stillOpen));
+
+  console.log('SENTETİK TEST 5: boyutlama — risk sabit, adet stoptan türer');
+  const B = 1000;
+  const wide = sizeTrade({ balance: B, entry: 100, stop: 95 });    // %5 stop
+  const tight = sizeTrade({ balance: B, entry: 100, stop: 99 });   // %1 stop
+  check('geniş stopta risk = bakiyenin %2si', Math.abs(wide.riskUsd - B * RISK_PCT) < 0.01, JSON.stringify(wide));
+  check('dar stopta da risk aynı', Math.abs(tight.riskUsd - B * RISK_PCT) < 0.01, JSON.stringify(tight));
+  check('dar stopta pozisyon daha büyük', tight.notional > wide.notional, `${tight.notional} vs ${wide.notional}`);
+  check('geniş stopta adet daha az', wide.qty < tight.qty, `${wide.qty} vs ${tight.qty}`);
+  check('teminat = nominal / kaldıraç', Math.abs(wide.marginUsd - wide.notional / MAX_LEVERAGE) < 0.01, JSON.stringify(wide));
+  check('stop yüzdesi kaydediliyor', wide.stopPct === 5 && tight.stopPct === 1, `${wide.stopPct} / ${tight.stopPct}`);
+
+  // Çok dar stopta teminat kontenjanı devreye girer: tek işlem bakiyenin
+  // 1/MAX_POSITIONS'ından fazla teminat tutamaz.
+  const veryTight = sizeTrade({ balance: B, entry: 100, stop: 99.9 }); // %0,1 stop
+  check('teminat kontenjanı sınırlıyor', veryTight.capped === true, JSON.stringify(veryTight));
+  check('teminat kontenjanı aşılmıyor', veryTight.marginUsd <= B / MAX_POSITIONS + 0.01, JSON.stringify(veryTight));
+  check('kontenjana takılınca risk azalır (artmaz)', veryTight.riskUsd <= B * RISK_PCT + 0.01, JSON.stringify(veryTight));
+
+  check('SHORT yönü de aynı boyutlanır', Math.abs(sizeTrade({ balance: B, entry: 100, stop: 105 }).riskUsd - B * RISK_PCT) < 0.01, '');
+  check('geçersiz stop null döner', sizeTrade({ balance: B, entry: 100, stop: 100 }) === null, '');
 
   console.log(`\nSONUÇ: ${pass} geçti, ${fail} kaldı`);
   process.exit(fail ? 1 : 0);

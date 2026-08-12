@@ -13,12 +13,23 @@ import { fetchJson } from './http.mjs';
 
 const DATA_API = 'https://data-api.binance.vision/api/v3';
 const LEDGER_PATH = new URL('../data/autotrade.json', import.meta.url);
-const START_BALANCE = 50;      // sanal USDT
+const START_BALANCE = 1000;    // sanal USDT (12 Ağu 2026: 50$ → 1000$)
+// Neden 1000$: sistemin başarısı ölçekten bağımsızdır (risk sabit yüzde), ama
+// 50$'lık bakiyede işlem başına ~1$ risk gerçek borsanın minimum emir
+// büyüklüğünün altında kalıyor ve komisyon/fonlama modellemesi anlamsızlaşıyor.
+// 1000$ ile pozisyon boyutları gerçekçi ve sonuçlar doğrudan ölçeklenebilir.
 export const TIME_STOP_MS = 7 * 86400000; // süre stopu: 7 gün
-// --- Boyutlama modu (kullanıcı talimatı, 8 Ağu 2026): her işlem sabit teminat × kaldıraç ---
-const MARGIN_USD = 10;         // işlem başına teminat
-const LEVERAGE = 10;           // kaldıraç → pozisyon = 10$ × 10x = 100$ nominal
-// Not: bu modda işlem başına gerçek risk stop mesafesine göre değişir (~%2,5 stop'ta ~2,5$).
+// --- Boyutlama: SABİT RİSK (12 Ağu 2026'da sabit teminat modundan geri dönüldü) ---
+// Sabit teminat × kaldıraç modunda (10$ × 10x = 100$ nominal) işlem başına gerçek
+// risk stop mesafesiyle birlikte değişiyordu: dar stopta ~2$, geniş stopta ~5$.
+// 48$'lık bir bakiyede bu işlem başına %4-10 risk demek ve 4 pozisyon açıkken
+// hesabın beşte biriyle yarısı arası tehlikede olur. İnce bir avantajı olan bir
+// sistemde değişken risk, beklentiyi ölçülemez hale getirir.
+// Yeni kural: risk birimi sabittir, pozisyon büyüklüğü stop mesafesinden türetilir.
+// Kaldıraç yalnızca teminat mekaniğidir, risk birimi değildir.
+export const RISK_PCT = 0.02;     // işlem başına bakiyenin %2'si
+export const MAX_LEVERAGE = 10;   // teminat hesabı için
+export const MAX_POSITIONS = 4;   // aynı anda açık pozisyon sınırı
 
 export const enabled = () => true; // sanal cüzdan her zaman aktif
 
@@ -38,6 +49,38 @@ function saveLedger(l) { writeFileSync(LEDGER_PATH, JSON.stringify(l, null, 2) +
 
 const fmt = n => (n >= 0 ? '+' : '') + n.toFixed(2);
 
+// ---------------------------- boyutlama (saf, test edilebilir) ---------------
+// Risk sabit, adet stop mesafesinden türetilir:  adet = risk$ / |giriş − stop|
+// Tek fren: teminat kontenjanı. 4 pozisyonluk sistemde tek bir işlem, bakiyenin
+// dörtte birinden fazla teminat tutamaz; gerekirse pozisyon (ve dolayısıyla
+// risk) orantılı küçültülür. Bu yalnızca stop çok darken devreye girer.
+export function sizeTrade({ balance, entry, stop, riskPct = RISK_PCT,
+                            leverage = MAX_LEVERAGE, maxPositions = MAX_POSITIONS }) {
+  const perUnit = Math.abs(entry - stop);
+  if (!(perUnit > 0) || !(entry > 0) || !(balance > 0)) return null;
+
+  const targetRisk = balance * riskPct;
+  let qty = targetRisk / perUnit;
+  let notional = qty * entry;
+
+  const maxNotional = (balance / maxPositions) * leverage; // teminat kontenjanı
+  let capped = false;
+  if (notional > maxNotional) {
+    qty = maxNotional / entry;
+    notional = maxNotional;
+    capped = true;
+  }
+  return {
+    qty: +qty.toPrecision(6),
+    notional: +notional.toFixed(2),
+    marginUsd: +(notional / leverage).toFixed(2),
+    riskUsd: +(qty * perUnit).toFixed(2),
+    stopPct: +((perUnit / entry) * 100).toFixed(2), // sonraki analizler için
+    leverage,
+    capped,
+  };
+}
+
 // ---------------------------- işlem açma ------------------------------------
 export async function openTrade(sig, notify) {
   const symbol = `${sig.coinRaw}USDT`;
@@ -46,34 +89,32 @@ export async function openTrade(sig, notify) {
     console.log(`${symbol}: zaten açık sanal pozisyon var, atlandı`);
     return;
   }
-  if (ledger.open.length >= 4) {
-    console.log('aynı anda en fazla 4 sanal pozisyon — atlandı');
+  if (ledger.open.length >= MAX_POSITIONS) {
+    console.log(`aynı anda en fazla ${MAX_POSITIONS} sanal pozisyon — atlandı`);
     return;
   }
-  if (ledger.balance < MARGIN_USD) {
-    await notify('⚠️ Sanal cüzdan: bakiye yetersiz', `Bakiye ${ledger.balance.toFixed(2)}$ — ${MARGIN_USD}$ teminatlı yeni işlem açılamıyor.`, 'warning');
+  const size = sizeTrade({ balance: ledger.balance, entry: sig.entryNum, stop: sig.stopNum });
+  if (!size) return;
+  if (size.riskUsd < 0.01) {
+    await notify('⚠️ Sanal cüzdan: bakiye yetersiz', `Bakiye ${ledger.balance.toFixed(2)}$ — anlamlı büyüklükte pozisyon açılamıyor.`, 'warning');
     return;
   }
-  const perUnit = Math.abs(sig.entryNum - sig.stopNum);
-  if (perUnit <= 0) return;
-  const notional = MARGIN_USD * LEVERAGE;                       // 10$ × 10x = 100$ pozisyon
-  const qty = notional / sig.entryNum;
-  const risk = +(qty * perUnit).toFixed(2);                     // stop'ta gerçekleşecek kayıp
-  const leverage = LEVERAGE;
 
   ledger.open.push({
-    symbol, dir: sig.dir || 'LONG', qty: +qty.toPrecision(6),
+    symbol, dir: sig.dir || 'LONG', qty: size.qty,
     entry: sig.entryNum, stop: sig.stopNum, target: sig.targetNum,
-    riskUsd: risk, notional, leverage, marginUsd: MARGIN_USD,
+    riskUsd: size.riskUsd, notional: size.notional, leverage: size.leverage,
+    marginUsd: size.marginUsd, stopPct: size.stopPct,
     ts: sig.tsISO || new Date().toISOString(),
   });
   saveLedger(ledger);
+  const px2 = n => n.toFixed(n < 1 ? 5 : 2);
   await notify(
     `🤖 SANAL işlem açıldı: ${symbol} ${sig.dir || 'LONG'}`,
-    `Giriş ${sig.entryNum.toFixed(sig.entryNum < 1 ? 5 : 2)} · Stop ${sig.stopNum.toFixed(sig.stopNum < 1 ? 5 : 2)} · Hedef ${sig.targetNum.toFixed(sig.targetNum < 1 ? 5 : 2)} · Pozisyon ${notional}$ (${MARGIN_USD}$ × ${LEVERAGE}x) · Stop'ta kayıp ~${risk.toFixed(2)}$ · Bakiye ${ledger.balance.toFixed(2)}$`,
+    `Giriş ${px2(sig.entryNum)} · Stop ${px2(sig.stopNum)} (%${size.stopPct}) · Hedef ${px2(sig.targetNum)} · Pozisyon ${size.notional}$ (teminat ${size.marginUsd}$ × ${size.leverage}x) · Riske edilen ${size.riskUsd}$ (bakiyenin %${(RISK_PCT * 100).toFixed(0)}'si) · Bakiye ${ledger.balance.toFixed(2)}$`,
     'robot'
   );
-  console.log(`SANAL AÇILDI: ${symbol} ${sig.dir} qty=${qty} notional=${notional}$ lev=${leverage}x risk=${risk}$`);
+  console.log(`SANAL AÇILDI: ${symbol} ${sig.dir} qty=${size.qty} notional=${size.notional}$ teminat=${size.marginUsd}$ risk=${size.riskUsd}$ stop=%${size.stopPct}${size.capped ? ' (teminat kontenjanina takildi)' : ''}`);
 }
 
 // ---------------------------- mum taraması (saf, test edilebilir) ------------

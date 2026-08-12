@@ -95,10 +95,29 @@ git checkout -- data/                     # deneme turunun yazdığı veriyi ger
 
 ## Sanal Cüzdan — Otomatik İşlem Simülasyonu
 
-Motor, kendi içinde **50$'lık sanal bir cüzdan** işletir (borsa yok, anahtar yok):
-sinyal doğduğunda sanal pozisyon açar (işlem başına %2 = 1$ risk), her turda
-gerçek piyasa verisiyle stop/hedefi kontrol eder, kapanışta PnL'i hesaplayıp
-ntfy'a bildirir. LONG ve SHORT ikisi de desteklenir. Sicil: `data/autotrade.json`.
+Motor, kendi içinde **1.000$'lık sanal bir cüzdan** işletir (borsa yok, anahtar yok):
+sinyal doğduğunda sanal pozisyon açar, her turda gerçek piyasa verisiyle stop/hedefi
+kontrol eder, kapanışta PnL'i hesaplayıp ntfy'a bildirir. LONG ve SHORT ikisi de
+desteklenir. Sicil: `data/autotrade.json`.
+
+### Boyutlama: sabit risk
+
+`executor.sizeTrade` her işlemde **bakiyenin %2'sini** riske eder ve adedi stop
+mesafesinden türetir: `adet = risk$ / |giriş − stop|`. Kaldıraç yalnızca teminat
+mekaniğidir, risk birimi değildir. Tek fren teminat kontenjanıdır: 4 pozisyonluk
+sistemde tek işlem bakiyenin dörtte birinden fazla teminat tutamaz, gerekirse
+pozisyon orantılı küçülür.
+
+> **12 Ağustos 2026'da neden değişti.** Önceki mod her işlemde sabit 10$ teminat ×
+> 10x = 100$ nominal açıyordu. Bu modda gerçek risk stop mesafesiyle değişiyordu:
+> dar stopta ~2$, geniş stopta ~5$. 48$'lık bir bakiyede bu işlem başına %4-10 risk
+> ve 4 pozisyon açıkken hesabın beşte biriyle yarısı arası maruziyet demekti. İnce
+> avantajlı bir sistemde değişken risk beklentiyi ölçülemez kılar. Aynı tarihte
+> başlangıç sermayesi 1.000$ yapıldı: sonuçlar sabit yüzdeli riskle zaten ölçekten
+> bağımsız, ama 50$'lık bakiyede pozisyonlar gerçek borsanın minimum emir
+> büyüklüğünün altında kalıyor ve komisyon/fonlama modellemesi anlamsızlaşıyordu.
+> Eski kayıtlar `legacyClosed` altında saklanıyor; farklı boyutlamayla açıldıkları
+> için yeni sicille birlikte istatistiğe katılmazlar.
 
 - Zincir testi: Actions → "Rupeeruchana 4 saatlik analiz" → Run workflow →
   `test_trade: true` → dar bantlı minik bir sanal BTC işlemi açılır; birkaç saat
