@@ -32,5 +32,8 @@ jobs:
           if [ -n "$TELEGRAM_TOKEN" ]; then echo "TELEGRAM_TOKEN: tanımlı"; else echo "TELEGRAM_TOKEN: YOK"; fi
           if [ -n "$TELEGRAM_CHAT_ID" ]; then echo "TELEGRAM_CHAT_ID: tanımlı"; else echo "TELEGRAM_CHAT_ID: YOK"; fi
 
+      - name: Telegram teşhisi (token geçerli mi, doğru chat ID kaç)
+        run: node scripts/tg-chatid.mjs
+
       - name: Test bildirimi yolla
         run: node scripts/update.mjs --test-notify
