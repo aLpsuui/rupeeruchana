@@ -11,7 +11,8 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import * as executor from './executor.mjs';
-import { fetchJson, httpFetch } from './http.mjs';
+import { fetchJson } from './http.mjs';
+import { notify, channel } from './notify.mjs';
 
 // --- Tarama evreni ---
 // COINS: sinyal üretebilen ve sanal cüzdana işlem açabilen çekirdek evren.
@@ -30,20 +31,11 @@ const BATCH = 4; // aynı anda kaç coin çekilsin (tarama evreni büyüyünce t
 const STATE_PATH = new URL('../data/state.json', import.meta.url);
 const API = 'https://data-api.binance.vision/api/v3'; // küresel halka açık veri ucu (GitHub runner'larından erişilebilir)
 
-// ---- Anlık bildirim (ntfy.sh — telefonda ntfy uygulamasıyla bu konuya abone ol) ----
-// Bildirim asla turu bloke etmemeli: kısa zaman aşımı, tekrar denemesiz.
-const NTFY_TOPIC = 'rupeeruchana-sinyal-f28db1';
-async function notify(title, body, tags = 'chart_with_upwards_trend') {
-  // yerel deneme turlarında telefona bildirim gitmesin: RUPEE_NO_NOTIFY=1 node scripts/update.mjs
-  if (process.env.RUPEE_NO_NOTIFY === '1') { console.log(`[bildirim atlandı] ${title} — ${body}`); return; }
-  try {
-    await httpFetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
-      method: 'POST',
-      headers: { Title: title, Priority: 'high', Tags: tags },
-      body,
-    }, { timeoutMs: 8_000, retries: 0 });
-  } catch (e) { console.error('bildirim gönderilemedi:', e.message); }
-}
+// Bildirim katmanı scripts/notify.mjs içinde: Telegram varsa oraya, yoksa ntfy'a.
+// Yerel deneme turlarında sustur: RUPEE_NO_NOTIFY=1 node scripts/update.mjs
+// Radar sinyalleri için bildirim varsayılan olarak KAPALI (çekirdek sinyallerle
+// karışmasın diye). Açmak için workflow'a RUPEE_RADAR_NOTIFY=1 eklemek yeterli.
+const RADAR_NOTIFY = process.env.RUPEE_RADAR_NOTIFY === '1';
 
 // ---------------------------- indikatör matematiği --------------------------
 function ema(values, len) {
@@ -390,6 +382,13 @@ async function main() {
         entryN: a.signal.entry, stopN: a.signal.stop, targetN: a.signal.target,
       });
       console.log(`radar sinyali acildi (islem yok): ${c} ${a.signal.dir}`);
+      if (RADAR_NOTIFY) {
+        await notify(
+          `📡 RADAR: ${c} ${a.signal.dir}`,
+          `Giriş ${px(a.signal.entry)} · Stop ${px(a.signal.stop)} · Hedef ${px(a.signal.target)} (2,5R) — izleme amaçlıdır, işlem açılmaz.`,
+          a.signal.dir === 'LONG' ? 'green_circle' : 'red_circle'
+        );
+      }
     }
   }
 
@@ -446,6 +445,7 @@ async function main() {
   };
 
   writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + '\n');
+  console.log(`bildirim kanalı: ${channel()}${RADAR_NOTIFY ? ' (radar bildirimleri açık)' : ''}`);
   console.log(`OK ${now} — sinyal: ${signals.filter(s => s.state === 'AKTİF').length} aktif, izleme: ${watchlist.map(w => `${w.coin}:${w.status}`).join(' ')}`);
   console.log(`radar: ${alts.length} altcoin${altHot.length ? ` — öne çıkan: ${altHot.map(a => `${a.coin}:${a.status}`).join(' ')}` : ''}`);
   console.log(`radar sinyalleri: ${altSignals.filter(s => s.state === 'AKTİF').length} aktif / ${altSignals.length} kayıt`);
@@ -459,6 +459,15 @@ if (process.argv.includes('--selftest')) {
   // Elle tetiklenen zincir testi: dar bantlı minik sanal işlem açar
   await executor.forceTestTrade(notify);
   console.log('Sanal test işlemi açıldı.');
+} else if (process.argv.includes('--test-notify')) {
+  // Bildirim kanalı testi: kurulumu doğrulamak için tek mesaj yollar
+  console.log(`bildirim kanalı: ${channel()}`);
+  await notify(
+    '✅ Rupeeruchana bildirim testi',
+    `Kanal: ${channel()} · ${new Date().toISOString()} — bu mesajı gördüysen kurulum tamam.`,
+    'white_check_mark'
+  );
+  console.log('test bildirimi gönderildi.');
 } else {
   main().catch(e => { console.error('GÜNCELLEME BAŞARISIZ:', e.message); process.exit(1); });
 }

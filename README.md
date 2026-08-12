@@ -87,16 +87,51 @@ sessizce düşer (tur çökmez, konsola uyarı yazılır).
      `https://<KULLANICI>.github.io/rupeeruchana/`
    - **Vercel:** vercel.com → Import repo → framework: *Other*, build komutu boş,
      output: root. (Her push'ta otomatik yayınlar.)
-4. **Bildirimler:** telefonuna ücretsiz **ntfy** uygulamasını kur (App Store / Google Play), aç → Subscribe to topic → `rupeeruchana-sinyal-f28db1` yaz. Motor her yeni sinyalde ve her sinyal kapanışında (hedef/stop) anında bildirim yollar. Hesap gerekmez.
+4. **Bildirimler:** aşağıdaki "Bildirimler" bölümüne bak. Telegram (özel) veya ntfy
+   (hesapsız) kullanılabilir; ikisi de ücretsizdir.
 5. Actions'ı doğrula: repo → Actions → "Rupeeruchana 4 saatlik analiz" →
    **Run workflow** ile ilk analizi elle tetikle. Yeşil ✓ görünce sistem tam otonomdur.
+
+## Bildirimler
+
+`scripts/notify.mjs` iki kanalı sırayla dener: **Telegram varsa oraya**, yoksa (ya da
+Telegram isteği başarısız olursa) **ntfy'a**. Böylece kurulum yarım kalsa bile
+bildirimler kesilmez. İkisi de ücretsizdir.
+
+**Telegram kurulumu** (özel kanal, sadece sen görürsün):
+
+1. Telegram'da `@BotFather` → `/newbot` → isim ve `_bot` ile biten kullanıcı adı ver
+   → sana bir token verir.
+2. Oluşan botu aç ve `/start` yaz. Bu şart: Telegram, botun ilk mesajı kullanıcıya
+   göndermesine izin vermez.
+3. `@userinfobot`'a yaz, verdiği `Id` senin chat ID'ndir.
+4. GitHub → Settings → Secrets and variables → Actions → New repository secret:
+   `TELEGRAM_TOKEN` ve `TELEGRAM_CHAT_ID`. Depoda hiçbir yerde durmaz.
+5. Doğrula: Actions → Run workflow → `test_notify: true`.
+
+**ntfy** (yedek, hesapsız): telefona ntfy uygulamasını kur → Subscribe to topic →
+`rupeeruchana-sinyal-f28db1`. Not: ntfy konuları herkese açıktır, konu adını bilen
+okuyabilir ve yazabilir. Gizlilik istiyorsan Telegram'ı kullan.
+
+**Radar (altcoin) bildirimleri** varsayılan olarak kapalıdır; çekirdek sinyallerle
+karışmasın diye. Açmak için `update.yml` içindeki `RUPEE_RADAR_NOTIFY` değerini
+`'1'` yap. Radar sinyalleri "📡 RADAR" başlığıyla gelir ve işlem açmaz.
+
+> **12 Ağustos 2026'da bulunan sessiz arıza.** Bildirimler ntfy'ın başlık ucuna
+> (HTTP header) yazılıyordu. Tüm başlıklar emoji ile başladığı için istek daha
+> kurulurken "Cannot convert argument to a ByteString" hatası veriyordu; hata da
+> yutulduğu için pratikte **hiçbir bildirim gitmiyordu ve bu hiçbir yerde
+> görünmüyordu.** Çözüm: ntfy'ın JSON ucu kullanılıyor, başlık gövdede gidiyor.
+> Ders: sessizce yutulan her `catch` bloğu bir arızayı gizleyebilir; bu yüzden
+> `--test-notify` modu eklendi.
 
 ## Geliştirme / yerel çalıştırma
 
 Bağımlılık yok, kurulum gerekmez. Node 20+ yeterli (`AbortSignal.timeout` kullanılıyor).
 
 ```bash
-node scripts/update.mjs --selftest        # ağsız kural testleri (20 test)
+node scripts/update.mjs --selftest        # ağsız kural testleri (44 test)
+node scripts/update.mjs --test-notify     # bildirim kanalını dene (tek mesaj yollar)
 RUPEE_NO_NOTIFY=1 node scripts/update.mjs # gerçek turu telefona bildirim atmadan dene
 git checkout -- data/                     # deneme turunun yazdığı veriyi geri al
 ```
