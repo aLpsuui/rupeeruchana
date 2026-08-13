@@ -18,8 +18,8 @@
       "stopPct": 2.48,
       "ts": "2026-08-12T21:03:55.964Z",
       "mfeR": 0.98,
-      "maeR": 0.02,
-      "bars": 8
+      "maeR": 0.14,
+      "bars": 12
     }
   ],
   "closed": [
@@ -194,6 +194,9 @@
     "missAvgMfeR": 0,
     "missMaxMfeR": 0,
     "avgBars": 6,
-    "sample": 1
+    "sample": 1,
+    "feeSum": 0,
+    "fundingSum": 0,
+    "grossSum": -20
   }
 }
