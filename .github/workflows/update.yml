@@ -47,8 +47,8 @@ jobs:
       # Kurulum: Settings → Secrets and variables → Actions → New repository secret
       TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      # Radar (altcoin) sinyalleri için bildirim: açmak istersen '1' yap
-      RUPEE_RADAR_NOTIFY: '0'
+      # Radar (altcoin) sinyalleri için bildirim: '1' açık, '0' kapalı
+      RUPEE_RADAR_NOTIFY: '1'
     steps:
       - uses: actions/checkout@v4
 

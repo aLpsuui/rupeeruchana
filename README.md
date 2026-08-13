@@ -138,9 +138,10 @@ bildirimler kesilmez. İkisi de ücretsizdir.
 `rupeeruchana-sinyal-f28db1`. Not: ntfy konuları herkese açıktır, konu adını bilen
 okuyabilir ve yazabilir. Gizlilik istiyorsan Telegram'ı kullan.
 
-**Radar (altcoin) bildirimleri** varsayılan olarak kapalıdır; çekirdek sinyallerle
-karışmasın diye. Açmak için `update.yml` içindeki `RUPEE_RADAR_NOTIFY` değerini
-`'1'` yap. Radar sinyalleri "📡 RADAR" başlığıyla gelir ve işlem açmaz.
+**Radar (altcoin) bildirimleri açıktır** (`update.yml` → `RUPEE_RADAR_NOTIFY: '1'`).
+Radar mesajları "📡 RADAR" başlığıyla gelir, hem açılışta hem kapanışta; kapanışta
+sonucu, MFE/MAE'yi ve radar sicilini yazar. Bu sinyaller sanal cüzdana pozisyon
+açmaz. Çok fazla bildirim gelirse değeri `'0'` yapmak yeterli.
 
 > **12 Ağustos 2026'da bulunan sessiz arıza.** Bildirimler ntfy'ın başlık ucuna
 > (HTTP header) yazılıyordu. Tüm başlıklar emoji ile başladığı için istek daha

@@ -372,6 +372,16 @@ async function main() {
     altSignals.push(r?.outcome
       ? { ...s, state: r.outcome, closed: now, mfeR: r.mfeR, maeR: r.maeR, bars: r.bars }
       : (r ? { ...s, mfeR: r.mfeR, maeR: r.maeR, bars: r.bars } : s));
+
+    if (r?.outcome && RADAR_NOTIFY) {
+      const kapali = altSignals.filter(x => x.state !== 'AKTİF');
+      const isabet = kapali.filter(x => (x.state || '').includes('HEDEF')).length;
+      await notify(
+        `📡 RADAR kapandı: ${s.coin} ${s.dir} ${r.outcome}`,
+        `Giriş ${s.entry} → ${r.outcome.includes('HEDEF') ? 'hedef' : r.outcome.includes('STOP') ? 'stop' : 'süre'} · Lehe en fazla ${r.mfeR}R, aleyhe ${r.maeR}R · Radar sicili: ${isabet}✓/${kapali.length}\n\nİzleme amaçlıdır, işlem açılmadı.`,
+        r.outcome.includes('HEDEF') ? 'dart' : 'octagonal_sign'
+      );
+    }
   }
   for (const c of ALTS) {
     const a = analyses[c];
