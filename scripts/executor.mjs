@@ -31,6 +31,38 @@ export const RISK_PCT = 0.02;     // işlem başına bakiyenin %2'si
 export const MAX_LEVERAGE = 10;   // teminat hesabı için
 export const MAX_POSITIONS = 4;   // aynı anda açık pozisyon sınırı
 
+// --- İşlem maliyetleri (13 Ağu 2026'da eklendi) ---
+// Simülasyon o güne kadar hiçbir maliyet saymıyordu, yani sonuçlar gerçekte
+// olduğundan iyi görünüyordu. Profit factor 1,17 gibi ince bir avantajda
+// komisyon ve fonlama sonucu belirleyebilir.
+// FEE: Binance USDⓈ-M vadeli taker komisyonu, tek yön. Giriş de çıkış da piyasa
+//      emri sayılır (stop/hedef dokunuşuyla kapanıyoruz), yani gidiş dönüş 2×.
+// FUNDING: perpetual fonlama 8 saatte bir (00:00, 08:00, 16:00 UTC) işler.
+//      Gerçek oran değişkendir ve bazen lehimize olur, ama vadeli fonlama
+//      verisi (fapi) GitHub sunucularından coğrafi engelli. Bu yüzden tutucu
+//      varsayım: her periyotta tipik oran kadar ALEYHE ödeme yapılır.
+export const FEE_RATE = 0.0005;    // %0,05 tek yön
+export const FUNDING_8H = 0.0001;  // %0,01 / 8 saat, hep aleyhe sayılır
+const FUNDING_PERIOD_MS = 8 * 3600000;
+
+// Girişten çıkışa kaç fonlama anı geçildi (00:00/08:00/16:00 UTC sınırları)
+export function fundingPeriods(openMs, closeMs) {
+  if (!(closeMs > openMs)) return 0;
+  return Math.floor(closeMs / FUNDING_PERIOD_MS) - Math.floor(openMs / FUNDING_PERIOD_MS);
+}
+
+export function tradeCosts({ notional, openMs, closeMs, feeRate = FEE_RATE, funding8h = FUNDING_8H }) {
+  const fee = notional * feeRate * 2;
+  const periods = fundingPeriods(openMs, closeMs);
+  const funding = notional * funding8h * periods;
+  return {
+    feeUsd: +fee.toFixed(2),
+    fundingUsd: +funding.toFixed(2),
+    fundingPeriods: periods,
+    costUsd: +(fee + funding).toFixed(2),
+  };
+}
+
 export const enabled = () => true; // sanal cüzdan her zaman aktif
 
 // ---------------------------- kayıt defteri ---------------------------------
@@ -139,8 +171,10 @@ export function scanBars(bars, { dir, stop, target, entry, startMs, nowMs }) {
     if (fav / R > mfe) mfe = fav / R;
     if (adv / R > mae) mae = adv / R;
   };
+  let lastMs = null;
   const done = (outcome, exit) => ({
     outcome, exit,
+    exitMs: lastMs,                     // çıkışın gerçekleştiği mumun zamanı
     mfeR: R ? +mfe.toFixed(2) : null,   // lehe en fazla kaç R
     maeR: R ? +mae.toFixed(2) : null,   // aleyhe en fazla kaç R
     bars: n,                            // kaç saatlik mum tutuldu
@@ -149,7 +183,7 @@ export function scanBars(bars, { dir, stop, target, entry, startMs, nowMs }) {
   for (const k of bars) {
     if (+k[0] > deadline) break;           // süre stopundan sonraki mumlar sayılmaz
     const high = +k[2], low = +k[3];
-    lastClose = +k[4]; n++;
+    lastClose = +k[4]; lastMs = +k[0]; n++;
     track(high, low);                      // çıkış mumu da ölçüme dahildir
     if (dir === 'SHORT') {
       if (high >= stop)   return done('STOP ✗',  stop);
@@ -189,6 +223,10 @@ export function summarize(closed = []) {
     missMaxMfeR: miss.length ? Math.max(...miss.map(c => c.mfeR)) : null,
     avgBars: avg(withR.map(c => c.bars || 0)),
     sample: withR.length,
+    // maliyet muhasebesi: avantaj ince olduğu için bunlar sonucu belirleyebilir
+    feeSum: +closed.reduce((a, c) => a + (c.feeUsd || 0), 0).toFixed(2),
+    fundingSum: +closed.reduce((a, c) => a + (c.fundingUsd || 0), 0).toFixed(2),
+    grossSum: +closed.reduce((a, c) => a + (c.pnlGross ?? c.pnl ?? 0), 0).toFixed(2),
   };
 }
 
@@ -215,23 +253,33 @@ export async function reconcile(notify) {
         `${p.symbol} takip klines`
       );
 
-      const { outcome, exit: exitPx, mfeR, maeR, bars: nBars } = scanBars(bars, {
+      const { outcome, exit: exitPx, exitMs, mfeR, maeR, bars: nBars } = scanBars(bars, {
         dir: p.dir, stop: p.stop, target: p.target, entry: p.entry, startMs, nowMs: Date.now(),
       });
       // açık pozisyonda da yolculuğu göster (site "en iyi anı" yazabilsin)
       if (!outcome) { still.push({ ...p, mfeR, maeR, bars: nBars }); continue; }
 
       const sign = p.dir === 'LONG' ? 1 : -1;
-      const pnl = sign * (exitPx - p.entry) * p.qty;
+      const gross = sign * (exitPx - p.entry) * p.qty;
+      // Maliyetler brütten düşülür: komisyon (gidiş dönüş) + fonlama (8 saatlik)
+      const costs = tradeCosts({
+        notional: p.notional ?? p.qty * p.entry,
+        openMs: startMs,
+        closeMs: exitMs ?? Date.now(),
+      });
+      const pnl = gross - costs.costUsd;
       ledger.balance = +(ledger.balance + pnl).toFixed(2);
       ledger.closed.unshift({
-        ...p, outcome, exit: exitPx, pnl: +pnl.toFixed(2),
+        ...p, outcome, exit: exitPx,
+        pnlGross: +gross.toFixed(2),
+        feeUsd: costs.feeUsd, fundingUsd: costs.fundingUsd,
+        pnl: +pnl.toFixed(2),
         mfeR, maeR, bars: nBars, closedTs: new Date().toISOString(),
       });
 
       await notify(
         `${outcome.includes('HEDEF') ? '🎯' : '🛑'} SANAL kapandı: ${p.symbol} ${p.dir} ${outcome}`,
-        `PnL ${fmt(pnl)}$ · Lehe en fazla ${mfeR}R, aleyhe ${maeR}R · Yeni sanal bakiye: ${ledger.balance.toFixed(2)}$ · Sicil: ${ledger.closed.filter(c => c.outcome.includes('HEDEF')).length}✓/${ledger.closed.length}`,
+        `PnL ${fmt(pnl)}$ (brüt ${fmt(gross)}$ − maliyet ${costs.costUsd}$) · Lehe en fazla ${mfeR}R, aleyhe ${maeR}R · Yeni sanal bakiye: ${ledger.balance.toFixed(2)}$ · Sicil: ${ledger.closed.filter(c => c.outcome.includes('HEDEF')).length}✓/${ledger.closed.length}`,
         outcome.includes('HEDEF') ? 'dart' : 'octagonal_sign'
       );
     } catch (e) {

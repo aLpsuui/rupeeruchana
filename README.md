@@ -46,6 +46,31 @@ coinlerin sinyalleri kaçar ve sicil kıyaslanamaz hale gelir. Radardaki bir coi
 gerçekten işleme dahil etmek istersen `scripts/update.mjs` içinde `ALTS`'tan çıkarıp
 `COINS` ve `WATCH` listelerine ekle.
 
+### İşlem maliyetleri
+
+Her kapanışta brütten iki maliyet düşülür ve ikisi de kayda ayrı yazılır
+(`pnlGross`, `feeUsd`, `fundingUsd`, `pnl` = net):
+
+| | Oran | Nasıl işler |
+|---|---|---|
+| Komisyon | %0,05 tek yön | Giriş ve çıkış piyasa emri sayılır, gidiş dönüş 2× |
+| Fonlama | %0,01 / 8 saat | 00:00, 08:00, 16:00 UTC sınırları geçildikçe |
+
+Örnek: 937$ nominal, 2 gün tutulan bir işlemde komisyon 0,94$ + fonlama 0,56$ =
+1,50$. Hedefe giden bir işlemin brüt 50$ kârı net 48,50$'a iner. Süre stopuna kadar
+(7 gün) tutulan bir işlemde fonlama tek başına komisyonun iki katını geçer.
+
+> **13 Ağustos 2026'da neden eklendi.** Simülasyon o güne kadar hiçbir maliyet
+> saymıyordu, yani sonuçlar gerçekte olduğundan iyi görünüyordu. Backtest'in kâr
+> faktörü 1,17 gibi ince bir avantaj gösteriyor; böyle bir sistemde komisyon ve
+> fonlama sonucu belirleyebilir. Canlıya geçme kararı maliyetsiz veriye dayanamaz.
+
+Fonlama tutucu modellenir: gerçek oran değişkendir ve bazen lehimize olur, ama
+vadeli fonlama verisi (`fapi.binance.com`) GitHub sunucularından coğrafi engelli.
+Bu yüzden her periyotta tipik oran kadar **aleyhe** ödeme yapıldığı varsayılır.
+Gerçek veriye erişim sağlanırsa (ör. VPS'te canlı yürütücü) bu varsayım
+`executor.tradeCosts` içinde tek yerden değiştirilebilir.
+
 ### MFE/MAE ölçümü
 
 Her kapanan kayda üç alan yazılır: `mfeR` (kapanana kadar **lehe** en fazla kaç R

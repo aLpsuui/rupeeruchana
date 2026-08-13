@@ -482,7 +482,11 @@ if (process.argv.includes('--selftest')) {
   const entry = 63240, stop = 61890;
   const target = entry + 2.5 * (entry - stop);
   const sz = executor.sizeTrade({ balance: 1000, entry, stop });
-  const pnl = 2.5 * sz.riskUsd;
+  const gross = 2.5 * sz.riskUsd;
+  // örnekte de gerçek maliyet hesabı kullanılır (2 günlük tutuş varsayımı)
+  const t0 = Date.now() - 2 * 86400000;
+  const kost = executor.tradeCosts({ notional: sz.notional, openMs: t0, closeMs: Date.now() });
+  const pnl = gross - kost.costUsd;
 
   await notify(
     '🟢 YENİ SİNYAL: BTC LONG — DENEME',
@@ -496,7 +500,7 @@ if (process.argv.includes('--selftest')) {
   );
   await notify(
     '🎯 SANAL kapandı: BTCUSDT LONG HEDEF ✓ — DENEME',
-    `PnL +${pnl.toFixed(2)}$ · Lehe en fazla 2.61R, aleyhe 0.42R · Yeni sanal bakiye: ${(1000 + pnl).toFixed(2)}$ · Sicil: 1✓/1\n\n⚠️ Örnektir, sicile yazılmadı.`,
+    `PnL +${pnl.toFixed(2)}$ (brüt +${gross.toFixed(2)}$ − maliyet ${kost.costUsd}$: komisyon ${kost.feeUsd}$ + fonlama ${kost.fundingUsd}$) · Lehe en fazla 2.61R, aleyhe 0.42R · Yeni sanal bakiye: ${(1000 + pnl).toFixed(2)}$ · Sicil: 1✓/1\n\n⚠️ Örnektir, sicile yazılmadı.`,
     'dart'
   );
   console.log(`örnek sinyal bildirimleri gönderildi (kanal: ${channel()}) — sicile dokunulmadı.`);

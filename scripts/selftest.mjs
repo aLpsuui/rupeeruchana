@@ -1,7 +1,10 @@
 // Sentetik veriyle kural mantığı testi — ağ gerektirmez.
 // node scripts/update.mjs --selftest
 
-import { scanBars, sizeTrade, summarize, TIME_STOP_MS, RISK_PCT, MAX_LEVERAGE, MAX_POSITIONS } from './executor.mjs';
+import {
+  scanBars, sizeTrade, summarize, tradeCosts, fundingPeriods,
+  TIME_STOP_MS, RISK_PCT, MAX_LEVERAGE, MAX_POSITIONS, FEE_RATE, FUNDING_8H,
+} from './executor.mjs';
 
 // [openTime, open, high, low, close, ...] — Binance kline biçimi (test için kısaltılmış)
 const bar = (tMs, high, low, close) => [tMs, close, high, low, close];
@@ -217,6 +220,43 @@ export function runSelfTest({ analyzeCoin }) {
   check('hedefe ulaşamayanların ortalama MFE (1,1R)', sum.missAvgMfeR === 1.1, `missAvgMfeR=${sum.missAvgMfeR}`);
   check('hedefe ulaşamayanların en iyisi (1,4R)', sum.missMaxMfeR === 1.4, `missMaxMfeR=${sum.missMaxMfeR}`);
   check('boş sicil çökmeden özetlenir', summarize([]).trades === 0, JSON.stringify(summarize([])));
+
+  console.log('SENTETİK TEST 8: işlem maliyetleri');
+  const D = 86400000;
+  const gun0 = Date.UTC(2026, 0, 10, 0, 0);   // tam 00:00 UTC (fonlama anı)
+
+  check('fonlama: 8 saatten kısa tutuş → 0 periyot',
+    fundingPeriods(gun0 + 3600000, gun0 + 4 * 3600000) === 0,
+    String(fundingPeriods(gun0 + 3600000, gun0 + 4 * 3600000)));
+  check('fonlama: 1 sınır geçilince 1 periyot',
+    fundingPeriods(gun0 + 7 * 3600000, gun0 + 9 * 3600000) === 1,
+    String(fundingPeriods(gun0 + 7 * 3600000, gun0 + 9 * 3600000)));
+  check('fonlama: 1 gün → 3 periyot',
+    fundingPeriods(gun0, gun0 + D) === 3, String(fundingPeriods(gun0, gun0 + D)));
+  check('fonlama: 7 gün → 21 periyot',
+    fundingPeriods(gun0, gun0 + 7 * D) === 21, String(fundingPeriods(gun0, gun0 + 7 * D)));
+  check('fonlama: ters zaman → 0', fundingPeriods(gun0 + D, gun0) === 0, '');
+
+  // 1000$ nominal, 1 gün tutuş: komisyon 2×%0,05 = 1,00$ · fonlama 3×%0,01 = 0,30$
+  const c1 = tradeCosts({ notional: 1000, openMs: gun0, closeMs: gun0 + D });
+  check('komisyon gidiş dönüş sayılır', c1.feeUsd === +(1000 * FEE_RATE * 2).toFixed(2), JSON.stringify(c1));
+  check('fonlama periyot başına işler', c1.fundingUsd === +(1000 * FUNDING_8H * 3).toFixed(2), JSON.stringify(c1));
+  check('toplam maliyet = komisyon + fonlama', c1.costUsd === +(c1.feeUsd + c1.fundingUsd).toFixed(2), JSON.stringify(c1));
+
+  // Süre stopuna kadar (7 gün) tutulan işlemde maliyet belirgin şekilde artar
+  const c7 = tradeCosts({ notional: 1000, openMs: gun0, closeMs: gun0 + 7 * D });
+  check('uzun tutuşta maliyet artar', c7.costUsd > c1.costUsd, `${c7.costUsd} vs ${c1.costUsd}`);
+  check('7 günlük maliyet riskin küçük ama anlamlı bir dilimi',
+    c7.costUsd > 2 && c7.costUsd < 5, `costUsd=${c7.costUsd}`);
+
+  const sumCost = summarize([
+    { outcome: 'HEDEF ✓', mfeR: 2.6, maeR: 0.4, bars: 30, pnl: 48.8, pnlGross: 50, feeUsd: 0.9, fundingUsd: 0.3 },
+    { outcome: 'STOP ✗',  mfeR: 0.8, maeR: 1.1, bars: 12, pnl: -20.7, pnlGross: -20, feeUsd: 0.6, fundingUsd: 0.1 },
+  ]);
+  check('özet komisyonu toplar', sumCost.feeSum === 1.5, `feeSum=${sumCost.feeSum}`);
+  check('özet fonlamayı toplar', sumCost.fundingSum === 0.4, `fundingSum=${sumCost.fundingSum}`);
+  check('özet brüt ile neti ayırır', sumCost.grossSum === 30 && sumCost.pnlSum === 28.1,
+    `gross=${sumCost.grossSum} net=${sumCost.pnlSum}`);
 
   console.log(`\nSONUÇ: ${pass} geçti, ${fail} kaldı`);
   process.exit(fail ? 1 : 0);

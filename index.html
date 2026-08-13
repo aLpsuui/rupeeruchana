@@ -386,7 +386,12 @@ function diagLine(s, baslik){
   var t = '<b>'+baslik+' teşhisi</b> — '+s.trades+' kapalı kayıt · '+s.hedef+' hedef / '+s.stop+' stop / '+s.sure+' süre. ';
   t += 'Ortalama en iyi an '+r(s.avgMfeR)+', en kötü an '+r(s.avgMaeR)+'. ';
   if (s.missAvgMfeR != null) {
-    t += 'Hedefe ulaşamayanlar ortalama '+r(s.missAvgMfeR)+' seviyesine kadar gitti (en iyisi '+r(s.missMaxMfeR)+'), hedef ise 2,5R.';
+    t += 'Hedefe ulaşamayanlar ortalama '+r(s.missAvgMfeR)+' seviyesine kadar gitti (en iyisi '+r(s.missMaxMfeR)+'), hedef ise 2,5R. ';
+  }
+  var m = function(v){ return (v == null ? '—' : String(v.toFixed ? v.toFixed(2) : v).replace('.', ',') + '$'); };
+  if (s.feeSum || s.fundingSum) {
+    t += '<br>Maliyet: komisyon '+m(s.feeSum)+' + fonlama '+m(s.fundingSum)+
+         ' — brüt '+m(s.grossSum)+' kâr, net '+m(s.pnlSum)+'.';
   }
   return t;
 }
