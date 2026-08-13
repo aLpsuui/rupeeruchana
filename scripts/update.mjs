@@ -473,6 +473,33 @@ if (process.argv.includes('--selftest')) {
     'white_check_mark'
   );
   console.log('test bildirimi gönderildi.');
+} else if (process.argv.includes('--test-signal')) {
+  // Örnek sinyal bildirimi: gerçek bir sinyalin telefonda nasıl göründüğünü gösterir.
+  // SİCİLE DOKUNMAZ. Sanal cüzdana sahte işlem yazmak istatistiği bozar; eski
+  // sicildeki tek "HEDEF" kaydının aslında bir zincir testi olması tam da buydu.
+  // Rakamlar gerçek boyutlama fonksiyonundan geçirilir ki gördüğün sayılar
+  // sistemin gerçekten kullanacağı sayılar olsun.
+  const entry = 63240, stop = 61890;
+  const target = entry + 2.5 * (entry - stop);
+  const sz = executor.sizeTrade({ balance: 1000, entry, stop });
+  const pnl = 2.5 * sz.riskUsd;
+
+  await notify(
+    '🟢 YENİ SİNYAL: BTC LONG — DENEME',
+    `Giriş ${px(entry)} · Stop ${px(stop)} · Hedef ${px(target)} (2,5R)\nGeri çekilme sonrası EMA21 geri alındı.\n\n⚠️ Bu bir örnektir, gerçek sinyal değildir.`,
+    'green_circle'
+  );
+  await notify(
+    '🤖 SANAL işlem açıldı: BTCUSDT LONG — DENEME',
+    `Giriş ${px(entry)} · Stop ${px(stop)} (%${sz.stopPct}) · Hedef ${px(target)} · Pozisyon ${sz.notional}$ (teminat ${sz.marginUsd}$ × ${sz.leverage}x) · Riske edilen ${sz.riskUsd}$ (bakiyenin %2'si) · Bakiye 1000,00$\n\n⚠️ Örnektir, sicile yazılmadı.`,
+    'robot'
+  );
+  await notify(
+    '🎯 SANAL kapandı: BTCUSDT LONG HEDEF ✓ — DENEME',
+    `PnL +${pnl.toFixed(2)}$ · Lehe en fazla 2.61R, aleyhe 0.42R · Yeni sanal bakiye: ${(1000 + pnl).toFixed(2)}$ · Sicil: 1✓/1\n\n⚠️ Örnektir, sicile yazılmadı.`,
+    'dart'
+  );
+  console.log(`örnek sinyal bildirimleri gönderildi (kanal: ${channel()}) — sicile dokunulmadı.`);
 } else {
   main().catch(e => { console.error('GÜNCELLEME BAŞARISIZ:', e.message); process.exit(1); });
 }

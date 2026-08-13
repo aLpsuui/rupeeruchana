@@ -1,0 +1,39 @@
+name: Örnek sinyal bildirimi
+
+# Tek tıklık: gerçek bir sinyalin telefonda nasıl göründüğünü gösterir.
+# Üç bildirim yollar (yeni sinyal · işlem açıldı · işlem kapandı), hepsi
+# "DENEME" etiketli. Sicile, sanal cüzdana ve siteye DOKUNMAZ.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ornek-sinyal
+  cancel-in-progress: true
+
+jobs:
+  ornek:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Örnek sinyal bildirimlerini yolla
+        run: node scripts/update.mjs --test-signal
+
+      - name: Sicilin değişmediğini doğrula
+        run: |
+          if git diff --quiet -- data/; then
+            echo "✓ data/ değişmedi — sicil temiz."
+          else
+            echo "✗ data/ değişti, bu beklenmiyordu:"; git diff --stat -- data/; exit 1
+          fi
