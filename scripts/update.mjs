@@ -462,9 +462,14 @@ if (process.argv.includes('--selftest')) {
 } else if (process.argv.includes('--test-notify')) {
   // Bildirim kanalı testi: kurulumu doğrulamak için tek mesaj yollar
   console.log(`bildirim kanalı: ${channel()}`);
+  // Saatler sistemin her yerinde UTC (Binance mumları da öyle kapanır), ama
+  // bildirimi okuyan insan Tayland'da: ikisini birden yaz.
+  const d = new Date();
+  const yerel = d.toLocaleString('tr-TR', { timeZone: 'Asia/Bangkok', dateStyle: 'medium', timeStyle: 'short' });
+  const utc = d.toISOString().slice(11, 16);
   await notify(
     '✅ Rupeeruchana bildirim testi',
-    `Kanal: ${channel()} · ${new Date().toISOString()} — bu mesajı gördüysen kurulum tamam.`,
+    `Kanal: ${channel()}\n${yerel} (Tayland) · ${utc} UTC\nBu mesajı gördüysen kurulum tamam.`,
     'white_check_mark'
   );
   console.log('test bildirimi gönderildi.');
