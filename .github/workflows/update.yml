@@ -74,6 +74,13 @@ jobs:
         timeout-minutes: 10
         run: node scripts/update.mjs
 
+      # Dip radarı 400+ coin tarar, ~1 dakika sürer. continue-on-error: analiz
+      # motorunun sağlığı bu taramaya bağlı olmamalı; radar düşerse tur devam eder.
+      - name: Dip radarı taraması
+        timeout-minutes: 6
+        continue-on-error: true
+        run: node scripts/dipradar.mjs
+
       - name: Değişiklik varsa kaydet
         run: |
           git config user.name "rupeeruchana-agent"

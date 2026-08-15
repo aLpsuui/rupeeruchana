@@ -117,6 +117,43 @@ sessizce düşer (tur çökmez, konsola uyarı yazılır).
 5. Actions'ı doğrula: repo → Actions → "Rupeeruchana 4 saatlik analiz" →
    **Run workflow** ile ilk analizi elle tetikle. Yeşil ✓ görünce sistem tam otonomdur.
 
+## Dip Radarı (`scripts/dipradar.mjs`)
+
+Binance'teki **tüm** USDT çiftlerini (~415 coin) tarar ve tek bir koşulu arar:
+
+> fiyat günlük EMA50'nin **%35+ altında** VE **son 60 günün en düşük kapanışı**
+
+Sinyal üretmez, işlem açmaz, bildirim dışında hiçbir şeye dokunmaz. Bulduğu adayı
+30 gün takip eder ve kendi isabetini `data/dipradar.json` içinde ölçer.
+
+**Koşul neden bu (15 Ağu 2026, 404 coin / 117.872 örnekle ölçüldü):**
+
+| | Rastgele giriş | Dip koşulu |
+|---|---|---|
+| 30 gün ortalama getiri | −%8,8 | −%1,8 |
+| 30 günde artıda biten | %27 | %36 |
+| 30 günde +%50 gören | %11,5 | **%20,2** |
+| 30 günde +%100 gören | %3,7 | **%6,5** |
+
+İkiye katlama ihtimali yaklaşık iki katına çıkıyor. **Ama medyan hâlâ −%7,3:** bu bir
+piyango dağılımıdır, çoğu aday kanar, 15'te biri patlar. Küçük ve eşit pozisyonlar,
+hızlı zarar kesme ve iz süren çıkış olmadan bu dağılım para kazandırmaz.
+
+**Test edilip elenen varyantlar** (kayda değer, çünkü sezgiye aykırılar):
+
+| Varyant | Örnek | +%100 gören | Karar |
+|---|---|---|---|
+| Sadece dip koşulu | 1.925 | %6,5 | **kullanılıyor** |
+| Dip + hacim 2x filtresi | 349 | %6,3 | elendi, iyileştirmedi |
+| Dip sonrası tepe kırılımı teyidi | 622 | %7,2 ama ortalama −%6,0 | elendi |
+| "Sessiz yüksek hacim = birikim" hipotezi | 131 | — | **çürütüldü**, üç mum tipi de aynı |
+
+Ölçüm uyarısı: tarama yalnızca hâlâ listede olan coinleri görür, sıfırlanıp delist
+olanlar dışarıdadır. Yani mutlak rakamlar iyimser; göreli üstünlük geçerlidir.
+
+Motor turuyla aynı workflow'da ama ayrı adımda çalışır ve `continue-on-error: true`
+ile korunur: radar düşerse analiz motoru etkilenmez.
+
 ## Bildirimler
 
 `scripts/notify.mjs` iki kanalı sırayla dener: **Telegram varsa oraya**, yoksa (ya da

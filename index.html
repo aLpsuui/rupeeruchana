@@ -214,6 +214,7 @@
     <a class="navlink" href="#s-akis"><span class="ico">💬</span>Aktivite</a>
     <a class="navlink" href="#s-izleme"><span class="ico">⭐</span>İzleme Listesi<span class="cnt">5</span></a>
     <a class="navlink" href="#s-radar"><span class="ico">📡</span>Altcoin Radarı<span class="cnt" id="navAltCount">20</span></a>
+    <a class="navlink" href="#s-dip"><span class="ico">🕳</span>Dip Radarı<span class="cnt" id="navDipCount">0</span></a>
     <a class="navlink" href="#s-cuzdan"><span class="ico">🤖</span>Sanal Cüzdan</a>
     <a class="navlink" href="#s-kurallar"><span class="ico">📐</span>Kurallar</a>
   </nav>
@@ -318,6 +319,22 @@
         </tbody>
       </table>
       <div class="radarfoot"><b style="color:var(--mint);">Yeşil = long tarafı</b> · <b style="color:var(--red);">kırmızı = short tarafı</b> · <b style="color:var(--amber);">sarı = yön belirsiz</b>. Radardaki coinler sinyal listesine ve sanal cüzdana dahil değildir; kurulum ve sinyal durumları yalnızca bilgi amaçlıdır. Sanal işlemler yalnızca çekirdek evrende (BTC · ETH · SOL · LINK · DOGE) açılır.</div>
+    </div>
+
+    <div class="radarhead" id="s-dip">
+      <div class="t">🕳 Dip Radarı</div>
+      <div class="sub">EMA50'nin %35+ altında · 60 günün dibi · 30 gün takip</div>
+      <div class="cnt"><span id="dipCount">0</span> aday</div>
+    </div>
+    <div class="item wl radar">
+      <table>
+        <thead><tr><th>Coin</th><th class="num">Fiyat</th><th class="num">EMA50'ye uzaklık</th><th class="num">Girişten</th><th class="num">En yüksek</th><th class="num">Gün</th></tr></thead>
+        <tbody id="dipBody">
+          <tr><td colspan="6" class="cnote">Tarama bir sonraki turda çalışacak.</td></tr>
+        </tbody>
+      </table>
+      <div class="diag" id="dipDiag">Sicil ilk adaylar 30 günü doldurunca oluşmaya başlar.</div>
+      <div class="radarfoot">Bu bir <b>sinyal değildir</b>, işlem açılmaz. 404 coin ve 117.872 örnekle ölçüldü: bu koşulda 30 gün içinde ikiye katlama ihtimali <b style="color:var(--mint);">%6,5</b>, rastgele girişte %3,7. Ama medyan getiri yine de eksi — çoğu aday kanar, azı patlar. Küçük ve eşit pozisyonlar, hızlı zarar kesme ve iz süren çıkış olmadan bu dağılım para kazandırmaz.</div>
     </div>
 
     <div class="acthead" id="s-cuzdan">🤖 Sanal Cüzdan <span style="font-weight:400; color:var(--ink3); font-size:11px;">— 1.000$ simülasyon · işlem başına %2 sabit risk · gerçek para değildir</span></div>
@@ -552,6 +569,37 @@ function diagLine(s, baslik){
     .then(function(r){ return r.json(); })
     .then(render)
     .catch(function(){ /* gömülü içerik zaten günceldi */ });
+
+  // ---- dip radarı (ayrı dosya, ayrı tarama) ----
+  fetch('data/dipradar.json?t=' + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(dr){
+      var act = dr.active || [], st = dr.stats || {};
+      var pc = function(v){ return (v == null ? '—' : (v > 0 ? '+' : '') + String(v).replace('.', ',') + '%'); };
+      var cls = function(v){ return v == null ? '' : (v > 0 ? 'up' : v < 0 ? 'dn' : ''); };
+      var tb = document.getElementById('dipBody');
+      if (tb) {
+        tb.innerHTML = act.length ? act.map(function(a){
+          return '<tr><td><b>'+esc(a.coin)+'</b></td>'+
+            '<td class="num">'+esc(String(a.price).replace('.', ','))+'</td>'+
+            '<td class="num dn">'+esc(String(a.emaGapPct).replace('.', ','))+'%</td>'+
+            '<td class="num '+cls(a.chgPct)+'">'+esc(pc(a.chgPct))+'</td>'+
+            '<td class="num '+cls(a.maxPct)+'">'+esc(pc(a.maxPct))+'</td>'+
+            '<td class="num">'+esc(String(a.days))+'</td></tr>';
+        }).join('') : '<tr><td colspan="6" class="cnote">Şu an koşulu sağlayan coin yok. Evrenin ancak %1 kadarı bu duruma girer.</td></tr>';
+      }
+      var dc = document.getElementById('dipCount'); if (dc) dc.textContent = act.length;
+      var nd = document.getElementById('navDipCount'); if (nd) nd.textContent = act.length;
+      var dd = document.getElementById('dipDiag');
+      if (dd) {
+        dd.innerHTML = st.n
+          ? '<b>Radar sicili</b> — '+st.n+' aday 30 günü doldurdu · ortalama '+pc(st.ortChg)+
+            ' · medyan '+pc(st.medyanChg)+' · artıda biten %'+st.artida+
+            '<br>+%50 gören: %'+st.pct50+' · <b>+%100 gören: %'+st.pct100+'</b> (ölçülen taban: %3,7)'
+          : '<b>Radar sicili</b> — henüz 30 gününü dolduran aday yok. '+act.length+' aday takipte.';
+      }
+    })
+    .catch(function(){ /* dosya henüz yoksa gömülü metin kalır */ });
 
   // ---- bölüm menüsü: okunan bölümü işaretle ----
   var links = [].slice.call(document.querySelectorAll('.navlink'));
