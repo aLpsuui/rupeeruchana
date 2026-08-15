@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-15T08:45:51.871Z",
+  "updated": "2026-08-15T12:59:27.802Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 35,
@@ -14,20 +14,20 @@
       "coin": "VANRY",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.001546,
-      "price": 0.001602,
+      "price": 0.001485,
       "emaGapPct": -59.5,
-      "chgPct": 3.6,
+      "chgPct": -3.9,
       "maxPct": 17.7,
-      "minPct": -3.8,
+      "minPct": -7.2,
       "days": 0
     },
     {
       "coin": "PIVX",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.014,
-      "price": 0.0143,
+      "price": 0.0144,
       "emaGapPct": -58.3,
-      "chgPct": 2.1,
+      "chgPct": 2.9,
       "maxPct": 9.3,
       "minPct": -2.9,
       "days": 0
@@ -36,22 +36,22 @@
       "coin": "KAITO",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.3959,
-      "price": 0.3931,
+      "price": 0.3858,
       "emaGapPct": -47.3,
-      "chgPct": -0.7,
+      "chgPct": -2.6,
       "maxPct": 3.3,
-      "minPct": -1,
+      "minPct": -2.8,
       "days": 0
     },
     {
       "coin": "VIC",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.02,
-      "price": 0.019,
+      "price": 0.0173,
       "emaGapPct": -42.7,
-      "chgPct": -5,
+      "chgPct": -13.5,
       "maxPct": 8.5,
-      "minPct": -7.5,
+      "minPct": -17,
       "days": 0
     }
   ],
