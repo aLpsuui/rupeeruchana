@@ -1,0 +1,13 @@
+{
+  "note": "ELLE tutulan token kilidi takvimi. Ücretsiz ve güvenilir bir kilit API'si yok (DefiLlama emisyon ucu 15 Ağu 2026'da ücretli oldu), bu yüzden ilgilendiğin coinleri buraya elle ekliyoruz. Kaynak: tokenomics.com, cryptorank.io, projenin kendi dokümanı.",
+  "kullanim": "date ISO tarih (UTC). pct = dolaşımdaki arza oranı. Takvim modülü 14 gün içindeki kilitleri uyarı olarak gösterir. Bunlar AŞAĞI yönlü olaylardır: kilit açılınca arz artar.",
+  "unlocks": [
+    {
+      "coin": "ACE",
+      "date": "2026-08-18",
+      "pct": 2.9,
+      "aciklama": "2.966.040 ACE (toplam arzın %2'si, piyasa değerinin %2,9'u)",
+      "kaynak": "tokenomics.com"
+    }
+  ]
+}

@@ -81,6 +81,14 @@ jobs:
         continue-on-error: true
         run: node scripts/dipradar.mjs
 
+      # Takvim: yeni listeleme / delist tespiti + duyurular + kilit uyarıları.
+      # Duyuru kaynağı (www.binance.com) sunuculardan engellenebilir; o durumda
+      # modül sembol farkıyla çalışmaya devam eder. Yine de motoru bloke etmesin.
+      - name: Takvim / olay taraması
+        timeout-minutes: 4
+        continue-on-error: true
+        run: node scripts/takvim.mjs
+
       - name: Değişiklik varsa kaydet
         run: |
           git config user.name "rupeeruchana-agent"

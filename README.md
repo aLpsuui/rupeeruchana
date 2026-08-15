@@ -154,6 +154,28 @@ olanlar dışarıdadır. Yani mutlak rakamlar iyimser; göreli üstünlük geçe
 Motor turuyla aynı workflow'da ama ayrı adımda çalışır ve `continue-on-error: true`
 ile korunur: radar düşerse analiz motoru etkilenmez.
 
+## Takvim (`scripts/takvim.mjs`)
+
+Üç kaynak, güvenilirlik sırasına göre:
+
+1. **Sembol farkı (asıl kaynak).** Her turda `exchangeInfo`'daki USDT çiftleri bir
+   öncekiyle karşılaştırılır. Yeni çift = yeni listeleme, kaybolan çift = delist.
+   Tamamen mekanik, hiçbir duyuruya bağlı değil, motorla aynı uçtan (
+   `data-api.binance.vision`) çalışır, yani coğrafi engel riski yok.
+2. **Duyurular.** Binance CMS duyuru listesi. Daha erken haber verir ama
+   `www.binance.com` GitHub sunucularından engellenebilir; erişilemezse sessizce
+   atlanır ve 1. kaynak işi görmeye devam eder. Durum `takvim.json` içinde
+   `duyuruDurum` alanında ve sitede görünür.
+3. **Token kilitleri.** `data/unlocks.json` içinde **elle** tutulur. Ücretsiz ve
+   güvenilir bir kilit takvimi API'si yok: DefiLlama'nın emisyon ucu 15 Ağustos
+   2026'da ücretli oldu (HTTP 402). İlgilenilen coinler tokenomics.com veya
+   cryptorank.io'dan bakılıp bu dosyaya eklenir. 14 gün içindeki kilitler uyarı
+   olarak gösterilir.
+
+> **Beklenti ayarı.** Takvim büyük ihtimalle pump BULDURMAZ, tuzaktan KAÇIRTIR.
+> ACE örneğinde takvimdeki tek olay 18 Ağustos token kilidiydi ve aşağı yönlüydü:
+> kilit açılınca arz artar. Bu modülün değeri kazandırmakta değil, kaybettirmemekte.
+
 ## Bildirimler
 
 `scripts/notify.mjs` iki kanalı sırayla dener: **Telegram varsa oraya**, yoksa (ya da

@@ -215,6 +215,7 @@
     <a class="navlink" href="#s-izleme"><span class="ico">⭐</span>İzleme Listesi<span class="cnt">5</span></a>
     <a class="navlink" href="#s-radar"><span class="ico">📡</span>Altcoin Radarı<span class="cnt" id="navAltCount">20</span></a>
     <a class="navlink" href="#s-dip"><span class="ico">🕳</span>Dip Radarı<span class="cnt" id="navDipCount">0</span></a>
+    <a class="navlink" href="#s-takvim"><span class="ico">🗓</span>Takvim</a>
     <a class="navlink" href="#s-cuzdan"><span class="ico">🤖</span>Sanal Cüzdan</a>
     <a class="navlink" href="#s-kurallar"><span class="ico">📐</span>Kurallar</a>
   </nav>
@@ -335,6 +336,16 @@
       </table>
       <div class="diag" id="dipDiag">Sicil ilk adaylar 30 günü doldurunca oluşmaya başlar.</div>
       <div class="radarfoot">Bu bir <b>sinyal değildir</b>, işlem açılmaz. 404 coin ve 117.872 örnekle ölçüldü: bu koşulda 30 gün içinde ikiye katlama ihtimali <b style="color:var(--mint);">%6,5</b>, rastgele girişte %3,7. Ama medyan getiri yine de eksi — çoğu aday kanar, azı patlar. Küçük ve eşit pozisyonlar, hızlı zarar kesme ve iz süren çıkış olmadan bu dağılım para kazandırmaz.</div>
+    </div>
+
+    <div class="radarhead" id="s-takvim">
+      <div class="t">🗓 Takvim</div>
+      <div class="sub">yeni listeleme · delist · token kilidi</div>
+      <div class="cnt"><span id="takvimCount">0</span> USDT çifti izleniyor</div>
+    </div>
+    <div class="item wl">
+      <div id="takvimBody" class="cnote">Takvim bir sonraki turda çalışacak.</div>
+      <div class="radarfoot">Takvimin amacı pump bulmak değil, bilinen olaylardan haberdar etmek. Token kilitleri <b>aşağı</b> yönlü olaylardır: kilit açılınca arz artar. Kilit listesi elle tutulur (<code>data/unlocks.json</code>), çünkü ücretsiz ve güvenilir bir kilit takvimi API'si yok. Yeni listeleme tespiti ise tamamen mekaniktir: her turda Binance'in çift listesi bir öncekiyle karşılaştırılır.</div>
     </div>
 
     <div class="acthead" id="s-cuzdan">🤖 Sanal Cüzdan <span style="font-weight:400; color:var(--ink3); font-size:11px;">— 1.000$ simülasyon · işlem başına %2 sabit risk · gerçek para değildir</span></div>
@@ -598,6 +609,37 @@ function diagLine(s, baslik){
             '<br>+%50 gören: %'+st.pct50+' · <b>+%100 gören: %'+st.pct100+'</b> (ölçülen taban: %3,7)'
           : '<b>Radar sicili</b> — henüz 30 gününü dolduran aday yok. '+act.length+' aday takipte.';
       }
+    })
+    .catch(function(){ /* dosya henüz yoksa gömülü metin kalır */ });
+
+  // ---- takvim ----
+  fetch('data/takvim.json?t=' + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(tk){
+      var tc = document.getElementById('takvimCount');
+      if (tc) tc.textContent = tk.symbolCount || 0;
+      var tb = document.getElementById('takvimBody');
+      if (!tb) return;
+      var html = '';
+      var kilit = tk.yakinKilitler || [];
+      if (kilit.length) {
+        html += '<div style="margin-bottom:10px;"><b>Yaklaşan token kilitleri</b><br>' +
+          kilit.map(function(k){
+            return '<span class="lv">'+esc(k.coin)+'</span> — '+esc(String(k.kalanGun))+' gün sonra'+
+              (k.pct ? ' · dolaşımdaki arzın %'+esc(String(k.pct).replace('.', ','))+"'u" : '')+
+              (k.aciklama ? '<br><span style="color:var(--ink3); font-size:11px;">'+esc(k.aciklama)+'</span>' : '');
+          }).join('<br>')+'</div>';
+      }
+      var ol = tk.olaylar || [];
+      html += '<div><b>Son olaylar</b><br>' + (ol.length
+        ? ol.slice(0, 8).map(function(o){
+            return '<span style="color:var(--ink3); font-size:11px;">'+esc(tfmt(o.ts))+'</span> · '+esc(o.baslik);
+          }).join('<br>')
+        : '<span style="color:var(--ink3);">Henüz kayda değer bir olay yok. Yeni listeleme veya delist olduğunda burada görünür.</span>') + '</div>';
+      if (tk.duyuruDurum && tk.duyuruDurum !== 'ok') {
+        html += '<div style="margin-top:9px; color:var(--amber); font-size:11px;">Duyuru kaynağına erişilemiyor ('+esc(tk.duyuruDurum)+') — sembol karşılaştırması çalışmaya devam ediyor.</div>';
+      }
+      tb.innerHTML = html;
     })
     .catch(function(){ /* dosya henüz yoksa gömülü metin kalır */ });
 
