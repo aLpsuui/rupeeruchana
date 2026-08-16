@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16T04:50:36.743Z",
+  "updated": "2026-08-16T08:47:16.431Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 35,
@@ -8,70 +8,70 @@
   },
   "scanned": 416,
   "skipped": 64,
-  "hits": 6,
+  "hits": 7,
   "active": [
     {
       "coin": "VANRY",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.001546,
-      "price": 0.00113,
+      "price": 0.001158,
       "emaGapPct": -59.5,
-      "chgPct": -26.9,
+      "chgPct": -25.1,
       "maxPct": 17.7,
-      "minPct": -27.1,
-      "days": 0
+      "minPct": -34.1,
+      "days": 1
     },
     {
       "coin": "PIVX",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.014,
-      "price": 0.0112,
+      "price": 0.0094,
       "emaGapPct": -58.3,
-      "chgPct": -20,
+      "chgPct": -32.9,
       "maxPct": 9.3,
-      "minPct": -20.7,
-      "days": 0
+      "minPct": -37.1,
+      "days": 1
     },
     {
       "coin": "PYR",
       "ts": "2026-08-15T20:39:26.368Z",
       "entry": 0.049,
-      "price": 0.048,
+      "price": 0.042,
       "emaGapPct": -52.8,
-      "chgPct": -2,
+      "chgPct": -14.3,
       "maxPct": 8.2,
-      "minPct": -2,
+      "minPct": -14.3,
       "days": 0
     },
     {
       "coin": "KAITO",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.3959,
-      "price": 0.347,
+      "price": 0.3622,
       "emaGapPct": -47.3,
-      "chgPct": -12.4,
+      "chgPct": -8.5,
       "maxPct": 3.3,
       "minPct": -14,
-      "days": 0
+      "days": 1
     },
     {
       "coin": "VIC",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.02,
-      "price": 0.0129,
+      "price": 0.0122,
       "emaGapPct": -42.7,
-      "chgPct": -35.5,
+      "chgPct": -39,
       "maxPct": 8.5,
-      "minPct": -38.5,
-      "days": 0
+      "minPct": -44.5,
+      "days": 1
     },
     {
       "coin": "ONE",
       "ts": "2026-08-15T16:42:21.244Z",
       "entry": 0.00074,
-      "price": 0.00071,
+      "price": 0.00072,
       "emaGapPct": -39.6,
-      "chgPct": -4.1,
+      "chgPct": -2.7,
       "maxPct": 20.3,
       "minPct": -5.4,
       "days": 0
@@ -80,10 +80,10 @@
       "coin": "MOVR",
       "ts": "2026-08-16T01:57:39.427Z",
       "entry": 0.755,
-      "price": 0.781,
+      "price": 0.798,
       "emaGapPct": -36.6,
-      "chgPct": 3.4,
-      "maxPct": 4.1,
+      "chgPct": 5.7,
+      "maxPct": 7.9,
       "minPct": -0.4,
       "days": 0
     },
@@ -91,11 +91,11 @@
       "coin": "HFT",
       "ts": "2026-08-16T01:57:39.427Z",
       "entry": 0.006572,
-      "price": 0.006621,
+      "price": 0.00657,
       "emaGapPct": -35.2,
-      "chgPct": 0.7,
+      "chgPct": 0,
       "maxPct": 4.4,
-      "minPct": -1.3,
+      "minPct": -1.4,
       "days": 0
     }
   ],
