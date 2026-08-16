@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-15T20:39:26.368Z",
+  "updated": "2026-08-16T01:57:39.427Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 35,
@@ -8,28 +8,28 @@
   },
   "scanned": 416,
   "skipped": 64,
-  "hits": 6,
+  "hits": 8,
   "active": [
     {
       "coin": "VANRY",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.001546,
-      "price": 0.001476,
+      "price": 0.001209,
       "emaGapPct": -59.5,
-      "chgPct": -4.5,
+      "chgPct": -21.8,
       "maxPct": 17.7,
-      "minPct": -13,
+      "minPct": -25.4,
       "days": 0
     },
     {
       "coin": "PIVX",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.014,
-      "price": 0.013,
+      "price": 0.0121,
       "emaGapPct": -58.3,
-      "chgPct": -7.1,
+      "chgPct": -13.6,
       "maxPct": 9.3,
-      "minPct": -12.1,
+      "minPct": -14.3,
       "days": 0
     },
     {
@@ -39,30 +39,30 @@
       "price": 0.049,
       "emaGapPct": -52.8,
       "chgPct": 0,
-      "maxPct": 0,
-      "minPct": 0,
+      "maxPct": 8.2,
+      "minPct": -2,
       "days": 0
     },
     {
       "coin": "KAITO",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.3959,
-      "price": 0.374,
+      "price": 0.3703,
       "emaGapPct": -47.3,
-      "chgPct": -5.5,
+      "chgPct": -6.5,
       "maxPct": 3.3,
-      "minPct": -5.7,
+      "minPct": -8,
       "days": 0
     },
     {
       "coin": "VIC",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.02,
-      "price": 0.0165,
+      "price": 0.0135,
       "emaGapPct": -42.7,
-      "chgPct": -17.5,
+      "chgPct": -32.5,
       "maxPct": 8.5,
-      "minPct": -23,
+      "minPct": -38.5,
       "days": 0
     },
     {
@@ -74,6 +74,28 @@
       "chgPct": -4.1,
       "maxPct": 20.3,
       "minPct": -5.4,
+      "days": 0
+    },
+    {
+      "coin": "MOVR",
+      "ts": "2026-08-16T01:57:39.427Z",
+      "entry": 0.755,
+      "price": 0.755,
+      "emaGapPct": -36.6,
+      "chgPct": 0,
+      "maxPct": 0,
+      "minPct": 0,
+      "days": 0
+    },
+    {
+      "coin": "HFT",
+      "ts": "2026-08-16T01:57:39.427Z",
+      "entry": 0.006572,
+      "price": 0.006572,
+      "emaGapPct": -35.2,
+      "chgPct": 0,
+      "maxPct": 0,
+      "minPct": 0,
       "days": 0
     }
   ],
