@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-17T01:55:53.093Z",
+  "updated": "2026-08-17T04:58:55.147Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -18,7 +18,6 @@
     "ACH",
     "ACM",
     "ACT",
-    "ACX",
     "ADA",
     "ADX",
     "AERO",
@@ -197,7 +196,6 @@
     "HBAR",
     "HEI",
     "HEMI",
-    "HFT",
     "HIVE",
     "HMSTR",
     "HOLO",
@@ -318,7 +316,6 @@
     "PEOPLE",
     "PEPE",
     "PHA",
-    "PIVX",
     "PIXEL",
     "PLTRB",
     "PLUME",
@@ -334,7 +331,6 @@
     "PUMP",
     "PUNDIX",
     "PYPLB",
-    "PYR",
     "PYTH",
     "QCOMB",
     "QI",
@@ -445,10 +441,8 @@
     "USTC",
     "USUAL",
     "VANA",
-    "VANRY",
     "VELODROME",
     "VET",
-    "VIC",
     "VIRTUAL",
     "VTHO",
     "W",
@@ -489,8 +483,8 @@
     "ZRX",
     "币安人生"
   ],
-  "symbolCount": 485,
-  "sonDuyuruId": 282311,
+  "symbolCount": 479,
+  "sonDuyuruId": 282552,
   "yakinKilitler": [
     {
       "coin": "ACE",
@@ -501,5 +495,47 @@
       "kalanGun": 1
     }
   ],
-  "olaylar": []
+  "olaylar": [
+    {
+      "ts": "2026-08-17T04:58:55.147Z",
+      "tip": "delist",
+      "coin": "ACX",
+      "baslik": "ACX/USDT artık işlem görmüyor"
+    },
+    {
+      "ts": "2026-08-17T04:58:55.147Z",
+      "tip": "delist",
+      "coin": "HFT",
+      "baslik": "HFT/USDT artık işlem görmüyor"
+    },
+    {
+      "ts": "2026-08-17T04:58:55.147Z",
+      "tip": "delist",
+      "coin": "PIVX",
+      "baslik": "PIVX/USDT artık işlem görmüyor"
+    },
+    {
+      "ts": "2026-08-17T04:58:55.147Z",
+      "tip": "delist",
+      "coin": "PYR",
+      "baslik": "PYR/USDT artık işlem görmüyor"
+    },
+    {
+      "ts": "2026-08-17T04:58:55.147Z",
+      "tip": "delist",
+      "coin": "VANRY",
+      "baslik": "VANRY/USDT artık işlem görmüyor"
+    },
+    {
+      "ts": "2026-08-17T04:58:55.147Z",
+      "tip": "delist",
+      "coin": "VIC",
+      "baslik": "VIC/USDT artık işlem görmüyor"
+    },
+    {
+      "ts": "2026-08-17T04:58:55.147Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch Multiple USDⓈ-Margined TradFi Perpetual Contracts (2026-08-17 & 2026-08-18)"
+    }
+  ]
 }
