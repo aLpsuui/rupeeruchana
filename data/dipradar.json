@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-17T16:45:59.139Z",
+  "updated": "2026-08-17T20:44:24.471Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 25,
@@ -9,7 +9,7 @@
   },
   "scanned": 410,
   "skipped": 64,
-  "hits": 1,
+  "hits": 4,
   "active": [
     {
       "coin": "VANRY",
@@ -37,9 +37,9 @@
       "coin": "KAITO",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.3959,
-      "price": 0.3602,
+      "price": 0.3362,
       "emaGapPct": -47.3,
-      "chgPct": -9,
+      "chgPct": -15.1,
       "maxPct": 3.3,
       "minPct": -16.7,
       "days": 2
@@ -56,14 +56,27 @@
       "days": 0
     },
     {
+      "coin": "MOVR",
+      "ts": "2026-08-17T20:44:24.471Z",
+      "entry": 0.765,
+      "price": 0.765,
+      "emaGapPct": -35,
+      "katman": "genis",
+      "rejim": "ayi",
+      "chgPct": 0,
+      "maxPct": 0,
+      "minPct": 0,
+      "days": 0
+    },
+    {
       "coin": "BB",
       "ts": "2026-08-17T14:27:10.012Z",
       "entry": 0.01094,
-      "price": 0.01101,
+      "price": 0.01098,
       "emaGapPct": -32.7,
       "katman": "genis",
       "rejim": "ayi",
-      "chgPct": 0.6,
+      "chgPct": 0.4,
       "maxPct": 4.2,
       "minPct": -0.8,
       "days": 0
@@ -72,24 +85,24 @@
       "coin": "ZBT",
       "ts": "2026-08-17T14:27:10.012Z",
       "entry": 0.078,
-      "price": 0.0772,
+      "price": 0.0775,
       "emaGapPct": -29.4,
       "katman": "genis",
       "rejim": "ayi",
-      "chgPct": -1,
+      "chgPct": -0.6,
       "maxPct": 5.3,
-      "minPct": -1.8,
+      "minPct": -2.2,
       "days": 0
     },
     {
       "coin": "SAHARA",
       "ts": "2026-08-17T14:27:10.012Z",
       "entry": 0.00743,
-      "price": 0.00756,
+      "price": 0.00754,
       "emaGapPct": -27.2,
       "katman": "genis",
       "rejim": "ayi",
-      "chgPct": 1.7,
+      "chgPct": 1.5,
       "maxPct": 2.3,
       "minPct": -0.4,
       "days": 0
@@ -106,9 +119,9 @@
     "n": 0
   },
   "rejim": "ayi",
-  "btc": 64080,
+  "btc": 64393,
   "btcEma": 64527,
-  "fark": -0.7,
+  "fark": -0.2,
   "olculen": {
     "boga": {
       "ort": 8.4,
