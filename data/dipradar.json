@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-17T09:01:36.482Z",
+  "updated": "2026-08-17T13:06:22.942Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 35,
@@ -47,9 +47,9 @@
       "coin": "KAITO",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.3959,
-      "price": 0.3349,
+      "price": 0.3479,
       "emaGapPct": -47.3,
-      "chgPct": -15.4,
+      "chgPct": -12.1,
       "maxPct": 3.3,
       "minPct": -16.7,
       "days": 2
@@ -69,9 +69,9 @@
       "coin": "ONE",
       "ts": "2026-08-15T16:42:21.244Z",
       "entry": 0.00074,
-      "price": 0.00074,
+      "price": 0.00073,
       "emaGapPct": -39.6,
-      "chgPct": 0,
+      "chgPct": -1.4,
       "maxPct": 20.3,
       "minPct": -5.4,
       "days": 1
@@ -80,9 +80,9 @@
       "coin": "MOVR",
       "ts": "2026-08-16T01:57:39.427Z",
       "entry": 0.755,
-      "price": 0.769,
+      "price": 0.767,
       "emaGapPct": -36.6,
-      "chgPct": 1.9,
+      "chgPct": 1.6,
       "maxPct": 17.9,
       "minPct": -0.4,
       "days": 1

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-17T09:01:43.354Z",
+  "updated": "2026-08-17T13:06:29.370Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -492,7 +492,7 @@
       "pct": 2.9,
       "aciklama": "2.966.040 ACE (toplam arzın %2'si, piyasa değerinin %2,9'u)",
       "kaynak": "tokenomics.com",
-      "kalanGun": 1
+      "kalanGun": 0
     }
   ],
   "olaylar": [
