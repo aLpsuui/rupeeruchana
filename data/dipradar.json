@@ -1,55 +1,45 @@
 {
-  "updated": "2026-08-17T13:06:22.942Z",
+  "updated": "2026-08-17T14:27:10.012Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
-    "emaGapPct": 35,
+    "emaGapPct": 25,
+    "sikiPct": 35,
     "lowDays": 60,
     "horizonDays": 30
   },
   "scanned": 410,
   "skipped": 64,
-  "hits": 1,
+  "hits": 3,
   "active": [
     {
       "coin": "VANRY",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.001546,
-      "price": 0.000862,
+      "price": 0.001571,
       "emaGapPct": -59.5,
-      "chgPct": -44.2,
-      "maxPct": 17.7,
-      "minPct": -47.6,
-      "days": 1
+      "chgPct": 1.6,
+      "maxPct": 12.7,
+      "minPct": -1.5,
+      "days": 0
     },
     {
       "coin": "PIVX",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.014,
-      "price": 0.0098,
+      "price": 0.0141,
       "emaGapPct": -58.3,
-      "chgPct": -30,
+      "chgPct": 0.7,
       "maxPct": 9.3,
-      "minPct": -41.4,
-      "days": 1
-    },
-    {
-      "coin": "PYR",
-      "ts": "2026-08-15T20:39:26.368Z",
-      "entry": 0.049,
-      "price": 0.021,
-      "emaGapPct": -52.8,
-      "chgPct": -57.1,
-      "maxPct": 8.2,
-      "minPct": -61.2,
-      "days": 1
+      "minPct": -2.9,
+      "days": 0
     },
     {
       "coin": "KAITO",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.3959,
-      "price": 0.3479,
+      "price": 0.3624,
       "emaGapPct": -47.3,
-      "chgPct": -12.1,
+      "chgPct": -8.5,
       "maxPct": 3.3,
       "minPct": -16.7,
       "days": 2
@@ -58,49 +48,87 @@
       "coin": "VIC",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.02,
-      "price": 0.0075,
+      "price": 0.0202,
       "emaGapPct": -42.7,
-      "chgPct": -62.5,
+      "chgPct": 1,
       "maxPct": 8.5,
-      "minPct": -63.5,
-      "days": 1
+      "minPct": 0,
+      "days": 0
     },
     {
-      "coin": "ONE",
-      "ts": "2026-08-15T16:42:21.244Z",
-      "entry": 0.00074,
-      "price": 0.00073,
-      "emaGapPct": -39.6,
-      "chgPct": -1.4,
-      "maxPct": 20.3,
-      "minPct": -5.4,
-      "days": 1
+      "coin": "BB",
+      "ts": "2026-08-17T14:27:10.012Z",
+      "entry": 0.01094,
+      "price": 0.01094,
+      "emaGapPct": -32.7,
+      "katman": "genis",
+      "rejim": "ayi",
+      "chgPct": 0,
+      "maxPct": 0,
+      "minPct": 0,
+      "days": 0
     },
     {
-      "coin": "MOVR",
-      "ts": "2026-08-16T01:57:39.427Z",
-      "entry": 0.755,
-      "price": 0.767,
-      "emaGapPct": -36.6,
-      "chgPct": 1.6,
-      "maxPct": 17.9,
-      "minPct": -0.4,
-      "days": 1
+      "coin": "ZBT",
+      "ts": "2026-08-17T14:27:10.012Z",
+      "entry": 0.078,
+      "price": 0.078,
+      "emaGapPct": -29.4,
+      "katman": "genis",
+      "rejim": "ayi",
+      "chgPct": 0,
+      "maxPct": 0,
+      "minPct": 0,
+      "days": 0
     },
     {
-      "coin": "HFT",
-      "ts": "2026-08-16T01:57:39.427Z",
-      "entry": 0.006572,
-      "price": 0.006815,
-      "emaGapPct": -35.2,
-      "chgPct": 3.7,
-      "maxPct": 52.1,
-      "minPct": -8.9,
+      "coin": "SAHARA",
+      "ts": "2026-08-17T14:27:10.012Z",
+      "entry": 0.00743,
+      "price": 0.00743,
+      "emaGapPct": -27.2,
+      "katman": "genis",
+      "rejim": "ayi",
+      "chgPct": 0,
+      "maxPct": 0,
+      "minPct": 0,
       "days": 0
     }
   ],
   "closed": [],
   "stats": {
+    "n": 0
+  },
+  "statsSiki": {
+    "n": 0
+  },
+  "statsGenis": {
+    "n": 0
+  },
+  "rejim": "ayi",
+  "btc": 63624,
+  "btcEma": 64527,
+  "fark": -1.4,
+  "olculen": {
+    "boga": {
+      "ort": 8.4,
+      "pct50": 35,
+      "pct100": 12.5,
+      "taban100": 4.3,
+      "ornek": 303
+    },
+    "ayi": {
+      "ort": -1.9,
+      "pct50": 18.6,
+      "pct100": 5.4,
+      "taban100": 3.5,
+      "ornek": 5971
+    }
+  },
+  "statsBoga": {
+    "n": 0
+  },
+  "statsAyi": {
     "n": 0
   },
   "baseline": {

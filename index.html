@@ -334,6 +334,7 @@
           <tr><td colspan="6" class="cnote">Tarama bir sonraki turda çalışacak.</td></tr>
         </tbody>
       </table>
+      <div class="diag" id="dipRejim">Piyasa rejimi bir sonraki turda belirlenecek.</div>
       <div class="diag" id="dipDiag">Sicil ilk adaylar 30 günü doldurunca oluşmaya başlar.</div>
       <div class="radarfoot">Bu bir <b>sinyal değildir</b>, işlem açılmaz. 404 coin ve 117.872 örnekle ölçüldü: bu koşulda 30 gün içinde ikiye katlama ihtimali <b style="color:var(--mint);">%6,5</b>, rastgele girişte %3,7. Ama medyan getiri yine de eksi — çoğu aday kanar, azı patlar. Küçük ve eşit pozisyonlar, hızlı zarar kesme ve iz süren çıkış olmadan bu dağılım para kazandırmaz.</div>
     </div>
@@ -586,6 +587,8 @@ function diagLine(s, baslik){
     .then(function(r){ return r.json(); })
     .then(function(dr){
       var act = dr.active || [], st = dr.stats || {};
+      var dr_rejim = dr.rejim || 'bilinmiyor', dr_btc = dr.btc, dr_btcEma = dr.btcEma, dr_fark = dr.fark;
+      var dr_olculen = dr.olculen || {};
       var pc = function(v){ return (v == null ? '—' : (v > 0 ? '+' : '') + String(v).replace('.', ',') + '%'); };
       var cls = function(v){ return v == null ? '' : (v > 0 ? 'up' : v < 0 ? 'dn' : ''); };
       var tb = document.getElementById('dipBody');
@@ -598,6 +601,28 @@ function diagLine(s, baslik){
             '<td class="num '+cls(a.maxPct)+'">'+esc(pc(a.maxPct))+'</td>'+
             '<td class="num">'+esc(String(a.days))+'</td></tr>';
         }).join('') : '<tr><td colspan="6" class="cnote">Şu an koşulu sağlayan coin yok. Evrenin ancak %1 kadarı bu duruma girer.</td></tr>';
+      }
+      // Piyasa rejimi: bu koşulun kazanıp kazanmadığını belirleyen tek değişken.
+      var rejimEl = document.getElementById('dipRejim');
+      if (rejimEl) {
+        var boga = dr_rejim === 'boga';
+        var ref = (dr_olculen[dr_rejim] || null);
+        if (dr_rejim === 'bilinmiyor' || !ref) {
+          rejimEl.innerHTML = '<b>Piyasa rejimi</b> — belirlenemedi.';
+        } else {
+          rejimEl.style.borderLeftColor = boga ? 'var(--mint)' : 'var(--red)';
+          rejimEl.innerHTML =
+            '<b>Piyasa rejimi: '+(boga ? 'BOĞA' : 'AYI')+'</b> — BTC '+
+            esc(String(dr_btc))+' , 50 günlük EMA '+esc(String(dr_btcEma))+
+            ' (%'+esc(String(dr_fark).replace('.', ','))+')<br>' +
+            'Bu rejimde ölçülen (' + ref.ornek + ' örnek): 30 gün ortalama <b>' +
+            (ref.ort > 0 ? '+' : '') + String(ref.ort).replace('.', ',') + '%</b> · ' +
+            'ikiye katlayan <b>%' + String(ref.pct100).replace('.', ',') + '</b> (taban %' +
+            String(ref.taban100).replace('.', ',') + ').<br>' +
+            (boga
+              ? 'Koşulun mutlak kazandırdığı rejim budur.'
+              : '<b style="color:var(--red);">Bu rejimde koşul rastgeleyi yener ama mutlak getirisi eksidir.</b> Adaylar sicil için listelenmeye devam eder, bildirim yollanmaz.');
+        }
       }
       var dc = document.getElementById('dipCount'); if (dc) dc.textContent = act.length;
       var nd = document.getElementById('navDipCount'); if (nd) nd.textContent = act.length;

@@ -61,7 +61,8 @@ async function main() {
   const ilkTur = !eski.symbols?.length;
 
   // --- 1) sembol farkı
-  const info = await fetchJson(`${API}/exchangeInfo`, 'exchangeInfo');
+  // exchangeInfo ~9 MB, genel 25 sn'lik zaman aşımı yavaş bağlantıda yetmiyor
+  const info = await fetchJson(`${API}/exchangeInfo`, 'exchangeInfo', { timeoutMs: 90_000, retries: 2 });
   const simdiki = info.symbols
     .filter(s => s.quoteAsset === 'USDT' && s.status === 'TRADING' && !HARIC.test(s.baseAsset))
     .map(s => s.baseAsset)
