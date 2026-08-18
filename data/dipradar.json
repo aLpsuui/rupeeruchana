@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-17T20:44:24.471Z",
+  "updated": "2026-08-18T01:50:57.266Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 25,
@@ -7,9 +7,9 @@
     "lowDays": 60,
     "horizonDays": 30
   },
-  "scanned": 410,
-  "skipped": 64,
-  "hits": 4,
+  "scanned": 411,
+  "skipped": 63,
+  "hits": 5,
   "active": [
     {
       "coin": "VANRY",
@@ -37,11 +37,11 @@
       "coin": "KAITO",
       "ts": "2026-08-15T05:25:42.582Z",
       "entry": 0.3959,
-      "price": 0.3362,
+      "price": 0.3259,
       "emaGapPct": -47.3,
-      "chgPct": -15.1,
+      "chgPct": -17.7,
       "maxPct": 3.3,
-      "minPct": -16.7,
+      "minPct": -19.1,
       "days": 2
     },
     {
@@ -56,12 +56,12 @@
       "days": 0
     },
     {
-      "coin": "MOVR",
-      "ts": "2026-08-17T20:44:24.471Z",
-      "entry": 0.765,
-      "price": 0.765,
-      "emaGapPct": -35,
-      "katman": "genis",
+      "coin": "ONE",
+      "ts": "2026-08-18T01:50:57.266Z",
+      "entry": 0.00072,
+      "price": 0.00072,
+      "emaGapPct": -38.5,
+      "katman": "siki",
       "rejim": "ayi",
       "chgPct": 0,
       "maxPct": 0,
@@ -69,42 +69,55 @@
       "days": 0
     },
     {
+      "coin": "MOVR",
+      "ts": "2026-08-17T20:44:24.471Z",
+      "entry": 0.765,
+      "price": 0.737,
+      "emaGapPct": -35,
+      "katman": "genis",
+      "rejim": "ayi",
+      "chgPct": -3.7,
+      "maxPct": 5.2,
+      "minPct": -4.1,
+      "days": 0
+    },
+    {
       "coin": "BB",
       "ts": "2026-08-17T14:27:10.012Z",
       "entry": 0.01094,
-      "price": 0.01098,
+      "price": 0.01078,
       "emaGapPct": -32.7,
       "katman": "genis",
       "rejim": "ayi",
-      "chgPct": 0.4,
+      "chgPct": -1.5,
       "maxPct": 4.2,
-      "minPct": -0.8,
+      "minPct": -2.4,
       "days": 0
     },
     {
       "coin": "ZBT",
       "ts": "2026-08-17T14:27:10.012Z",
       "entry": 0.078,
-      "price": 0.0775,
+      "price": 0.0777,
       "emaGapPct": -29.4,
       "katman": "genis",
       "rejim": "ayi",
-      "chgPct": -0.6,
+      "chgPct": -0.4,
       "maxPct": 5.3,
-      "minPct": -2.2,
+      "minPct": -3.8,
       "days": 0
     },
     {
       "coin": "SAHARA",
       "ts": "2026-08-17T14:27:10.012Z",
       "entry": 0.00743,
-      "price": 0.00754,
+      "price": 0.00736,
       "emaGapPct": -27.2,
       "katman": "genis",
       "rejim": "ayi",
-      "chgPct": 1.5,
+      "chgPct": -0.9,
       "maxPct": 2.3,
-      "minPct": -0.4,
+      "minPct": -1.2,
       "days": 0
     }
   ],
@@ -119,9 +132,9 @@
     "n": 0
   },
   "rejim": "ayi",
-  "btc": 64393,
-  "btcEma": 64527,
-  "fark": -0.2,
+  "btc": 64226,
+  "btcEma": 64544,
+  "fark": -0.5,
   "olculen": {
     "boga": {
       "ort": 8.4,
