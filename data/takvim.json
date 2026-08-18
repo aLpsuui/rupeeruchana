@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-18T08:53:49.662Z",
+  "updated": "2026-08-18T13:08:29.716Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -485,16 +485,7 @@
   ],
   "symbolCount": 479,
   "sonDuyuruId": 282552,
-  "yakinKilitler": [
-    {
-      "coin": "ACE",
-      "date": "2026-08-18",
-      "pct": 2.9,
-      "aciklama": "2.966.040 ACE (toplam arzın %2'si, piyasa değerinin %2,9'u)",
-      "kaynak": "tokenomics.com",
-      "kalanGun": 0
-    }
-  ],
+  "yakinKilitler": [],
   "olaylar": [
     {
       "ts": "2026-08-17T04:58:55.147Z",
