@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-26T09:02:50.017Z",
+  "updated": "2026-08-26T13:17:08.506Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -133,6 +133,7 @@
     "DEXE",
     "DGB",
     "DIA",
+    "DJTB",
     "DODO",
     "DOGE",
     "DOGS",
@@ -483,10 +484,16 @@
     "ZRX",
     "币安人生"
   ],
-  "symbolCount": 479,
+  "symbolCount": 480,
   "sonDuyuruId": 283164,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-08-26T13:17:08.506Z",
+      "tip": "yeni-listeleme",
+      "coin": "DJTB",
+      "baslik": "DJTB/USDT işlem görmeye başladı"
+    },
     {
       "ts": "2026-08-25T04:54:24.075Z",
       "tip": "duyuru-vadeli",
