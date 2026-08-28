@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-27T22:16:34.839Z",
+  "updated": "2026-08-28T11:24:47.216Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -485,9 +485,14 @@
     "币安人生"
   ],
   "symbolCount": 480,
-  "sonDuyuruId": 283164,
+  "sonDuyuruId": 283335,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-08-28T11:24:47.216Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch Multiple USDⓈ-Margined TradFi Perpetual Contracts (2026-08-28)"
+    },
     {
       "ts": "2026-08-26T13:17:08.506Z",
       "tip": "yeni-listeleme",
