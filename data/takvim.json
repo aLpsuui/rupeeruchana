@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-30T05:25:27.470Z",
+  "updated": "2026-08-30T13:48:52.845Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -485,9 +485,14 @@
     "币安人生"
   ],
   "symbolCount": 480,
-  "sonDuyuruId": 283335,
+  "sonDuyuruId": 283381,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-08-30T13:48:52.845Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch USDⓈ-Margined 牛来USDT Perpetual Contract (2026-08-30)"
+    },
     {
       "ts": "2026-08-28T11:24:47.216Z",
       "tip": "duyuru-vadeli",
