@@ -16,7 +16,24 @@
       "leverage": 10,
       "marginUsd": 65.33,
       "stopPct": 2.93,
-      "ts": "2026-08-31T16:10:20.714Z"
+      "ts": "2026-08-31T16:10:20.714Z",
+      "mfeR": 0.31,
+      "maeR": 0.09,
+      "bars": 5
+    },
+    {
+      "symbol": "LINKUSDT",
+      "dir": "LONG",
+      "qty": 42.2679,
+      "entry": 11.402,
+      "stop": 10.948686962301444,
+      "target": 12.535282594246386,
+      "riskUsd": 19.16,
+      "notional": 481.94,
+      "leverage": 10,
+      "marginUsd": 48.19,
+      "stopPct": 3.98,
+      "ts": "2026-08-31T21:28:30.567Z"
     }
   ],
   "closed": [
