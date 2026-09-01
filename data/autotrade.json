@@ -1,26 +1,9 @@
 {
   "note": "SANAL CÜZDAN — gerçek para değildir. Başlangıç: 1000 USDT, işlem başına risk %2 (sabit risk boyutlaması).",
   "startBalance": 1000,
-  "balance": 958.03,
+  "balance": 938.02,
   "resetNote": "12 Ağu 2026: boyutlama sabit teminat (10$ × 10x) modundan sabit riske (bakiye × %2) döndürüldü ve başlangıç sermayesi 1000$ yapıldı. Gerekçe: 50$ bakiyede işlem başına risk gerçek borsanın minimum emir büyüklüğünün altında kalıyor, komisyon modellemesi anlamsızlaşıyordu. Eski kayıtlar legacyClosed altında duruyor; farklı boyutlamayla açıldıkları için yeni sicille birlikte istatistiğe katılmazlar.",
   "open": [
-    {
-      "symbol": "ETHUSDT",
-      "dir": "LONG",
-      "qty": 0.264746,
-      "entry": 2467.68,
-      "stop": 2395.3064405433825,
-      "target": 2648.6138986415435,
-      "riskUsd": 19.16,
-      "notional": 653.31,
-      "leverage": 10,
-      "marginUsd": 65.33,
-      "stopPct": 2.93,
-      "ts": "2026-08-31T16:10:20.714Z",
-      "mfeR": 0.31,
-      "maeR": 0.57,
-      "bars": 21
-    },
     {
       "symbol": "LINKUSDT",
       "dir": "LONG",
@@ -35,11 +18,35 @@
       "stopPct": 3.98,
       "ts": "2026-08-31T21:28:30.567Z",
       "mfeR": 0.27,
-      "maeR": 0.35,
-      "bars": 16
+      "maeR": 0.75,
+      "bars": 22
     }
   ],
   "closed": [
+    {
+      "symbol": "ETHUSDT",
+      "dir": "LONG",
+      "qty": 0.264746,
+      "entry": 2467.68,
+      "stop": 2395.3064405433825,
+      "target": 2648.6138986415435,
+      "riskUsd": 19.16,
+      "notional": 653.31,
+      "leverage": 10,
+      "marginUsd": 65.33,
+      "stopPct": 2.93,
+      "ts": "2026-08-31T16:10:20.714Z",
+      "mfeR": 0.31,
+      "maeR": 1.17,
+      "bars": 26,
+      "outcome": "STOP ✗",
+      "exit": 2395.3064405433825,
+      "pnlGross": -19.16,
+      "feeUsd": 0.65,
+      "fundingUsd": 0.2,
+      "pnl": -20.01,
+      "closedTs": "2026-09-01T19:24:09.954Z"
+    },
     {
       "symbol": "DOGEUSDT",
       "dir": "SHORT",
@@ -224,20 +231,20 @@
     "note": "Tek \"HEDEF\" kaydı forceTestTrade ile açılan zincir testidir, strateji sinyali değildir."
   },
   "stats": {
-    "trades": 2,
+    "trades": 3,
     "hedef": 0,
-    "stop": 2,
+    "stop": 3,
     "sure": 0,
     "winRate": 0,
-    "pnlSum": -41.97,
-    "avgMfeR": 0.49,
-    "avgMaeR": 1.55,
-    "missAvgMfeR": 0.49,
+    "pnlSum": -61.98,
+    "avgMfeR": 0.43,
+    "avgMaeR": 1.43,
+    "missAvgMfeR": 0.43,
     "missMaxMfeR": 0.98,
-    "avgBars": 84,
-    "sample": 2,
-    "feeSum": 0.79,
-    "fundingSum": 1.58,
-    "grossSum": -39.6
+    "avgBars": 64.67,
+    "sample": 3,
+    "feeSum": 1.44,
+    "fundingSum": 1.78,
+    "grossSum": -58.76
   }
 }
