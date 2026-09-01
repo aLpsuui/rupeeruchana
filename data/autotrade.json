@@ -18,8 +18,8 @@
       "stopPct": 2.93,
       "ts": "2026-08-31T16:10:20.714Z",
       "mfeR": 0.31,
-      "maeR": 0.18,
-      "bars": 13
+      "maeR": 0.57,
+      "bars": 21
     },
     {
       "symbol": "LINKUSDT",
@@ -34,9 +34,9 @@
       "marginUsd": 48.19,
       "stopPct": 3.98,
       "ts": "2026-08-31T21:28:30.567Z",
-      "mfeR": 0.2,
+      "mfeR": 0.27,
       "maeR": 0.35,
-      "bars": 8
+      "bars": 16
     }
   ],
   "closed": [

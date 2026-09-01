@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-01T05:10:05.412Z",
+  "updated": "2026-09-01T13:30:16.909Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -485,9 +485,14 @@
     "币安人生"
   ],
   "symbolCount": 480,
-  "sonDuyuruId": 283470,
+  "sonDuyuruId": 283552,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-01T13:30:16.909Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch USDⓈ-Margined MARSCOINUSDT Perpetual Contract (2026-09-01)"
+    },
     {
       "ts": "2026-09-01T05:10:05.412Z",
       "tip": "duyuru-vadeli",
