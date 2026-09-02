@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-02T04:35:35.908Z",
+  "updated": "2026-09-02T12:47:06.285Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -121,6 +121,7 @@
     "CRCLB",
     "CRDOB",
     "CRV",
+    "CRWDB",
     "CRWVB",
     "CTK",
     "CTSI",
@@ -273,6 +274,7 @@
     "MORPHO",
     "MOVE",
     "MOVR",
+    "MRNAB",
     "MRVLB",
     "MSFTB",
     "MSTRB",
@@ -395,6 +397,7 @@
     "SPELL",
     "SPK",
     "SPYB",
+    "SQQQB",
     "SSV",
     "STEEM",
     "STG",
@@ -403,6 +406,7 @@
     "STRAX",
     "STRK",
     "STX",
+    "STXB",
     "SUI",
     "SUN",
     "SUPER",
@@ -484,10 +488,44 @@
     "ZRX",
     "币安人生"
   ],
-  "symbolCount": 480,
-  "sonDuyuruId": 283552,
+  "symbolCount": 484,
+  "sonDuyuruId": 283671,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-02T12:47:06.285Z",
+      "tip": "yeni-listeleme",
+      "coin": "CRWDB",
+      "baslik": "CRWDB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-02T12:47:06.285Z",
+      "tip": "yeni-listeleme",
+      "coin": "MRNAB",
+      "baslik": "MRNAB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-02T12:47:06.285Z",
+      "tip": "yeni-listeleme",
+      "coin": "SQQQB",
+      "baslik": "SQQQB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-02T12:47:06.285Z",
+      "tip": "yeni-listeleme",
+      "coin": "STXB",
+      "baslik": "STXB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-02T12:47:06.285Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch Multiple USDⓈ-Margined TradFi Perpetual Contracts (2026-09-02)"
+    },
+    {
+      "ts": "2026-09-02T12:47:06.285Z",
+      "tip": "duyuru-listeleme",
+      "baslik": "Binance Exchange Adds 4 bStocks Trading Pairs on Binance Spot/Convert - 2026-09-02"
+    },
     {
       "ts": "2026-09-01T13:30:16.909Z",
       "tip": "duyuru-vadeli",
