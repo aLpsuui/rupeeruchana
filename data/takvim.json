@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03T04:34:30.367Z",
+  "updated": "2026-09-03T12:49:57.172Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -486,9 +486,14 @@
     "币安人生"
   ],
   "symbolCount": 481,
-  "sonDuyuruId": 283671,
+  "sonDuyuruId": 283746,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-03T12:49:57.172Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch USDⓈ-Margined GPROUSDT Perpetual Contract (2026-09-03)"
+    },
     {
       "ts": "2026-09-03T04:34:30.367Z",
       "tip": "delist",
