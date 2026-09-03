@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-02T22:39:22.493Z",
+  "updated": "2026-09-03T04:34:30.367Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -208,7 +208,6 @@
     "HYPER",
     "IBMB",
     "ICP",
-    "ICX",
     "ID",
     "ILV",
     "IMX",
@@ -371,7 +370,6 @@
     "SAPIEN",
     "SC",
     "SCR",
-    "SCRT",
     "SEI",
     "SENT",
     "SFP",
@@ -402,7 +400,6 @@
     "STEEM",
     "STG",
     "STO",
-    "STORJ",
     "STRAX",
     "STRK",
     "STX",
@@ -488,10 +485,28 @@
     "ZRX",
     "币安人生"
   ],
-  "symbolCount": 484,
+  "symbolCount": 481,
   "sonDuyuruId": 283671,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-03T04:34:30.367Z",
+      "tip": "delist",
+      "coin": "ICX",
+      "baslik": "ICX/USDT artık işlem görmüyor"
+    },
+    {
+      "ts": "2026-09-03T04:34:30.367Z",
+      "tip": "delist",
+      "coin": "SCRT",
+      "baslik": "SCRT/USDT artık işlem görmüyor"
+    },
+    {
+      "ts": "2026-09-03T04:34:30.367Z",
+      "tip": "delist",
+      "coin": "STORJ",
+      "baslik": "STORJ/USDT artık işlem görmüyor"
+    },
     {
       "ts": "2026-09-02T12:47:06.285Z",
       "tip": "yeni-listeleme",
