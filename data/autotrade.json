@@ -1,7 +1,7 @@
 {
   "note": "SANAL CÜZDAN — gerçek para değildir. Başlangıç: 1000 USDT, işlem başına risk %2 (sabit risk boyutlaması).",
   "startBalance": 1000,
-  "balance": 988.54,
+  "balance": 968.55,
   "resetNote": "12 Ağu 2026: boyutlama sabit teminat (10$ × 10x) modundan sabit riske (bakiye × %2) döndürüldü ve başlangıç sermayesi 1000$ yapıldı. Gerekçe: 50$ bakiyede işlem başına risk gerçek borsanın minimum emir büyüklüğünün altında kalıyor, komisyon modellemesi anlamsızlaşıyordu. Eski kayıtlar legacyClosed altında duruyor; farklı boyutlamayla açıldıkları için yeni sicille birlikte istatistiğe katılmazlar.",
   "open": [
     {
@@ -19,8 +19,10 @@
       "ts": "2026-09-03T12:49:46.930Z",
       "mfeR": 2.08,
       "maeR": 0,
-      "bars": 24
-    },
+      "bars": 30
+    }
+  ],
+  "closed": [
     {
       "symbol": "ETHUSDT",
       "dir": "LONG",
@@ -35,11 +37,16 @@
       "stopPct": 3.23,
       "ts": "2026-09-03T19:17:59.260Z",
       "mfeR": 0.37,
-      "maeR": 0.99,
-      "bars": 17
-    }
-  ],
-  "closed": [
+      "maeR": 1.01,
+      "bars": 17,
+      "outcome": "STOP ✗",
+      "exit": 2435.2680094423526,
+      "pnlGross": -19.27,
+      "feeUsd": 0.6,
+      "fundingUsd": 0.12,
+      "pnl": -19.99,
+      "closedTs": "2026-09-04T18:59:29.802Z"
+    },
     {
       "symbol": "SOLUSDT",
       "dir": "LONG",
@@ -344,20 +351,20 @@
     "note": "Tek \"HEDEF\" kaydı forceTestTrade ile açılan zincir testidir, strateji sinyali değildir."
   },
   "stats": {
-    "trades": 7,
+    "trades": 8,
     "hedef": 2,
-    "stop": 5,
+    "stop": 6,
     "sure": 0,
-    "winRate": 28.6,
-    "pnlSum": -11.46,
-    "avgMfeR": 0.97,
-    "avgMaeR": 0.97,
+    "winRate": 25,
+    "pnlSum": -31.45,
+    "avgMfeR": 0.9,
+    "avgMaeR": 0.98,
     "missAvgMfeR": 0.34,
     "missMaxMfeR": 0.98,
-    "avgBars": 38.43,
-    "sample": 7,
-    "feeSum": 3.78,
-    "fundingSum": 2.31,
-    "grossSum": -5.37
+    "avgBars": 35.75,
+    "sample": 8,
+    "feeSum": 4.38,
+    "fundingSum": 2.43,
+    "grossSum": -24.64
   }
 }

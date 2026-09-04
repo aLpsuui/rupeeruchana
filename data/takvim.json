@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-04T12:44:05.748Z",
+  "updated": "2026-09-04T18:59:39.255Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -257,6 +257,7 @@
     "MANA",
     "MANTA",
     "MANTRA",
+    "MARSCOIN",
     "MASK",
     "MAV",
     "MBL",
@@ -485,10 +486,16 @@
     "ZRX",
     "币安人生"
   ],
-  "symbolCount": 481,
-  "sonDuyuruId": 283840,
+  "symbolCount": 482,
+  "sonDuyuruId": 283893,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-04T18:59:39.255Z",
+      "tip": "yeni-listeleme",
+      "coin": "MARSCOIN",
+      "baslik": "MARSCOIN/USDT işlem görmeye başladı"
+    },
     {
       "ts": "2026-09-04T12:44:05.748Z",
       "tip": "duyuru-listeleme",
