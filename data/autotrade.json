@@ -1,7 +1,7 @@
 {
   "note": "SANAL CÜZDAN — gerçek para değildir. Başlangıç: 1000 USDT, işlem başına risk %2 (sabit risk boyutlaması).",
   "startBalance": 1000,
-  "balance": 1008.39,
+  "balance": 988.54,
   "resetNote": "12 Ağu 2026: boyutlama sabit teminat (10$ × 10x) modundan sabit riske (bakiye × %2) döndürüldü ve başlangıç sermayesi 1000$ yapıldı. Gerekçe: 50$ bakiyede işlem başına risk gerçek borsanın minimum emir büyüklüğünün altında kalıyor, komisyon modellemesi anlamsızlaşıyordu. Eski kayıtlar legacyClosed altında duruyor; farklı boyutlamayla açıldıkları için yeni sicille birlikte istatistiğe katılmazlar.",
   "open": [
     {
@@ -17,9 +17,9 @@
       "marginUsd": 48.19,
       "stopPct": 3.81,
       "ts": "2026-09-03T12:49:46.930Z",
-      "mfeR": 1.69,
+      "mfeR": 2.08,
       "maeR": 0,
-      "bars": 16
+      "bars": 24
     },
     {
       "symbol": "ETHUSDT",
@@ -34,10 +34,12 @@
       "marginUsd": 59.63,
       "stopPct": 3.23,
       "ts": "2026-09-03T19:17:59.260Z",
-      "mfeR": 0.12,
-      "maeR": 0.33,
-      "bars": 9
-    },
+      "mfeR": 0.37,
+      "maeR": 0.99,
+      "bars": 17
+    }
+  ],
+  "closed": [
     {
       "symbol": "SOLUSDT",
       "dir": "LONG",
@@ -52,11 +54,16 @@
       "stopPct": 4,
       "ts": "2026-09-03T19:18:00.250Z",
       "mfeR": 0.13,
-      "maeR": 0.46,
-      "bars": 9
-    }
-  ],
-  "closed": [
+      "maeR": 1.18,
+      "bars": 17,
+      "outcome": "STOP ✗",
+      "exit": 100.96660535530152,
+      "pnlGross": -19.27,
+      "feeUsd": 0.48,
+      "fundingUsd": 0.1,
+      "pnl": -19.85,
+      "closedTs": "2026-09-04T12:43:58.179Z"
+    },
     {
       "symbol": "BTCUSDT",
       "dir": "LONG",
@@ -337,20 +344,20 @@
     "note": "Tek \"HEDEF\" kaydı forceTestTrade ile açılan zincir testidir, strateji sinyali değildir."
   },
   "stats": {
-    "trades": 6,
+    "trades": 7,
     "hedef": 2,
-    "stop": 4,
+    "stop": 5,
     "sure": 0,
-    "winRate": 33.3,
-    "pnlSum": 8.39,
-    "avgMfeR": 1.11,
-    "avgMaeR": 0.94,
-    "missAvgMfeR": 0.39,
+    "winRate": 28.6,
+    "pnlSum": -11.46,
+    "avgMfeR": 0.97,
+    "avgMaeR": 0.97,
+    "missAvgMfeR": 0.34,
     "missMaxMfeR": 0.98,
-    "avgBars": 42,
-    "sample": 6,
-    "feeSum": 3.3,
-    "fundingSum": 2.21,
-    "grossSum": 13.9
+    "avgBars": 38.43,
+    "sample": 7,
+    "feeSum": 3.78,
+    "fundingSum": 2.31,
+    "grossSum": -5.37
   }
 }

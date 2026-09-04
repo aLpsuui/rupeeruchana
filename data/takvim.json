@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-04T04:35:10.099Z",
+  "updated": "2026-09-04T12:44:05.748Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -486,9 +486,19 @@
     "币安人生"
   ],
   "symbolCount": 481,
-  "sonDuyuruId": 283746,
+  "sonDuyuruId": 283840,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-04T12:44:05.748Z",
+      "tip": "duyuru-listeleme",
+      "baslik": "Binance Will List MarsCoin (MARSCOIN) with Seed Tag Applied"
+    },
+    {
+      "ts": "2026-09-04T12:44:05.748Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch Multiple USDⓈ-Margined TradFi Perpetual Contracts (2026-09-07)"
+    },
     {
       "ts": "2026-09-03T12:49:57.172Z",
       "tip": "duyuru-vadeli",
