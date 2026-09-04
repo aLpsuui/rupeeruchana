@@ -17,9 +17,9 @@
       "marginUsd": 48.19,
       "stopPct": 3.81,
       "ts": "2026-09-03T12:49:46.930Z",
-      "mfeR": 1.6,
+      "mfeR": 1.69,
       "maeR": 0,
-      "bars": 10
+      "bars": 16
     },
     {
       "symbol": "ETHUSDT",
@@ -36,7 +36,7 @@
       "ts": "2026-09-03T19:17:59.260Z",
       "mfeR": 0.12,
       "maeR": 0.33,
-      "bars": 3
+      "bars": 9
     },
     {
       "symbol": "SOLUSDT",
@@ -52,8 +52,8 @@
       "stopPct": 4,
       "ts": "2026-09-03T19:18:00.250Z",
       "mfeR": 0.13,
-      "maeR": 0.36,
-      "bars": 3
+      "maeR": 0.46,
+      "bars": 9
     }
   ],
   "closed": [
