@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-06T04:40:24.078Z",
+  "updated": "2026-09-06T12:09:06.556Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -487,9 +487,14 @@
     "币安人生"
   ],
   "symbolCount": 482,
-  "sonDuyuruId": 283893,
+  "sonDuyuruId": 283915,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-06T12:09:06.556Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch USDⓈ-Margined PONSUSDT and 哈基米USDT Perpetual Contracts (2026-09-06)"
+    },
     {
       "ts": "2026-09-04T18:59:39.255Z",
       "tip": "yeni-listeleme",
