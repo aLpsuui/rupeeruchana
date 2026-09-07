@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-07T04:42:52.438Z",
+  "updated": "2026-09-07T14:15:39.036Z",
   "engine": "github-actions-v1",
   "kpi": {
     "return_pct": 3.6,
@@ -181,7 +181,7 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +56%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +55%); gerçek bir geri çekilme bekleniyor",
       "hi": "13,36",
       "lo": "10,91"
     },
@@ -199,7 +199,7 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +24%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +25%); gerçek bir geri çekilme bekleniyor",
       "hi": "0,1008",
       "lo": "0,0801"
     },
@@ -208,7 +208,7 @@
       "status": "LONG ADAYI",
       "dir": "LONG",
       "star": false,
-      "note": "Trend yukarı (50 günde +23%); gerçek bir geri çekilme bekleniyor",
+      "note": "Trend yukarı (50 günde +22%); gerçek bir geri çekilme bekleniyor",
       "hi": "82.300",
       "lo": "76.264"
     }
@@ -216,203 +216,203 @@
   "alts": [
     {
       "coin": "AAVE",
-      "price": "133,73",
-      "chg": -0.64,
+      "price": "132,77",
+      "chg": -1.48,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 53,
+      "rsi": 54,
       "star": false,
-      "note": "Trend yukarı (50 günde +49%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +48%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "ADA",
-      "price": "0,2187",
-      "chg": -1.22,
+      "price": "0,2211",
+      "chg": 1.24,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 56,
+      "rsi": 55,
       "star": false,
-      "note": "Trend yukarı (50 günde +32%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +33%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "APT",
-      "price": "0,618",
-      "chg": 0.33,
-      "status": "LONG ADAYI",
-      "dir": "LONG",
-      "rsi": 57,
-      "star": false,
-      "note": "Trend yukarı (50 günde +4%); gerçek bir geri çekilme bekleniyor"
-    },
-    {
-      "coin": "ARB",
-      "price": "0,1747",
-      "chg": -10.27,
-      "status": "LONG ADAYI",
-      "dir": "LONG",
-      "rsi": 62,
-      "star": false,
-      "note": "Trend yukarı (50 günde +96%); gerçek bir geri çekilme bekleniyor"
-    },
-    {
-      "coin": "ATOM",
-      "price": "1,583",
-      "chg": 1.09,
-      "status": "LONG ADAYI",
-      "dir": "LONG",
-      "rsi": 61,
-      "star": false,
-      "note": "Trend yukarı (50 günde +7%); gerçek bir geri çekilme bekleniyor"
-    },
-    {
-      "coin": "AVAX",
-      "price": "7,799",
-      "chg": 1.88,
+      "price": "0,642",
+      "chg": 3.55,
       "status": "LONG ADAYI",
       "dir": "LONG",
       "rsi": 63,
       "star": false,
-      "note": "Trend yukarı (50 günde +21%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +8%); gerçek bir geri çekilme bekleniyor"
     },
     {
-      "coin": "BCH",
-      "price": "256,1",
-      "chg": -1.73,
+      "coin": "ARB",
+      "price": "0,167",
+      "chg": -12.56,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 51,
+      "rsi": 56,
       "star": false,
-      "note": "Trend yukarı (50 günde +19%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +87%); gerçek bir geri çekilme bekleniyor"
     },
     {
-      "coin": "DOT",
-      "price": "0,977",
-      "chg": 5.17,
+      "coin": "ATOM",
+      "price": "1,675",
+      "chg": 6.08,
+      "status": "LONG ADAYI",
+      "dir": "LONG",
+      "rsi": 68,
+      "star": false,
+      "note": "Trend yukarı (50 günde +13%); gerçek bir geri çekilme bekleniyor"
+    },
+    {
+      "coin": "AVAX",
+      "price": "8,068",
+      "chg": 5.26,
       "status": "LONG ADAYI",
       "dir": "LONG",
       "rsi": 67,
       "star": false,
-      "note": "Trend yukarı (50 günde +19%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +25%); gerçek bir geri çekilme bekleniyor"
+    },
+    {
+      "coin": "BCH",
+      "price": "259,8",
+      "chg": 0.58,
+      "status": "LONG ADAYI",
+      "dir": "LONG",
+      "rsi": 52,
+      "star": false,
+      "note": "Trend yukarı (50 günde +21%); gerçek bir geri çekilme bekleniyor"
+    },
+    {
+      "coin": "DOT",
+      "price": "1,075",
+      "chg": 10.27,
+      "status": "LONG ADAYI",
+      "dir": "LONG",
+      "rsi": 67,
+      "star": false,
+      "note": "Trend yukarı (50 günde +31%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "FIL",
-      "price": "0,8001",
-      "chg": -1.7,
+      "price": "0,8524",
+      "chg": 7.18,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 59,
+      "rsi": 65,
       "star": false,
-      "note": "Trend yukarı (50 günde +11%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +18%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "INJ",
-      "price": "5,536",
-      "chg": 7.98,
+      "price": "5,746",
+      "chg": 12.62,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 76,
+      "rsi": 80,
       "star": false,
-      "note": "Trend yukarı (50 günde +8%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +12%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "LTC",
-      "price": "54,29",
-      "chg": 0,
+      "price": "57,23",
+      "chg": 4.95,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 61,
+      "rsi": 69,
       "star": false,
-      "note": "Trend yukarı (50 günde +15%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +22%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "NEAR",
-      "price": "2,414",
-      "chg": 10.58,
+      "price": "2,371",
+      "chg": -3.11,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 72,
+      "rsi": 63,
       "star": false,
-      "note": "Trend yukarı (50 günde +26%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +24%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "OP",
-      "price": "0,1089",
-      "chg": -1.18,
+      "price": "0,1112",
+      "chg": 1.37,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 64,
+      "rsi": 65,
       "star": false,
-      "note": "Trend yukarı (50 günde +15%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +17%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "POL",
-      "price": "0,0967",
-      "chg": -3.26,
+      "price": "0,0965",
+      "chg": -0.71,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 53,
+      "rsi": 54,
       "star": false,
       "note": "Trend yukarı (50 günde +19%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "RENDER",
-      "price": "1,535",
-      "chg": 4.07,
+      "price": "1,55",
+      "chg": 2.72,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 62,
+      "rsi": 60,
       "star": false,
-      "note": "Trend yukarı (50 günde +4%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +5%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "SEI",
-      "price": "0,0485",
-      "chg": 0.66,
+      "price": "0,0494",
+      "chg": 1.67,
       "status": "LONG ADAYI",
       "dir": "LONG",
       "rsi": 54,
       "star": false,
-      "note": "Trend yukarı (50 günde +4%); gerçek bir geri çekilme bekleniyor"
-    },
-    {
-      "coin": "SUI",
-      "price": "0,7959",
-      "chg": -0.26,
-      "status": "LONG ADAYI",
-      "dir": "LONG",
-      "rsi": 55,
-      "star": false,
       "note": "Trend yukarı (50 günde +6%); gerçek bir geri çekilme bekleniyor"
     },
     {
+      "coin": "SUI",
+      "price": "0,8231",
+      "chg": 2.64,
+      "status": "LONG ADAYI",
+      "dir": "LONG",
+      "rsi": 60,
+      "star": false,
+      "note": "Trend yukarı (50 günde +10%); gerçek bir geri çekilme bekleniyor"
+    },
+    {
       "coin": "TIA",
-      "price": "0,4308",
-      "chg": 13.49,
+      "price": "0,4336",
+      "chg": 9.66,
       "status": "LONG ADAYI",
       "dir": "LONG",
       "rsi": 71,
       "star": false,
-      "note": "Trend yukarı (50 günde +19%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +20%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "UNI",
-      "price": "6,948",
-      "chg": -1.71,
+      "price": "7,077",
+      "chg": 1.87,
       "status": "LONG ADAYI",
       "dir": "LONG",
       "rsi": 61,
       "star": false,
-      "note": "Trend yukarı (50 günde +97%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +101%); gerçek bir geri çekilme bekleniyor"
     },
     {
       "coin": "XRP",
-      "price": "1,406",
-      "chg": -1.12,
+      "price": "1,397",
+      "chg": -1.26,
       "status": "LONG ADAYI",
       "dir": "LONG",
-      "rsi": 49,
+      "rsi": 47,
       "star": false,
-      "note": "Trend yukarı (50 günde +28%); gerçek bir geri çekilme bekleniyor"
+      "note": "Trend yukarı (50 günde +27%); gerçek bir geri çekilme bekleniyor"
     }
   ],
   "altSignals": [
@@ -429,7 +429,7 @@
       "targetN": 0.10916633311329033,
       "mfeR": 0.87,
       "maeR": 0.92,
-      "bars": 81
+      "bars": 91
     },
     {
       "coin": "BCH",
@@ -444,7 +444,7 @@
       "targetN": 270.95734883143837,
       "mfeR": 1.89,
       "maeR": 0.28,
-      "bars": 96
+      "bars": 106
     },
     {
       "coin": "AVAX",
@@ -475,7 +475,7 @@
       "targetN": 1.5023233377493708,
       "mfeR": 2.15,
       "maeR": 0.28,
-      "bars": 96
+      "bars": 106
     },
     {
       "coin": "LTC",
@@ -738,6 +738,30 @@
   "feed": [
     {
       "who": "Trend Ajanı",
+      "ts": "2026-09-07T14:15:39.036Z",
+      "kind": "ok",
+      "body": "BTC 79.156 — günlük EMA50'nin (71.903) üzerinde ve ortalama yükseliyor. Long tarafı açık; kaliteli bir geri çekilme bekliyorum."
+    },
+    {
+      "who": "Tarayıcı",
+      "ts": "2026-09-07T14:15:39.036Z",
+      "kind": "dot",
+      "body": "Tarama — ETH: long adayi (RSI 53) · LINK: long adayi (RSI 77) · SOL: long adayi (RSI 55) · DOGE: long adayi (RSI 58)."
+    },
+    {
+      "who": "Risk Bekçisi",
+      "ts": "2026-09-07T14:15:39.036Z",
+      "kind": "dot",
+      "body": "Kural dışı işlem, backtest'te en pahalı hataydı. Disiplin sürüyor."
+    },
+    {
+      "who": "Altcoin Radarı",
+      "ts": "2026-09-07T14:15:39.036Z",
+      "kind": "dot",
+      "body": "20 altcoin tarandı — kurulum aşamasında olan yok. Radar izleme amaçlıdır; sanal cüzdana işlem açmaz."
+    },
+    {
+      "who": "Trend Ajanı",
       "ts": "2026-09-07T04:42:52.438Z",
       "kind": "ok",
       "body": "BTC 79.620 — günlük EMA50'nin (71.903) üzerinde ve ortalama yükseliyor. Long tarafı açık; kaliteli bir geri çekilme bekliyorum."
@@ -951,157 +975,133 @@
       "ts": "2026-09-05T15:14:51.254Z",
       "kind": "dot",
       "body": "20 altcoin tarandı — kurulum aşamasında olan yok. Radar izleme amaçlıdır; sanal cüzdana işlem açmaz."
-    },
-    {
-      "who": "Trend Ajanı",
-      "ts": "2026-09-05T11:50:24.532Z",
-      "kind": "ok",
-      "body": "BTC 79.645 — günlük EMA50'nin (71.227) üzerinde ve ortalama yükseliyor. Long tarafı açık; kaliteli bir geri çekilme bekliyorum."
-    },
-    {
-      "who": "Tarayıcı",
-      "ts": "2026-09-05T11:50:24.532Z",
-      "kind": "dot",
-      "body": "Tarama — ETH: long adayi (RSI 50) · LINK: long adayi (RSI 57) · SOL: long adayi (RSI 50) · DOGE: long adayi (RSI 54)."
-    },
-    {
-      "who": "Risk Bekçisi",
-      "ts": "2026-09-05T11:50:24.532Z",
-      "kind": "dot",
-      "body": "Sinyal yok = pozisyon yok. Beklemek de bir karardır."
-    },
-    {
-      "who": "Altcoin Radarı",
-      "ts": "2026-09-05T11:50:24.532Z",
-      "kind": "dot",
-      "body": "20 altcoin tarandı — kurulum aşamasında olan yok. Radar izleme amaçlıdır; sanal cüzdana işlem açmaz."
     }
   ],
   "ticker": [
     {
       "s": "BTC",
-      "p": 79619.52,
-      "c": -0.39
+      "p": 79156.09,
+      "c": -0.76
     },
     {
       "s": "ETH",
-      "p": 2495.39,
-      "c": -0.33
+      "p": 2486.92,
+      "c": -0.08
     },
     {
       "s": "SOL",
-      "p": 105.02,
-      "c": -1
+      "p": 104.48,
+      "c": -1.99
     },
     {
       "s": "LINK",
-      "p": 13.057,
-      "c": 7.3
+      "p": 13.017,
+      "c": 5.55
     },
     {
       "s": "DOGE",
-      "p": 0.08955,
-      "c": -1.26
+      "p": 0.09021,
+      "c": 0.83
     },
     {
       "s": "XRP",
-      "p": 1.4056,
-      "c": -1.12
+      "p": 1.3965,
+      "c": -1.26
     },
     {
       "s": "AVAX",
-      "p": 7.799,
-      "c": 1.88
+      "p": 8.068,
+      "c": 5.26
     },
     {
       "s": "ADA",
-      "p": 0.2187,
-      "c": -1.22
+      "p": 0.2211,
+      "c": 1.24
     },
     {
       "s": "POL",
-      "p": 0.09674,
-      "c": -3.26
+      "p": 0.09649,
+      "c": -0.71
     },
     {
       "s": "DOT",
-      "p": 0.977,
-      "c": 5.17
+      "p": 1.074,
+      "c": 10.27
     },
     {
       "s": "ATOM",
-      "p": 1.583,
-      "c": 1.09
+      "p": 1.675,
+      "c": 6.08
     },
     {
       "s": "NEAR",
-      "p": 2.414,
-      "c": 10.58
+      "p": 2.371,
+      "c": -3.11
     },
     {
       "s": "APT",
-      "p": 0.618,
-      "c": 0.33
+      "p": 0.642,
+      "c": 3.55
     },
     {
       "s": "ARB",
-      "p": 0.1747,
-      "c": -10.27
+      "p": 0.167,
+      "c": -12.56
     },
     {
       "s": "OP",
-      "p": 0.1089,
-      "c": -1.18
+      "p": 0.1111,
+      "c": 1.37
     },
     {
       "s": "INJ",
-      "p": 5.536,
-      "c": 7.98
+      "p": 5.746,
+      "c": 12.62
     },
     {
       "s": "SUI",
-      "p": 0.7959,
-      "c": -0.26
+      "p": 0.8231,
+      "c": 2.64
     },
     {
       "s": "TIA",
-      "p": 0.4308,
-      "c": 13.49
+      "p": 0.4336,
+      "c": 9.66
     },
     {
       "s": "SEI",
-      "p": 0.04854,
-      "c": 0.66
+      "p": 0.04945,
+      "c": 1.67
     },
     {
       "s": "LTC",
-      "p": 54.29,
-      "c": 0
+      "p": 57.23,
+      "c": 4.95
     },
     {
       "s": "BCH",
-      "p": 256.1,
-      "c": -1.73
+      "p": 259.8,
+      "c": 0.58
     },
     {
       "s": "UNI",
-      "p": 6.948,
-      "c": -1.71
+      "p": 7.077,
+      "c": 1.87
     },
     {
       "s": "AAVE",
-      "p": 133.73,
-      "c": -0.64
+      "p": 132.77,
+      "c": -1.48
     },
     {
       "s": "FIL",
-      "p": 0.8001,
-      "c": -1.7
+      "p": 0.8524,
+      "c": 7.18
     },
     {
       "s": "RENDER",
-      "p": 1.535,
-      "c": 4.07
+      "p": 1.55,
+      "c": 2.72
     }
   ],
   "float": {
