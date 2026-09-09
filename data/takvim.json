@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-08T22:41:45.472Z",
+  "updated": "2026-09-09T04:43:45.253Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -487,9 +487,14 @@
     "币安人生"
   ],
   "symbolCount": 482,
-  "sonDuyuruId": 283915,
+  "sonDuyuruId": 284099,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-09T04:43:45.253Z",
+      "tip": "duyuru-listeleme",
+      "baslik": "Binance Exchange Adds Salesforce (CRMB) and Hims & Hers Health (HIMSB) bStocks Trading Pairs on Binance Spot/Convert - 2026-09-09"
+    },
     {
       "ts": "2026-09-06T12:09:06.556Z",
       "tip": "duyuru-vadeli",
