@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-09T12:58:35.384Z",
+  "updated": "2026-09-09T19:17:29.292Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -486,12 +486,19 @@
     "ZKP",
     "ZRO",
     "ZRX",
-    "币安人生"
+    "币安人生",
+    "牛来"
   ],
-  "symbolCount": 484,
-  "sonDuyuruId": 284193,
+  "symbolCount": 485,
+  "sonDuyuruId": 284214,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-09T19:17:29.292Z",
+      "tip": "yeni-listeleme",
+      "coin": "牛来",
+      "baslik": "牛来/USDT işlem görmeye başladı"
+    },
     {
       "ts": "2026-09-09T12:58:35.384Z",
       "tip": "yeni-listeleme",
