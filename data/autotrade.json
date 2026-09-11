@@ -16,7 +16,10 @@
       "leverage": 10,
       "marginUsd": 56.08,
       "stopPct": 3.62,
-      "ts": "2026-09-11T19:09:59.197Z"
+      "ts": "2026-09-11T19:09:59.197Z",
+      "mfeR": 0,
+      "maeR": 0.57,
+      "bars": 3
     },
     {
       "symbol": "SOLUSDT",
@@ -30,7 +33,10 @@
       "leverage": 10,
       "marginUsd": 49.4,
       "stopPct": 4.1,
-      "ts": "2026-09-11T19:10:00.107Z"
+      "ts": "2026-09-11T19:10:00.107Z",
+      "mfeR": 0.36,
+      "maeR": 0,
+      "bars": 3
     }
   ],
   "closed": [
