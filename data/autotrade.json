@@ -1,26 +1,9 @@
 {
   "note": "SANAL CÜZDAN — gerçek para değildir. Başlangıç: 1000 USDT, işlem başına risk %2 (sabit risk boyutlaması).",
   "startBalance": 1000,
-  "balance": 1013.59,
+  "balance": 992.48,
   "resetNote": "12 Ağu 2026: boyutlama sabit teminat (10$ × 10x) modundan sabit riske (bakiye × %2) döndürüldü ve başlangıç sermayesi 1000$ yapıldı. Gerekçe: 50$ bakiyede işlem başına risk gerçek borsanın minimum emir büyüklüğünün altında kalıyor, komisyon modellemesi anlamsızlaşıyordu. Eski kayıtlar legacyClosed altında duruyor; farklı boyutlamayla açıldıkları için yeni sicille birlikte istatistiğe katılmazlar.",
   "open": [
-    {
-      "symbol": "ETHUSDT",
-      "dir": "LONG",
-      "qty": 0.219093,
-      "entry": 2559.42,
-      "stop": 2466.89397066194,
-      "target": 2790.7350733451503,
-      "riskUsd": 20.27,
-      "notional": 560.75,
-      "leverage": 10,
-      "marginUsd": 56.08,
-      "stopPct": 3.62,
-      "ts": "2026-09-11T19:09:59.197Z",
-      "mfeR": 0,
-      "maeR": 0.99,
-      "bars": 42
-    },
     {
       "symbol": "SOLUSDT",
       "dir": "LONG",
@@ -36,10 +19,34 @@
       "ts": "2026-09-11T19:10:00.107Z",
       "mfeR": 0.36,
       "maeR": 0.53,
-      "bars": 42
+      "bars": 47
     }
   ],
   "closed": [
+    {
+      "symbol": "ETHUSDT",
+      "dir": "LONG",
+      "qty": 0.219093,
+      "entry": 2559.42,
+      "stop": 2466.89397066194,
+      "target": 2790.7350733451503,
+      "riskUsd": 20.27,
+      "notional": 560.75,
+      "leverage": 10,
+      "marginUsd": 56.08,
+      "stopPct": 3.62,
+      "ts": "2026-09-11T19:09:59.197Z",
+      "mfeR": 0,
+      "maeR": 1.05,
+      "bars": 42,
+      "outcome": "STOP ✗",
+      "exit": 2466.89397066194,
+      "pnlGross": -20.27,
+      "feeUsd": 0.56,
+      "fundingUsd": 0.28,
+      "pnl": -21.11,
+      "closedTs": "2026-09-13T18:47:33.541Z"
+    },
     {
       "symbol": "LINKUSDT",
       "dir": "LONG",
@@ -392,20 +399,20 @@
     "note": "Tek \"HEDEF\" kaydı forceTestTrade ile açılan zincir testidir, strateji sinyali değildir."
   },
   "stats": {
-    "trades": 9,
+    "trades": 10,
     "hedef": 3,
-    "stop": 6,
+    "stop": 7,
     "sure": 0,
-    "winRate": 33.3,
-    "pnlSum": 13.59,
-    "avgMfeR": 1.08,
-    "avgMaeR": 0.87,
-    "missAvgMfeR": 0.34,
+    "winRate": 30,
+    "pnlSum": -7.52,
+    "avgMfeR": 0.97,
+    "avgMaeR": 0.89,
+    "missAvgMfeR": 0.29,
     "missMaxMfeR": 0.98,
-    "avgBars": 38.56,
-    "sample": 9,
-    "feeSum": 4.86,
-    "fundingSum": 2.82,
-    "grossSum": 21.27
+    "avgBars": 38.9,
+    "sample": 10,
+    "feeSum": 5.42,
+    "fundingSum": 3.1,
+    "grossSum": 1
   }
 }
