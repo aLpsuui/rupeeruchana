@@ -17,9 +17,9 @@
       "marginUsd": 49.4,
       "stopPct": 4.1,
       "ts": "2026-09-11T19:10:00.107Z",
-      "mfeR": 0.36,
+      "mfeR": 0.71,
       "maeR": 0.63,
-      "bars": 68
+      "bars": 73
     },
     {
       "symbol": "BTCUSDT",
@@ -34,9 +34,37 @@
       "marginUsd": 112.6,
       "stopPct": 1.76,
       "ts": "2026-09-14T04:57:53.631Z",
-      "mfeR": 0.82,
+      "mfeR": 1.35,
       "maeR": 0.16,
-      "bars": 11
+      "bars": 16
+    },
+    {
+      "symbol": "LINKUSDT",
+      "dir": "LONG",
+      "qty": 44.1618,
+      "entry": 11.743,
+      "stop": 11.293525476334043,
+      "target": 12.866686309164894,
+      "riskUsd": 19.85,
+      "notional": 518.59,
+      "leverage": 10,
+      "marginUsd": 51.86,
+      "stopPct": 3.83,
+      "ts": "2026-09-14T20:18:42.719Z"
+    },
+    {
+      "symbol": "DOGEUSDT",
+      "dir": "LONG",
+      "qty": 7167.59,
+      "entry": 0.08472,
+      "stop": 0.08195064344949327,
+      "target": 0.09164339137626684,
+      "riskUsd": 19.85,
+      "notional": 607.24,
+      "leverage": 10,
+      "marginUsd": 60.72,
+      "stopPct": 3.27,
+      "ts": "2026-09-14T20:18:43.565Z"
     }
   ],
   "closed": [
