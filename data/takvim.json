@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-14T04:58:04.107Z",
+  "updated": "2026-09-14T15:01:25.884Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -88,6 +88,7 @@
     "BMNRB",
     "BMT",
     "BNB",
+    "BNCB",
     "BNSOL",
     "BNT",
     "BOME",
@@ -489,10 +490,21 @@
     "币安人生",
     "牛来"
   ],
-  "symbolCount": 485,
-  "sonDuyuruId": 284214,
+  "symbolCount": 486,
+  "sonDuyuruId": 284461,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-14T15:01:25.884Z",
+      "tip": "yeni-listeleme",
+      "coin": "BNCB",
+      "baslik": "BNCB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-14T15:01:25.884Z",
+      "tip": "duyuru-listeleme",
+      "baslik": "Binance Exchange Adds CEA Industries (BNCB) bStocks Trading Pair on Binance Spot/Convert - 2026-09-14"
+    },
     {
       "ts": "2026-09-09T19:17:29.292Z",
       "tip": "yeni-listeleme",
