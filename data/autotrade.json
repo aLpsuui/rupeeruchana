@@ -17,9 +17,9 @@
       "marginUsd": 49.4,
       "stopPct": 4.1,
       "ts": "2026-09-11T19:10:00.107Z",
-      "mfeR": 0.71,
+      "mfeR": 0.77,
       "maeR": 0.63,
-      "bars": 73
+      "bars": 81
     },
     {
       "symbol": "BTCUSDT",
@@ -34,9 +34,9 @@
       "marginUsd": 112.6,
       "stopPct": 1.76,
       "ts": "2026-09-14T04:57:53.631Z",
-      "mfeR": 1.35,
+      "mfeR": 1.46,
       "maeR": 0.16,
-      "bars": 16
+      "bars": 24
     },
     {
       "symbol": "LINKUSDT",
@@ -50,7 +50,10 @@
       "leverage": 10,
       "marginUsd": 51.86,
       "stopPct": 3.83,
-      "ts": "2026-09-14T20:18:42.719Z"
+      "ts": "2026-09-14T20:18:42.719Z",
+      "mfeR": 0.03,
+      "maeR": 0.69,
+      "bars": 8
     },
     {
       "symbol": "DOGEUSDT",
@@ -64,7 +67,10 @@
       "leverage": 10,
       "marginUsd": 60.72,
       "stopPct": 3.27,
-      "ts": "2026-09-14T20:18:43.565Z"
+      "ts": "2026-09-14T20:18:43.565Z",
+      "mfeR": 0.17,
+      "maeR": 0.58,
+      "bars": 8
     }
   ],
   "closed": [
