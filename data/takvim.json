@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-16T04:50:30.520Z",
+  "updated": "2026-09-16T13:30:59.665Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -190,6 +190,7 @@
     "GNO",
     "GNS",
     "GOOGLB",
+    "GPROB",
     "GPS",
     "GRAM",
     "GRT",
@@ -349,6 +350,7 @@
     "RAD",
     "RARE",
     "RAY",
+    "RDDTB",
     "RE",
     "RED",
     "RENDER",
@@ -490,10 +492,22 @@
     "币安人生",
     "牛来"
   ],
-  "symbolCount": 486,
+  "symbolCount": 488,
   "sonDuyuruId": 284660,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-16T13:30:59.665Z",
+      "tip": "yeni-listeleme",
+      "coin": "GPROB",
+      "baslik": "GPROB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-16T13:30:59.665Z",
+      "tip": "yeni-listeleme",
+      "coin": "RDDTB",
+      "baslik": "RDDTB/USDT işlem görmeye başladı"
+    },
     {
       "ts": "2026-09-16T04:50:30.520Z",
       "tip": "duyuru-listeleme",
