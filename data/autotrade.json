@@ -17,9 +17,37 @@
       "marginUsd": 50.1,
       "stopPct": 3.63,
       "ts": "2026-09-17T04:54:13.426Z",
-      "mfeR": 0.41,
+      "mfeR": 0.58,
       "maeR": 0.13,
-      "bars": 9
+      "bars": 15
+    },
+    {
+      "symbol": "ETHUSDT",
+      "dir": "LONG",
+      "qty": 0.227417,
+      "entry": 2470.27,
+      "stop": 2390.360286680837,
+      "target": 2670.044283297908,
+      "riskUsd": 18.17,
+      "notional": 561.78,
+      "leverage": 10,
+      "marginUsd": 56.18,
+      "stopPct": 3.23,
+      "ts": "2026-09-17T19:43:45.772Z"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "dir": "LONG",
+      "qty": 0.0103341,
+      "entry": 76780.01,
+      "stop": 75021.48229429302,
+      "target": 81176.32926426744,
+      "riskUsd": 18.17,
+      "notional": 793.45,
+      "leverage": 10,
+      "marginUsd": 79.35,
+      "stopPct": 2.29,
+      "ts": "2026-09-17T19:43:46.564Z"
     }
   ],
   "closed": [
