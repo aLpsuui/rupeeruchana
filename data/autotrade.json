@@ -19,7 +19,7 @@
       "ts": "2026-09-17T04:54:13.426Z",
       "mfeR": 0.58,
       "maeR": 0.13,
-      "bars": 15
+      "bars": 18
     },
     {
       "symbol": "ETHUSDT",
@@ -33,7 +33,10 @@
       "leverage": 10,
       "marginUsd": 56.18,
       "stopPct": 3.23,
-      "ts": "2026-09-17T19:43:45.772Z"
+      "ts": "2026-09-17T19:43:45.772Z",
+      "mfeR": 0,
+      "maeR": 0.42,
+      "bars": 3
     },
     {
       "symbol": "BTCUSDT",
@@ -47,7 +50,10 @@
       "leverage": 10,
       "marginUsd": 79.35,
       "stopPct": 2.29,
-      "ts": "2026-09-17T19:43:46.564Z"
+      "ts": "2026-09-17T19:43:46.564Z",
+      "mfeR": 0,
+      "maeR": 0.3,
+      "bars": 3
     }
   ],
   "closed": [
