@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-18T12:58:35.962Z",
+  "updated": "2026-09-18T19:02:29.904Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -493,9 +493,14 @@
     "牛来"
   ],
   "symbolCount": 488,
-  "sonDuyuruId": 284923,
+  "sonDuyuruId": 285011,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-18T19:02:29.904Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch USDBRLUSDT USDⓈ-Margined TradFi Perpetual Contract (2026-09-21)"
+    },
     {
       "ts": "2026-09-18T12:58:35.962Z",
       "tip": "duyuru-listeleme",

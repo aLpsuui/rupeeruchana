@@ -1,26 +1,9 @@
 {
   "note": "SANAL CÜZDAN — gerçek para değildir. Başlangıç: 1000 USDT, işlem başına risk %2 (sabit risk boyutlaması).",
   "startBalance": 1000,
-  "balance": 908.64,
+  "balance": 997.77,
   "resetNote": "12 Ağu 2026: boyutlama sabit teminat (10$ × 10x) modundan sabit riske (bakiye × %2) döndürüldü ve başlangıç sermayesi 1000$ yapıldı. Gerekçe: 50$ bakiyede işlem başına risk gerçek borsanın minimum emir büyüklüğünün altında kalıyor, komisyon modellemesi anlamsızlaşıyordu. Eski kayıtlar legacyClosed altında duruyor; farklı boyutlamayla açıldıkları için yeni sicille birlikte istatistiğe katılmazlar.",
   "open": [
-    {
-      "symbol": "SOLUSDT",
-      "dir": "LONG",
-      "qty": 5.01207,
-      "entry": 99.95,
-      "stop": 96.32419366813681,
-      "target": 109.01451582965797,
-      "riskUsd": 18.17,
-      "notional": 500.96,
-      "leverage": 10,
-      "marginUsd": 50.1,
-      "stopPct": 3.63,
-      "ts": "2026-09-17T04:54:13.426Z",
-      "mfeR": 1.85,
-      "maeR": 0.13,
-      "bars": 32
-    },
     {
       "symbol": "ETHUSDT",
       "dir": "LONG",
@@ -34,10 +17,12 @@
       "marginUsd": 56.18,
       "stopPct": 3.23,
       "ts": "2026-09-17T19:43:45.772Z",
-      "mfeR": 0.64,
+      "mfeR": 1.95,
       "maeR": 0.42,
-      "bars": 17
-    },
+      "bars": 24
+    }
+  ],
+  "closed": [
     {
       "symbol": "BTCUSDT",
       "dir": "LONG",
@@ -51,12 +36,41 @@
       "marginUsd": 79.35,
       "stopPct": 2.29,
       "ts": "2026-09-17T19:43:46.564Z",
-      "mfeR": 0.97,
+      "mfeR": 2.55,
       "maeR": 0.3,
-      "bars": 17
-    }
-  ],
-  "closed": [
+      "bars": 21,
+      "outcome": "HEDEF ✓",
+      "exit": 81176.32926426744,
+      "pnlGross": 45.43,
+      "feeUsd": 0.79,
+      "fundingUsd": 0.24,
+      "pnl": 44.4,
+      "closedTs": "2026-09-18T19:02:19.709Z"
+    },
+    {
+      "symbol": "SOLUSDT",
+      "dir": "LONG",
+      "qty": 5.01207,
+      "entry": 99.95,
+      "stop": 96.32419366813681,
+      "target": 109.01451582965797,
+      "riskUsd": 18.17,
+      "notional": 500.96,
+      "leverage": 10,
+      "marginUsd": 50.1,
+      "stopPct": 3.63,
+      "ts": "2026-09-17T04:54:13.426Z",
+      "mfeR": 2.6,
+      "maeR": 0.13,
+      "bars": 33,
+      "outcome": "HEDEF ✓",
+      "exit": 109.01451582965797,
+      "pnlGross": 45.43,
+      "feeUsd": 0.5,
+      "fundingUsd": 0.2,
+      "pnl": 44.73,
+      "closedTs": "2026-09-18T19:02:19.093Z"
+    },
     {
       "symbol": "DOGEUSDT",
       "dir": "LONG",
@@ -529,20 +543,20 @@
     "note": "Tek \"HEDEF\" kaydı forceTestTrade ile açılan zincir testidir, strateji sinyali değildir."
   },
   "stats": {
-    "trades": 14,
-    "hedef": 3,
+    "trades": 16,
+    "hedef": 5,
     "stop": 11,
     "sure": 0,
-    "winRate": 21.4,
-    "pnlSum": -91.36,
-    "avgMfeR": 0.87,
-    "avgMaeR": 1.03,
+    "winRate": 31.3,
+    "pnlSum": -2.23,
+    "avgMfeR": 1.08,
+    "avgMaeR": 0.93,
     "missAvgMfeR": 0.41,
     "missMaxMfeR": 1.46,
-    "avgBars": 39.5,
-    "sample": 14,
-    "feeSum": 8.17,
-    "fundingSum": 4.36,
-    "grossSum": -78.82
+    "avgBars": 37.94,
+    "sample": 16,
+    "feeSum": 9.46,
+    "fundingSum": 4.8,
+    "grossSum": 12.04
   }
 }
