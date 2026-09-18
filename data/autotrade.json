@@ -17,9 +17,9 @@
       "marginUsd": 50.1,
       "stopPct": 3.63,
       "ts": "2026-09-17T04:54:13.426Z",
-      "mfeR": 1.54,
+      "mfeR": 1.85,
       "maeR": 0.13,
-      "bars": 24
+      "bars": 32
     },
     {
       "symbol": "ETHUSDT",
@@ -34,9 +34,9 @@
       "marginUsd": 56.18,
       "stopPct": 3.23,
       "ts": "2026-09-17T19:43:45.772Z",
-      "mfeR": 0.19,
+      "mfeR": 0.64,
       "maeR": 0.42,
-      "bars": 9
+      "bars": 17
     },
     {
       "symbol": "BTCUSDT",
@@ -51,9 +51,9 @@
       "marginUsd": 79.35,
       "stopPct": 2.29,
       "ts": "2026-09-17T19:43:46.564Z",
-      "mfeR": 0.47,
+      "mfeR": 0.97,
       "maeR": 0.3,
-      "bars": 9
+      "bars": 17
     }
   ],
   "closed": [
