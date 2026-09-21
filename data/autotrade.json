@@ -1,9 +1,10 @@
 {
   "note": "SANAL CÜZDAN — gerçek para değildir. Başlangıç: 1000 USDT, işlem başına risk %2 (sabit risk boyutlaması).",
   "startBalance": 1000,
-  "balance": 997.77,
+  "balance": 1042.08,
   "resetNote": "12 Ağu 2026: boyutlama sabit teminat (10$ × 10x) modundan sabit riske (bakiye × %2) döndürüldü ve başlangıç sermayesi 1000$ yapıldı. Gerekçe: 50$ bakiyede işlem başına risk gerçek borsanın minimum emir büyüklüğünün altında kalıyor, komisyon modellemesi anlamsızlaşıyordu. Eski kayıtlar legacyClosed altında duruyor; farklı boyutlamayla açıldıkları için yeni sicille birlikte istatistiğe katılmazlar.",
-  "open": [
+  "open": [],
+  "closed": [
     {
       "symbol": "ETHUSDT",
       "dir": "LONG",
@@ -17,12 +18,17 @@
       "marginUsd": 56.18,
       "stopPct": 3.23,
       "ts": "2026-09-17T19:43:45.772Z",
-      "mfeR": 2.47,
+      "mfeR": 2.97,
       "maeR": 0.42,
-      "bars": 75
-    }
-  ],
-  "closed": [
+      "bars": 77,
+      "outcome": "HEDEF ✓",
+      "exit": 2670.044283297908,
+      "pnlGross": 45.43,
+      "feeUsd": 0.56,
+      "fundingUsd": 0.56,
+      "pnl": 44.31,
+      "closedTs": "2026-09-21T04:57:14.470Z"
+    },
     {
       "symbol": "BTCUSDT",
       "dir": "LONG",
@@ -543,20 +549,20 @@
     "note": "Tek \"HEDEF\" kaydı forceTestTrade ile açılan zincir testidir, strateji sinyali değildir."
   },
   "stats": {
-    "trades": 16,
-    "hedef": 5,
+    "trades": 17,
+    "hedef": 6,
     "stop": 11,
     "sure": 0,
-    "winRate": 31.3,
-    "pnlSum": -2.23,
-    "avgMfeR": 1.08,
-    "avgMaeR": 0.93,
+    "winRate": 35.3,
+    "pnlSum": 42.08,
+    "avgMfeR": 1.19,
+    "avgMaeR": 0.9,
     "missAvgMfeR": 0.41,
     "missMaxMfeR": 1.46,
-    "avgBars": 37.94,
-    "sample": 16,
-    "feeSum": 9.46,
-    "fundingSum": 4.8,
-    "grossSum": 12.04
+    "avgBars": 40.24,
+    "sample": 17,
+    "feeSum": 10.02,
+    "fundingSum": 5.36,
+    "grossSum": 57.47
   }
 }
