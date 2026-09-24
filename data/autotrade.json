@@ -3,7 +3,22 @@
   "startBalance": 1000,
   "balance": 1042.08,
   "resetNote": "12 Ağu 2026: boyutlama sabit teminat (10$ × 10x) modundan sabit riske (bakiye × %2) döndürüldü ve başlangıç sermayesi 1000$ yapıldı. Gerekçe: 50$ bakiyede işlem başına risk gerçek borsanın minimum emir büyüklüğünün altında kalıyor, komisyon modellemesi anlamsızlaşıyordu. Eski kayıtlar legacyClosed altında duruyor; farklı boyutlamayla açıldıkları için yeni sicille birlikte istatistiğe katılmazlar.",
-  "open": [],
+  "open": [
+    {
+      "symbol": "LINKUSDT",
+      "dir": "LONG",
+      "qty": 31.216,
+      "entry": 12.788,
+      "stop": 12.12034276304365,
+      "target": 14.457143092390876,
+      "riskUsd": 20.84,
+      "notional": 399.19,
+      "leverage": 10,
+      "marginUsd": 39.92,
+      "stopPct": 5.22,
+      "ts": "2026-09-24T19:59:27.935Z"
+    }
+  ],
   "closed": [
     {
       "symbol": "ETHUSDT",
