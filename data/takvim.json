@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-24T04:52:40.746Z",
+  "updated": "2026-09-24T13:33:44.801Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -212,6 +212,7 @@
     "HOODB",
     "HOT",
     "HUMA",
+    "HYPE",
     "HYPER",
     "IBMB",
     "ICP",
@@ -495,10 +496,21 @@
     "币安人生",
     "牛来"
   ],
-  "symbolCount": 491,
-  "sonDuyuruId": 285396,
+  "symbolCount": 492,
+  "sonDuyuruId": 285530,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-24T13:33:44.801Z",
+      "tip": "yeni-listeleme",
+      "coin": "HYPE",
+      "baslik": "HYPE/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-24T13:33:44.801Z",
+      "tip": "duyuru-listeleme",
+      "baslik": "Binance Will List Hyperliquid (HYPE) with Seed Tag Applied"
+    },
     {
       "ts": "2026-09-23T13:39:24.863Z",
       "tip": "yeni-listeleme",
