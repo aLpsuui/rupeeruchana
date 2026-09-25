@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-25T20:01:40.006Z",
+  "updated": "2026-09-25T23:18:29.319Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 25,
@@ -61,11 +61,11 @@
       "coin": "KAITO",
       "ts": "2026-09-15T19:42:24.293Z",
       "entry": 0.2865,
-      "price": 0.3523,
+      "price": 0.3557,
       "emaGapPct": -34.9,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 23,
+      "chgPct": 24.2,
       "maxPct": 31.1,
       "minPct": -2.6,
       "days": 10
@@ -113,11 +113,11 @@
       "coin": "SYN",
       "ts": "2026-09-10T12:55:34.750Z",
       "entry": 0.08209,
-      "price": 0.19153,
+      "price": 0.18908,
       "emaGapPct": -29.1,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 133.3,
+      "chgPct": 130.3,
       "maxPct": 237.4,
       "minPct": -5.8,
       "days": 15
@@ -126,24 +126,24 @@
       "coin": "CFG",
       "ts": "2026-08-28T22:20:53.905Z",
       "entry": 0.1219,
-      "price": 0.1574,
+      "price": 0.1595,
       "emaGapPct": -26,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 29.1,
-      "maxPct": 31,
+      "chgPct": 30.8,
+      "maxPct": 31.3,
       "minPct": -19.8,
-      "days": 27
+      "days": 28
     },
     {
       "coin": "RVN",
       "ts": "2026-09-10T12:55:34.750Z",
       "entry": 0.00241,
-      "price": 0.002443,
+      "price": 0.002467,
       "emaGapPct": -26,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 1.4,
+      "chgPct": 2.4,
       "maxPct": 29,
       "minPct": -17,
       "days": 15
@@ -152,24 +152,24 @@
       "coin": "OPEN",
       "ts": "2026-09-01T22:36:54.023Z",
       "entry": 0.1246,
-      "price": 0.1371,
+      "price": 0.1382,
       "emaGapPct": -25.7,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 10,
+      "chgPct": 10.9,
       "maxPct": 21.6,
       "minPct": -9.5,
-      "days": 23
+      "days": 24
     },
     {
       "coin": "MITO",
       "ts": "2026-09-02T04:35:26.091Z",
       "entry": 0.01844,
-      "price": 0.01617,
+      "price": 0.01615,
       "emaGapPct": -25.7,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": -12.3,
+      "chgPct": -12.4,
       "maxPct": 4.2,
       "minPct": -38.7,
       "days": 23
@@ -178,24 +178,24 @@
       "coin": "ROBO",
       "ts": "2026-09-09T22:34:06.824Z",
       "entry": 0.00974,
-      "price": 0.01,
+      "price": 0.00995,
       "emaGapPct": -25.5,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 2.7,
+      "chgPct": 2.2,
       "maxPct": 11.2,
       "minPct": -19.9,
-      "days": 15
+      "days": 16
     },
     {
       "coin": "ATM",
       "ts": "2026-08-31T05:36:36.255Z",
       "entry": 1.18,
-      "price": 1.085,
+      "price": 1.088,
       "emaGapPct": -25.2,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": -8.1,
+      "chgPct": -7.8,
       "maxPct": 18.4,
       "minPct": -20,
       "days": 25
@@ -204,14 +204,14 @@
       "coin": "FOGO",
       "ts": "2026-09-10T22:35:57.332Z",
       "entry": 0.00626,
-      "price": 0.00644,
+      "price": 0.00654,
       "emaGapPct": -25.2,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 2.9,
+      "chgPct": 4.5,
       "maxPct": 18.1,
       "minPct": -7.3,
-      "days": 14
+      "days": 15
     }
   ],
   "closed": [
@@ -421,7 +421,7 @@
     "pct100": 0
   },
   "rejim": "boga",
-  "btc": 84016,
+  "btc": 84074,
   "btcEma": 76061,
   "fark": 10.5,
   "olculen": {
