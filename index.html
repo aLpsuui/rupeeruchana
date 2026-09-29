@@ -740,11 +740,18 @@ function diagLine(s, baslik){
   // Fallback: son bilinen fiyatlar (ajan güncellemesinde yenilenir)
   var FALLBACK = [
     {s:'BTC',   p:'83.941', c:0.84},
+    {s:'ETH',   p:'2.689',  c:1.10},
+    {s:'SOL',   p:'101,61', c:0.58},
+    {s:'LINK',  p:'8,44',   c:0.69},
+    {s:'DOGE',  p:'0,0733', c:2.16},
     {s:'XRP',   p:'1,504',  c:1.19},
     {s:'TRUMP', p:'2,001',  c:-1.04}
   ];
-  // tarama evreni (motordaki COINS ile aynı sıra) — 29 Eyl 2026: BTC + XRP + TRUMP
-  var PAIRS = ['BTCUSDT','XRPUSDT','TRUMPUSDT'];
+  // çekirdek evren + altcoin radarı (motordaki COINS + ALTS ile aynı sıra)
+  var PAIRS = ['BTCUSDT','ETHUSDT','SOLUSDT','LINKUSDT','DOGEUSDT',
+               'XRPUSDT','TRUMPUSDT','AVAXUSDT','ADAUSDT','POLUSDT','DOTUSDT','ATOMUSDT',
+               'NEARUSDT','APTUSDT','ARBUSDT','OPUSDT','INJUSDT','SUIUSDT','TIAUSDT',
+               'SEIUSDT','LTCUSDT','BCHUSDT','UNIUSDT','AAVEUSDT','FILUSDT','RENDERUSDT'];
 
   function fmt(n){
     n = parseFloat(n);

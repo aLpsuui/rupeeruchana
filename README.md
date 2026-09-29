@@ -36,18 +36,31 @@ sonuçları ve tüm sinyal sicili halka açıktır.
 
 | | Coinler | Sinyal üretir | Sanal cüzdan |
 |---|---|---|---|
-| **Çekirdek** | BTC · XRP · TRUMP | evet | evet |
-| **Altcoin radarı** | — (kapalı) | hayır | hayır |
+| **Çekirdek** | BTC · ETH · SOL · LINK · DOGE | evet | evet |
+| **Altcoin radarı** | XRP · TRUMP · AVAX · ADA · POL · DOT · ATOM · NEAR · APT · ARB · OP · INJ · SUI · TIA · SEI · LTC · BCH · UNI · AAVE · FIL · RENDER | hayır | hayır |
 
-**29 Eylül 2026'da evren daraltıldı.** Önceki çekirdek (BTC · ETH · SOL · LINK · DOGE)
-ve 20 coinlik altcoin radarı kaldırıldı; motor artık yalnızca **BTC, XRP ve TRUMP**
-tarıyor. Radar kod yolları yerinde duruyor, sadece `ALTS` listesi boş: sitedeki radar
-bölümü liste boşken kendini gizler. Evreni değiştirmek için `scripts/update.mjs`
-başındaki `COINS` / `WATCH` (ve istersen `ALTS`) listelerini düzenle, sonra
-`index.html` içindeki `PAIRS` marquee listesini aynı sıraya getir.
+Radar, aynı v3 kurallarıyla 21 altcoinin durumunu (sinyal / kurulum / aday) hesaplar,
+sitede ayrı bir tabloda gösterir ve kendi sicilini tutar, ama sinyal listesine girmez
+ve pozisyon açmaz. Gerekçe: 4 pozisyonluk kontenjan düşük likiditeli alt sinyalleriyle
+dolarsa çekirdek coinlerin sinyalleri kaçar ve sicil kıyaslanamaz hale gelir. Radardaki
+bir coini gerçekten işleme dahil etmek istersen `scripts/update.mjs` içinde `ALTS`'tan
+çıkarıp `COINS` ve `WATCH` listelerine ekle, sonra `index.html` içindeki `PAIRS`
+marquee listesini aynı sıraya getir.
 
-Not: dip radarı (`scripts/dipradar.mjs`) bu daraltmanın dışında, o hâlâ Binance'teki
-tüm USDT çiftlerini tarar. İşi sinyal üretmek değil, dipteki adayları listelemek.
+### Neden evren geniş tutuluyor (29 Eylül 2026'da ölçüldü)
+
+Evren bir gün boyunca BTC + XRP + TRUMP'a indirildi, sonra aynı gün geri açıldı.
+Sebep sayısal: sanal sicildeki 18 işlemde işlem başına **+0,315R** var, ama işlemlerin
+standart sapması 1,76R olduğu için standart hata **0,414R**, yani **t = 0,76**. Edge
+istatistiksel olarak sıfırdan ayırt edilemiyor; anlamlılık için yaklaşık **125 işlem**
+gerekiyor. 5 çekirdek coinle mevcut hız ayda ~12 işlem, yani ~11 ay. Üç coinle bu süre
+~25 aya çıkıyordu. Evreni daraltmak odağı değil, **öğrenme hızını** kesiyordu.
+
+Karar: sicil 100+ işleme ulaşana kadar evren geniş kalır. TRUMP radara eklendi, böylece
+kendi sicilini biriktirir ama çekirdeğin pozisyon kontenjanını tüketmez.
+
+Not: dip radarı (`scripts/dipradar.mjs`) bu evrenin dışında, Binance'teki tüm USDT
+çiftlerini tarar. İşi sinyal üretmek değil, dipteki adayları listelemek.
 
 ### İşlem maliyetleri
 

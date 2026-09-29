@@ -22,12 +22,19 @@ import { notify, channel } from './notify.mjs';
 //        listesine girmez, bildirim yollamaz ve sanal cüzdanda pozisyon açmaz.
 //        Gerekçe: 4 pozisyonluk kontenjan düşük likiditeli alt sinyalleriyle
 //        dolarsa çekirdek coinlerin sinyalleri kaçar ve sicil kıyaslanamaz olur.
-export const COINS = ['BTC', 'XRP', 'TRUMP'];
-const WATCH = ['BTC', 'XRP', 'TRUMP']; // izleme listesi sırası
-// 29 Eyl 2026 — kullanıcı kararı: tarama evreni BTC + XRP + TRUMP ile sınırlı.
-// Altcoin radarı kapatıldı (liste boş bırakıldı, kod yolları olduğu gibi duruyor;
-// eski 20 coinlik evren git geçmişinde mevcut, geri açmak listeyi doldurmak kadar).
-export const ALTS = [];
+// 29 Eyl 2026: evren önce BTC + XRP + TRUMP'a indirildi, sonra AYNI GÜN geri açıldı.
+// Gerekçe ölçüldü: sanal sicildeki 18 işlemde işlem başına +0,315R var ama standart
+// hata 0,414R, yani t = 0,76 — edge istatistiksel olarak SIFIRDAN ayırt edilemiyor.
+// Anlamlılık için ~125 işlem gerekiyor. 5 çekirdek coinle bu ~11 ay, 3 coinle ~25 ay.
+// Yani evreni daraltmak, sistemin işe yarayıp yaramadığını öğrenmeyi iki yıla yayıyordu.
+// Sicil birikene kadar geniş evren kalır. TRUMP radara eklendi: kendi sicilini
+// biriktirir ama 4 pozisyonluk kontenjanı çekirdek coinlerden çalmaz.
+export const COINS = ['BTC', 'ETH', 'SOL', 'LINK', 'DOGE'];
+const WATCH = ['ETH', 'LINK', 'SOL', 'DOGE', 'BTC']; // izleme listesi sırası
+export const ALTS = [
+  'XRP', 'TRUMP', 'AVAX', 'ADA', 'POL', 'DOT', 'ATOM', 'NEAR', 'APT', 'ARB',
+  'OP', 'INJ', 'SUI', 'TIA', 'SEI', 'LTC', 'BCH', 'UNI', 'AAVE', 'FIL', 'RENDER',
+]; // POL (eski MATIC) ve RENDER (eski RNDR) güncel Binance sembolleridir
 const ALL = [...COINS, ...ALTS];
 const BATCH = 4; // aynı anda kaç coin çekilsin (tarama evreni büyüyünce tur süresi patlamasın)
 const STATE_PATH = new URL('../data/state.json', import.meta.url);
@@ -505,6 +512,20 @@ async function main() {
         ? `${'\n'}${'\n'}Bu turda kapanan:${'\n'}` + kapanan.map(x => `• ${x.coin} ${x.dir} → ${x.state}`).join('\n')
         : '';
 
+      // Radar tek satırda özetlenir: mesajın uzunluğu 21 coinle patlamasın, ama
+      // sadece çekirdeği yazıp radarı hiç anmamak da eksik rapor olur.
+      const radarAktif = altSignals.filter(x => x.state === 'AKTİF');
+      // Öne çıkanlar en fazla 5 coinle yazılır: 21 coinlik radar bazı turlarda
+      // 10+ "öne çıkan" üretiyor ve mesaj okunmaz hale geliyor.
+      const ilk5 = altHot.slice(0, 5).map(a => `${a.coin}:${a.status}`).join(', ');
+      const radarMetin = alts.length
+        ? `${'\n'}${'\n'}Radar: ${alts.length} coin izleniyor`
+          + (altHot.length
+              ? ` · öne çıkan ${ilk5}${altHot.length > 5 ? ` (+${altHot.length - 5} coin daha)` : ''}`
+              : ' · öne çıkan yok')
+          + (radarAktif.length ? ` · ${radarAktif.length} aktif radar sinyali (izleme, işlem açılmaz)` : '')
+        : '';
+
       // Sanal cüzdan durumu (dosyadan okunur; yoksa mesaj yine gider).
       let cuzdan = '';
       try {
@@ -522,7 +543,7 @@ async function main() {
 
       await notify(
         `📊 4 saatlik analiz — ${COINS.join(' · ')}`,
-        `${durum}${'\n'}${'\n'}Açık sinyaller:${'\n'}${aktifMetin}${kapananMetin}${cuzdan}${'\n'}${'\n'}`
+        `${durum}${'\n'}${'\n'}Açık sinyaller:${'\n'}${aktifMetin}${kapananMetin}${radarMetin}${cuzdan}${'\n'}${'\n'}`
         + 'Kurallar v3 · 4s · stop 2×ATR · hedef 2,5R. Bilgilendirmedir, yatırım tavsiyesi değildir.',
         'bar_chart',
       );
