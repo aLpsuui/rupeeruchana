@@ -17,9 +17,9 @@
       "marginUsd": 87.48,
       "stopPct": 2.5,
       "ts": "2026-09-29T00:22:29.415Z",
-      "mfeR": 0.69,
+      "mfeR": 0.89,
       "maeR": 0.54,
-      "bars": 10
+      "bars": 18
     },
     {
       "symbol": "BTCUSDT",
@@ -33,7 +33,10 @@
       "leverage": 10,
       "marginUsd": 109.28,
       "stopPct": 2,
-      "ts": "2026-09-29T10:41:53.133Z"
+      "ts": "2026-09-29T10:41:53.133Z",
+      "mfeR": 0.35,
+      "maeR": 0.64,
+      "bars": 8
     }
   ],
   "closed": [
