@@ -16,7 +16,24 @@
       "leverage": 10,
       "marginUsd": 87.48,
       "stopPct": 2.5,
-      "ts": "2026-09-29T00:22:29.415Z"
+      "ts": "2026-09-29T00:22:29.415Z",
+      "mfeR": 0.69,
+      "maeR": 0.54,
+      "bars": 10
+    },
+    {
+      "symbol": "BTCUSDT",
+      "dir": "LONG",
+      "qty": 0.0130122,
+      "entry": 83980.97,
+      "stop": 82300.11792755303,
+      "target": 88183.10018111742,
+      "riskUsd": 21.87,
+      "notional": 1092.78,
+      "leverage": 10,
+      "marginUsd": 109.28,
+      "stopPct": 2,
+      "ts": "2026-09-29T10:41:53.133Z"
     }
   ],
   "closed": [

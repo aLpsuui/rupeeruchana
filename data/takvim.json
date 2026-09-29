@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-29T00:22:39.769Z",
+  "updated": "2026-09-29T10:42:01.128Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -497,9 +497,14 @@
     "牛来"
   ],
   "symbolCount": 492,
-  "sonDuyuruId": 285671,
+  "sonDuyuruId": 285781,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-29T10:42:01.128Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch Multiple TradFi USDⓈ-Margined Perpetual Contracts (2026-09-29)"
+    },
     {
       "ts": "2026-09-28T05:25:23.764Z",
       "tip": "duyuru-vadeli",
