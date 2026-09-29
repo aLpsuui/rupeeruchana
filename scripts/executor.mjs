@@ -159,10 +159,13 @@ export async function openTrade(sig, notify) {
 // Ayrıca MFE/MAE ölçer (entry verilirse): işlem kapanana kadar lehe ve aleyhe
 // en fazla kaç R gidildi. Bu iki sayı, "hedefe niye ulaşılamıyor" sorusunun
 // tek veriye dayalı cevabıdır: hedef mi uzak, stop mu dar, yoksa giriş mi kötü.
-export function scanBars(bars, { dir, stop, target, entry, startMs, nowMs }) {
-  const deadline = startMs + TIME_STOP_MS;
+// timeStopMs / beAtR yalnızca ARAŞTIRMA seçenekleridir (scripts/research.mjs):
+// varsayılanları canlı davranışı aynen korur. beAtR verilirse, lehe o kadar R
+// gidildikten SONRAKİ mumlarda stop girişe çekilir (başa baş stopu).
+export function scanBars(bars, { dir, stop, target, entry, startMs, nowMs, timeStopMs = TIME_STOP_MS, beAtR = null }) {
+  const deadline = startMs + timeStopMs;
   const R = (entry != null && stop != null) ? Math.abs(entry - stop) : null;
-  let lastClose = null, n = 0, mfe = 0, mae = 0;
+  let lastClose = null, n = 0, mfe = 0, mae = 0, effStop = stop;
 
   const track = (high, low) => {
     if (!R) return;
@@ -186,12 +189,16 @@ export function scanBars(bars, { dir, stop, target, entry, startMs, nowMs }) {
     lastClose = +k[4]; lastMs = +k[0]; n++;
     track(high, low);                      // çıkış mumu da ölçüme dahildir
     if (dir === 'SHORT') {
-      if (high >= stop)   return done('STOP ✗',  stop);
-      if (low  <= target) return done('HEDEF ✓', target);
+      if (high >= effStop) return done('STOP ✗',  effStop);
+      if (low  <= target)  return done('HEDEF ✓', target);
     } else { // LONG
-      if (low  <= stop)   return done('STOP ✗',  stop);
-      if (high >= target) return done('HEDEF ✓', target);
+      if (low  <= effStop) return done('STOP ✗',  effStop);
+      if (high >= target)  return done('HEDEF ✓', target);
     }
+    // Başa baş stopu (yalnızca beAtR verilirse): bu mumda eşiğe ulaşıldıysa stop
+    // SONRAKİ mumlardan itibaren girişe çekilir — dokunuş kontrolünden sonra
+    // uygulanır ki aynı mumda hem eşik hem stop görülünce tutucu davranalım.
+    if (beAtR != null && R && entry != null && mfe >= beAtR) effStop = entry;
   }
   // ZAMAN STOPU: 7 gün içinde ne stop ne hedef — süre dolduğu andaki kapanıştan çık.
   // Gerekçe: çözülmeyen işlem sermayeyi kilitler; sistem "bekleyen umut" taşımaz.

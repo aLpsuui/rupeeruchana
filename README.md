@@ -36,15 +36,18 @@ sonuçları ve tüm sinyal sicili halka açıktır.
 
 | | Coinler | Sinyal üretir | Sanal cüzdan |
 |---|---|---|---|
-| **Çekirdek** | BTC · ETH · SOL · LINK · DOGE | evet | evet |
-| **Altcoin radarı** | XRP · AVAX · ADA · POL · DOT · ATOM · NEAR · APT · ARB · OP · INJ · SUI · TIA · SEI · LTC · BCH · UNI · AAVE · FIL · RENDER | hayır | hayır |
+| **Çekirdek** | BTC · XRP · TRUMP | evet | evet |
+| **Altcoin radarı** | — (kapalı) | hayır | hayır |
 
-Radar, aynı v3 kurallarıyla 20 altcoinin durumunu (sinyal / kurulum / aday) hesaplar
-ve sitede ayrı bir tabloda gösterir, ama sinyal listesine girmez ve pozisyon açmaz.
-Gerekçe: 4 pozisyonluk kontenjan düşük likiditeli alt sinyalleriyle dolarsa çekirdek
-coinlerin sinyalleri kaçar ve sicil kıyaslanamaz hale gelir. Radardaki bir coini
-gerçekten işleme dahil etmek istersen `scripts/update.mjs` içinde `ALTS`'tan çıkarıp
-`COINS` ve `WATCH` listelerine ekle.
+**29 Eylül 2026'da evren daraltıldı.** Önceki çekirdek (BTC · ETH · SOL · LINK · DOGE)
+ve 20 coinlik altcoin radarı kaldırıldı; motor artık yalnızca **BTC, XRP ve TRUMP**
+tarıyor. Radar kod yolları yerinde duruyor, sadece `ALTS` listesi boş: sitedeki radar
+bölümü liste boşken kendini gizler. Evreni değiştirmek için `scripts/update.mjs`
+başındaki `COINS` / `WATCH` (ve istersen `ALTS`) listelerini düzenle, sonra
+`index.html` içindeki `PAIRS` marquee listesini aynı sıraya getir.
+
+Not: dip radarı (`scripts/dipradar.mjs`) bu daraltmanın dışında, o hâlâ Binance'teki
+tüm USDT çiftlerini tarar. İşi sinyal üretmek değil, dipteki adayları listelemek.
 
 ### İşlem maliyetleri
 
@@ -209,6 +212,64 @@ açmaz. Çok fazla bildirim gelirse değeri `'0'` yapmak yeterli.
 > görünmüyordu.** Çözüm: ntfy'ın JSON ucu kullanılıyor, başlık gövdede gidiyor.
 > Ders: sessizce yutulan her `catch` bloğu bir arızayı gizleyebilir; bu yüzden
 > `--test-notify` modu eklendi.
+
+## Backtest (`scripts/backtest.mjs`) ve TradingView karşılığı
+
+Backtest motorun **kendi** fonksiyonlarını çağırır (`update.mjs → analyzeCoin`,
+`executor.mjs → scanBars / sizeTrade / tradeCosts`); kuralların kopyası yoktur, motor
+değişirse backtest de onunla değişir. Geçmişi 4 saatlik kapanış kapanış yeniden oynatır
+ve her kapanışta motorun o anda göreceği pencereyi kurar (119 kapanmış gün + 259 kapanmış
+4s mum). Komisyon, fonlama ve sanal cüzdanın 4 pozisyon kontenjanı dahildir.
+
+```bash
+node scripts/backtest.mjs                                   # çekirdek 5 coin, 2022 → bugün
+node scripts/backtest.mjs --coins all                       # çekirdek + radar (25 coin)
+node scripts/backtest.mjs --coins BTC,ETH --from 2025-01-01 --to 2026-01-01
+```
+
+Çıktı: `research/backtest-<etiket>.json` ve `-trades.csv`. Mum verisi `research/cache/`
+altında tutulur (git dışı). `data/` klasörüne ve bildirimlere dokunmaz. `update.mjs`
+yalnızca doğrudan çalıştırıldığında tur yapar; içe aktarılınca hiçbir şey çalıştırmaz.
+
+> **14 Eylül 2026: canlı motorla doğrulandı.** Canlı sicildeki 19 çekirdek kaydın 19'u da
+> (17 kapanmış + 2 açık) backtest'te aynı giriş, stop ve sonuçla çıkıyor. Backtest'te olup
+> canlıda olmayan 3 işlemin üçü de motorun çalışmadığı turlara denk geliyor: 10 Ağustos
+> kilitlenmesi, 27 Ağustos 12:17–20:17 ve 9 Eylül 08:17 turları (GitHub cron'u zamanlanmış
+> turları atlayabiliyor). Yani backtest, canlı motorun o dönemde yapacağı işlemleri gösterir.
+> Ders: atlanan bir tur, o 4s mumunda oluşan sinyali kalıcı olarak kaçırtır.
+
+> **14 Eylül 2026: ilk uzun dönem ölçümü** (5 çekirdek coin, Ocak 2022 → Eylül 2026, 703
+> işlem). Maliyetler sonrası kâr faktörü **1,00**, isabet %19,5. Sanal cüzdan 1.000$ → 679$,
+> en büyük düşüş %62. Yıllara göre net R: 2022 +15,8 · 2023 −6,1 · 2024 +15,6 · 2025 +12,5 ·
+> **2026 −37,4 (PF 0,56)**. Sitedeki KPI kutuları (29 işlem, PF 1,17) bu tabloyu temsil
+> etmiyor. Hedefe ulaşamayan işlemler ortalama yalnızca 0,86R lehe gidiyor; MFE/MAE
+> bölümündeki teşhise göre bu "hedef fazla iddialı" bölgesi. Ama bu bir hipotezdir: bir
+> değişiklik ancak ayar yapılan dönemden ayrı bir test döneminde de iyileşme gösterirse
+> canlıya alınır, yoksa geçmişe uydurulmuş olur.
+
+> **16 Eylül 2026: varyant taraması — sorun parametrelerde değil.** 17 varyant (hedef
+> 1,5/2/3R, stop 1,5–3×ATR, RSI eşikleri 38/62 ve 45/55, RSI penceresi 4/12 mum, süre
+> stopu 3/14 gün, başa baş stopu +1R/+1,5R, BTC rejim filtresi) ayar dönemi 2022–2024 ve
+> test dönemi 2025–bugün ayrımıyla denendi: `node scripts/research.mjs`, sonuçlar
+> `research/varyantlar-2026-09-16.json`. **Hiçbiri test döneminde artıya geçmedi.**
+> MFE teşhisinin işaret ettiği "hedefi 1,5R'ye çek" fikri en kötülerden biri çıktı
+> (test −54,9R; temel −29,1R): erken alınan küçük kârlar kaybedenleri karşılamıyor.
+> Teşhis satırı bir hipotez üretir, cevabı ancak bu tarama verir.
+>
+> İstatistik daha da net. 703 işlemde işlem başına ortalama **0,000R** (t = 0,01). Ayar
+> dönemi +0,06R (t = 0,87), test dönemi −0,09R (t = −1,06): ikisi de gürültüden ayırt
+> edilemez. Anlamlı tek sayı 2026: −0,32R (t = −2,85). Yani v3'ün ölçülebilir bir
+> avantajı hiçbir dönemde olmadı; 2022 ve 2024'teki artılar da tesadüf aralığında.
+> Sıradaki adım parametre oynatmak değil, kuralın kendisini değiştirmektir — ve yeni
+> kural da aynı ayar/test ayrımından geçmeden canlıya alınmaz.
+
+**TradingView karşılığı:** `strategy/rupeeruchana-v3.pine` aynı kuralların Pine v6
+hâlidir; `BINANCE:<COIN>USDT` 4 saatlik grafikte çalışır. Günlük EMA50 motorun 119 günlük,
+SMA ile tohumlanan penceresiyle hesaplanır ve "kapanmış gün" 4s mumunun kapanış anına
+göre seçilir. İkisi de `ta.ema` veya sabit `[1]` kaydırmasıyla birebir tutmaz. Strateji
+Testçisi'nin işlem listesi aynı dönemin `-trades.csv` dosyasıyla karşılaştırılır.
+Kapatılamayan küçük farklar dosyanın başında yazılıdır (aynı saatte stop + hedef, süre
+stopunun çıkış fiyatı, fonlama).
 
 ## Geliştirme / yerel çalıştırma
 

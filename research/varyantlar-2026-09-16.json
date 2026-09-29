@@ -1,0 +1,653 @@
+{
+  "generated": "2026-09-16T09:06:22.643Z",
+  "split": "2025-01-01",
+  "coins": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "LINK",
+    "DOGE"
+  ],
+  "temelKurallar": {
+    "dailyLen": 50,
+    "emaLen": 21,
+    "rsiLen": 14,
+    "rsiWin": 8,
+    "rsiLong": 42,
+    "rsiShort": 58,
+    "atrLen": 14,
+    "atrMult": 2,
+    "targetR": 2.5
+  },
+  "results": [
+    {
+      "ad": "TEMEL (canlı)",
+      "varyant": {},
+      "ayar": {
+        "trades": 420,
+        "hedef": 85,
+        "stop": 231,
+        "sure": 104,
+        "winRate": 20.2,
+        "sumR": 46.57,
+        "sumRNet": 25.25,
+        "avgRNet": 0.06,
+        "pf": 1.2,
+        "pfNet": 1.1,
+        "maxDdRNet": 35.12,
+        "missAvgMfeR": 0.91,
+        "avgBars": 92.24
+      },
+      "test": {
+        "trades": 287,
+        "hedef": 52,
+        "stop": 180,
+        "sure": 55,
+        "winRate": 18.1,
+        "sumR": -14.16,
+        "sumRNet": -29.11,
+        "avgRNet": -0.101,
+        "pf": 0.92,
+        "pfNet": 0.85,
+        "maxDdRNet": 49.91,
+        "missAvgMfeR": 0.78,
+        "avgBars": 79.65
+      },
+      "coinArti": 0
+    },
+    {
+      "ad": "hedef 1,5R",
+      "varyant": {
+        "targetR": 1.5
+      },
+      "ayar": {
+        "trades": 439,
+        "hedef": 168,
+        "stop": 222,
+        "sure": 49,
+        "winRate": 38.3,
+        "sumR": 40.61,
+        "sumRNet": 21.31,
+        "avgRNet": 0.049,
+        "pf": 1.18,
+        "pfNet": 1.09,
+        "maxDdRNet": 32.39,
+        "missAvgMfeR": 0.61,
+        "avgBars": 70.24
+      },
+      "test": {
+        "trades": 300,
+        "hedef": 91,
+        "stop": 185,
+        "sure": 24,
+        "winRate": 30.3,
+        "sumR": -40.9,
+        "sumRNet": -54.88,
+        "avgRNet": -0.183,
+        "pf": 0.78,
+        "pfNet": 0.72,
+        "maxDdRNet": 63.2,
+        "missAvgMfeR": 0.57,
+        "avgBars": 63.48
+      },
+      "coinArti": 0
+    },
+    {
+      "ad": "hedef 2,0R",
+      "varyant": {
+        "targetR": 2
+      },
+      "ayar": {
+        "trades": 427,
+        "hedef": 121,
+        "stop": 232,
+        "sure": 74,
+        "winRate": 28.3,
+        "sumR": 39.11,
+        "sumRNet": 18.83,
+        "avgRNet": 0.044,
+        "pf": 1.16,
+        "pfNet": 1.08,
+        "maxDdRNet": 40.68,
+        "missAvgMfeR": 0.75,
+        "avgBars": 82.25
+      },
+      "test": {
+        "trades": 290,
+        "hedef": 65,
+        "stop": 182,
+        "sure": 43,
+        "winRate": 22.4,
+        "sumR": -30.46,
+        "sumRNet": -44.94,
+        "avgRNet": -0.155,
+        "pf": 0.84,
+        "pfNet": 0.77,
+        "maxDdRNet": 56.75,
+        "missAvgMfeR": 0.69,
+        "avgBars": 73.56
+      },
+      "coinArti": 0
+    },
+    {
+      "ad": "hedef 3,0R",
+      "varyant": {
+        "targetR": 3
+      },
+      "ayar": {
+        "trades": 418,
+        "hedef": 55,
+        "stop": 234,
+        "sure": 129,
+        "winRate": 13.2,
+        "sumR": 37.01,
+        "sumRNet": 15.18,
+        "avgRNet": 0.036,
+        "pf": 1.15,
+        "pfNet": 1.06,
+        "maxDdRNet": 42.08,
+        "missAvgMfeR": 1.06,
+        "avgBars": 96.52
+      },
+      "test": {
+        "trades": 285,
+        "hedef": 35,
+        "stop": 183,
+        "sure": 67,
+        "winRate": 12.3,
+        "sumR": -27.51,
+        "sumRNet": -42.99,
+        "avgRNet": -0.151,
+        "pf": 0.85,
+        "pfNet": 0.78,
+        "maxDdRNet": 57.81,
+        "missAvgMfeR": 0.91,
+        "avgBars": 85.61
+      },
+      "coinArti": 0
+    },
+    {
+      "ad": "stop 1,5×ATR",
+      "varyant": {
+        "atrMult": 1.5
+      },
+      "ayar": {
+        "trades": 477,
+        "hedef": 133,
+        "stop": 301,
+        "sure": 43,
+        "winRate": 27.9,
+        "sumR": 50.88,
+        "sumRNet": 23.38,
+        "avgRNet": 0.049,
+        "pf": 1.17,
+        "pfNet": 1.07,
+        "maxDdRNet": 53.51,
+        "missAvgMfeR": 0.87,
+        "avgBars": 65.69
+      },
+      "test": {
+        "trades": 324,
+        "hedef": 71,
+        "stop": 233,
+        "sure": 20,
+        "winRate": 21.9,
+        "sumR": -38.45,
+        "sumRNet": -57.69,
+        "avgRNet": -0.178,
+        "pf": 0.84,
+        "pfNet": 0.77,
+        "maxDdRNet": 64.02,
+        "missAvgMfeR": 0.79,
+        "avgBars": 55.97
+      },
+      "coinArti": 0
+    },
+    {
+      "ad": "stop 2,5×ATR",
+      "varyant": {
+        "atrMult": 2.5
+      },
+      "ayar": {
+        "trades": 392,
+        "hedef": 50,
+        "stop": 193,
+        "sure": 149,
+        "winRate": 12.8,
+        "sumR": 15.57,
+        "sumRNet": -1.82,
+        "avgRNet": -0.005,
+        "pf": 1.08,
+        "pfNet": 0.99,
+        "maxDdRNet": 41.61,
+        "missAvgMfeR": 0.89,
+        "avgBars": 106.78
+      },
+      "test": {
+        "trades": 263,
+        "hedef": 31,
+        "stop": 150,
+        "sure": 82,
+        "winRate": 11.8,
+        "sumR": -26.16,
+        "sumRNet": -38.65,
+        "avgRNet": -0.147,
+        "pf": 0.83,
+        "pfNet": 0.76,
+        "maxDdRNet": 53.69,
+        "missAvgMfeR": 0.81,
+        "avgBars": 100.79
+      },
+      "coinArti": 0
+    },
+    {
+      "ad": "stop 3×ATR",
+      "varyant": {
+        "atrMult": 3
+      },
+      "ayar": {
+        "trades": 380,
+        "hedef": 39,
+        "stop": 168,
+        "sure": 173,
+        "winRate": 10.3,
+        "sumR": 12.52,
+        "sumRNet": -2.49,
+        "avgRNet": -0.007,
+        "pf": 1.07,
+        "pfNet": 0.99,
+        "maxDdRNet": 34.77,
+        "missAvgMfeR": 0.81,
+        "avgBars": 118.49
+      },
+      "test": {
+        "trades": 247,
+        "hedef": 21,
+        "stop": 127,
+        "sure": 99,
+        "winRate": 8.5,
+        "sumR": -28.73,
+        "sumRNet": -39.34,
+        "avgRNet": -0.159,
+        "pf": 0.79,
+        "pfNet": 0.72,
+        "maxDdRNet": 50.42,
+        "missAvgMfeR": 0.74,
+        "avgBars": 113.36
+      },
+      "coinArti": 0
+    },
+    {
+      "ad": "RSI 38/62 (daha seçici)",
+      "varyant": {
+        "rsiLong": 38,
+        "rsiShort": 62
+      },
+      "ayar": {
+        "trades": 259,
+        "hedef": 49,
+        "stop": 149,
+        "sure": 61,
+        "winRate": 18.9,
+        "sumR": 13.16,
+        "sumRNet": 0.02,
+        "avgRNet": 0,
+        "pf": 1.09,
+        "pfNet": 1,
+        "maxDdRNet": 37.53,
+        "missAvgMfeR": 0.9,
+        "avgBars": 88.92
+      },
+      "test": {
+        "trades": 169,
+        "hedef": 35,
+        "stop": 107,
+        "sure": 27,
+        "winRate": 20.7,
+        "sumR": -2.62,
+        "sumRNet": -11.46,
+        "avgRNet": -0.068,
+        "pf": 0.98,
+        "pfNet": 0.9,
+        "maxDdRNet": 34.74,
+        "missAvgMfeR": 0.76,
+        "avgBars": 82.08
+      },
+      "coinArti": 2
+    },
+    {
+      "ad": "RSI 45/55 (daha gevşek)",
+      "varyant": {
+        "rsiLong": 45,
+        "rsiShort": 55
+      },
+      "ayar": {
+        "trades": 520,
+        "hedef": 102,
+        "stop": 285,
+        "sure": 133,
+        "winRate": 19.6,
+        "sumR": 51.46,
+        "sumRNet": 24.63,
+        "avgRNet": 0.047,
+        "pf": 1.18,
+        "pfNet": 1.08,
+        "maxDdRNet": 38.13,
+        "missAvgMfeR": 0.92,
+        "avgBars": 91.9
+      },
+      "test": {
+        "trades": 349,
+        "hedef": 61,
+        "stop": 221,
+        "sure": 67,
+        "winRate": 17.5,
+        "sumR": -26.86,
+        "sumRNet": -45.21,
+        "avgRNet": -0.13,
+        "pf": 0.88,
+        "pfNet": 0.81,
+        "maxDdRNet": 58.72,
+        "missAvgMfeR": 0.79,
+        "avgBars": 80.33
+      },
+      "coinArti": 0
+    },
+    {
+      "ad": "RSI penceresi 4 mum",
+      "varyant": {
+        "rsiWin": 4
+      },
+      "ayar": {
+        "trades": 315,
+        "hedef": 63,
+        "stop": 176,
+        "sure": 76,
+        "winRate": 20,
+        "sumR": 29.38,
+        "sumRNet": 13.17,
+        "avgRNet": 0.042,
+        "pf": 1.16,
+        "pfNet": 1.07,
+        "maxDdRNet": 32.57,
+        "missAvgMfeR": 0.91,
+        "avgBars": 92.64
+      },
+      "test": {
+        "trades": 203,
+        "hedef": 38,
+        "stop": 128,
+        "sure": 37,
+        "winRate": 18.7,
+        "sumR": -3.5,
+        "sumRNet": -14.33,
+        "avgRNet": -0.071,
+        "pf": 0.97,
+        "pfNet": 0.89,
+        "maxDdRNet": 38.75,
+        "missAvgMfeR": 0.8,
+        "avgBars": 82.44
+      },
+      "coinArti": 2
+    },
+    {
+      "ad": "RSI penceresi 12 mum",
+      "varyant": {
+        "rsiWin": 12
+      },
+      "ayar": {
+        "trades": 449,
+        "hedef": 91,
+        "stop": 242,
+        "sure": 116,
+        "winRate": 20.3,
+        "sumR": 54.38,
+        "sumRNet": 30.94,
+        "avgRNet": 0.069,
+        "pf": 1.22,
+        "pfNet": 1.12,
+        "maxDdRNet": 33.33,
+        "missAvgMfeR": 0.93,
+        "avgBars": 93.82
+      },
+      "test": {
+        "trades": 304,
+        "hedef": 56,
+        "stop": 191,
+        "sure": 57,
+        "winRate": 18.4,
+        "sumR": -13.9,
+        "sumRNet": -29.84,
+        "avgRNet": -0.098,
+        "pf": 0.93,
+        "pfNet": 0.85,
+        "maxDdRNet": 47.26,
+        "missAvgMfeR": 0.78,
+        "avgBars": 79.83
+      },
+      "coinArti": 1
+    },
+    {
+      "ad": "süre stopu 3 gün",
+      "varyant": {
+        "timeStopMs": 259200000
+      },
+      "ayar": {
+        "trades": 478,
+        "hedef": 41,
+        "stop": 182,
+        "sure": 255,
+        "winRate": 8.6,
+        "sumR": 41.46,
+        "sumRNet": 21.84,
+        "avgRNet": 0.046,
+        "pf": 1.21,
+        "pfNet": 1.1,
+        "maxDdRNet": 29.37,
+        "missAvgMfeR": 0.85,
+        "avgBars": 54.43
+      },
+      "test": {
+        "trades": 329,
+        "hedef": 32,
+        "stop": 153,
+        "sure": 144,
+        "winRate": 9.7,
+        "sumR": -11.15,
+        "sumRNet": -25.47,
+        "avgRNet": -0.077,
+        "pf": 0.93,
+        "pfNet": 0.86,
+        "maxDdRNet": 38.28,
+        "missAvgMfeR": 0.76,
+        "avgBars": 50.02
+      },
+      "coinArti": 1
+    },
+    {
+      "ad": "süre stopu 14 gün",
+      "varyant": {
+        "timeStopMs": 1209600000
+      },
+      "ayar": {
+        "trades": 381,
+        "hedef": 102,
+        "stop": 256,
+        "sure": 23,
+        "winRate": 26.8,
+        "sumR": 11.65,
+        "sumRNet": -9.7,
+        "avgRNet": -0.025,
+        "pf": 1.05,
+        "pfNet": 0.96,
+        "maxDdRNet": 54.01,
+        "missAvgMfeR": 0.86,
+        "avgBars": 115.13
+      },
+      "test": {
+        "trades": 263,
+        "hedef": 64,
+        "stop": 182,
+        "sure": 17,
+        "winRate": 24.3,
+        "sumR": -8.71,
+        "sumRNet": -23.73,
+        "avgRNet": -0.09,
+        "pf": 0.95,
+        "pfNet": 0.88,
+        "maxDdRNet": 45.25,
+        "missAvgMfeR": 0.75,
+        "avgBars": 98.59
+      },
+      "coinArti": 1
+    },
+    {
+      "ad": "başa baş stopu +1R",
+      "varyant": {
+        "beAtR": 1
+      },
+      "ayar": {
+        "trades": 443,
+        "hedef": 79,
+        "stop": 300,
+        "sure": 64,
+        "winRate": 17.8,
+        "sumR": 49.8,
+        "sumRNet": 28.95,
+        "avgRNet": 0.065,
+        "pf": 1.26,
+        "pfNet": 1.14,
+        "maxDdRNet": 31.54,
+        "missAvgMfeR": 0.91,
+        "avgBars": 79.8
+      },
+      "test": {
+        "trades": 312,
+        "hedef": 52,
+        "stop": 237,
+        "sure": 23,
+        "winRate": 16.7,
+        "sumR": -24.87,
+        "sumRNet": -39.95,
+        "avgRNet": -0.128,
+        "pf": 0.86,
+        "pfNet": 0.79,
+        "maxDdRNet": 53.41,
+        "missAvgMfeR": 0.76,
+        "avgBars": 68.55
+      },
+      "coinArti": 0
+    },
+    {
+      "ad": "başa baş stopu +1,5R",
+      "varyant": {
+        "beAtR": 1.5
+      },
+      "ayar": {
+        "trades": 429,
+        "hedef": 85,
+        "stop": 258,
+        "sure": 86,
+        "winRate": 19.8,
+        "sumR": 52.69,
+        "sumRNet": 31.52,
+        "avgRNet": 0.073,
+        "pf": 1.24,
+        "pfNet": 1.14,
+        "maxDdRNet": 33.51,
+        "missAvgMfeR": 0.92,
+        "avgBars": 87.87
+      },
+      "test": {
+        "trades": 296,
+        "hedef": 50,
+        "stop": 205,
+        "sure": 41,
+        "winRate": 16.9,
+        "sumR": -25.99,
+        "sumRNet": -41.11,
+        "avgRNet": -0.139,
+        "pf": 0.86,
+        "pfNet": 0.79,
+        "maxDdRNet": 54.32,
+        "missAvgMfeR": 0.78,
+        "avgBars": 77.13
+      },
+      "coinArti": 0
+    },
+    {
+      "ad": "yalnız BTC boğasında LONG",
+      "varyant": {
+        "rejim": "yonlu"
+      },
+      "ayar": {
+        "trades": 338,
+        "hedef": 68,
+        "stop": 182,
+        "sure": 88,
+        "winRate": 20.1,
+        "sumR": 40.5,
+        "sumRNet": 23.23,
+        "avgRNet": 0.069,
+        "pf": 1.22,
+        "pfNet": 1.12,
+        "maxDdRNet": 25.11,
+        "missAvgMfeR": 0.91,
+        "avgBars": 92.69
+      },
+      "test": {
+        "trades": 233,
+        "hedef": 40,
+        "stop": 145,
+        "sure": 48,
+        "winRate": 17.2,
+        "sumR": -12.08,
+        "sumRNet": -24.37,
+        "avgRNet": -0.105,
+        "pf": 0.92,
+        "pfNet": 0.84,
+        "maxDdRNet": 41.1,
+        "missAvgMfeR": 0.82,
+        "avgBars": 81.14
+      },
+      "coinArti": 1
+    },
+    {
+      "ad": "yalnız BTC boğasında işlem",
+      "varyant": {
+        "rejim": "sadeceLong"
+      },
+      "ayar": {
+        "trades": 159,
+        "hedef": 33,
+        "stop": 89,
+        "sure": 37,
+        "winRate": 20.8,
+        "sumR": 20.12,
+        "sumRNet": 12.17,
+        "avgRNet": 0.077,
+        "pf": 1.22,
+        "pfNet": 1.13,
+        "maxDdRNet": 13.91,
+        "missAvgMfeR": 0.96,
+        "avgBars": 92.99
+      },
+      "test": {
+        "trades": 81,
+        "hedef": 13,
+        "stop": 60,
+        "sure": 8,
+        "winRate": 16,
+        "sumR": -26.25,
+        "sumRNet": -30.69,
+        "avgRNet": -0.379,
+        "pf": 0.57,
+        "pfNet": 0.52,
+        "maxDdRNet": 33.13,
+        "missAvgMfeR": 0.67,
+        "avgBars": 65.59
+      },
+      "coinArti": 0
+    }
+  ]
+}

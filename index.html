@@ -295,11 +295,7 @@
       <table>
         <thead><tr><th>Coin</th><th>Durum</th><th>Ajanın Notu</th><th>Seviyeler</th></tr></thead>
         <tbody id="wlBody">
-          <tr><td><b>ETH</b></td><td><span class="chip g">LONG ADAYI</span></td><td>Tepe 1.956 kırıldı (1.967 görüldü) ama sinyalsiz — RSI 68, kovalamak yok; ~1.900'e geri çekilme bekleniyor</td><td class="lv">▲ 1.967 · ▼ 1.900</td></tr>
-          <tr><td><b>BTC</b></td><td><span class="chip g">LONG ADAYI</span></td><td>Günlük EMA50 üstüne çıktı, ortalama yükseliyor — geri çekilme + EMA21 geri alımı bekleniyor</td><td class="lv">▲ 66.921 · ▼ 65.017</td></tr>
-          <tr><td><b>LINK</b></td><td><span class="chip g">LONG ADAYI</span></td><td>Üst bölgede, toparlanma tetiği aranıyor</td><td class="lv">▲ 8,76 · ▼ 8,27</td></tr>
-          <tr><td><b>SOL</b></td><td><span class="chip g">LONG ADAYI</span></td><td>Derin düzeltme — emare şart</td><td class="lv">▲ 83,98 · ▼ 73,44</td></tr>
-          <tr><td><b>DOGE</b></td><td><span class="chip r">SHORT ADAYI</span></td><td>Dipte; tepki yükselişi satış kurulumu olabilir</td><td class="lv">▲ 0,0740 · ▼ 0,0682</td></tr>
+          <tr><td colspan="4" class="cnote">İzleme listesi bir sonraki analiz turunda dolar (4 saatte bir).</td></tr>
         </tbody>
       </table>
     </div>
@@ -531,6 +527,15 @@ function diagLine(s, baslik){
         // state.json henüz radarsız (motor bu sürümle bir tur atmamış)
         ab.innerHTML = '<tr><td colspan="6" class="cnote">Radar bir sonraki analiz turunda dolar (4 saatte bir).</td></tr>';
       }
+      // radar kapalı (motorda ALTS boş): bölümü ve nav bağlantısını tamamen gizle,
+      // yoksa sayfa taranmayan coinler izleniyormuş gibi görünür.
+      if (Array.isArray(st.alts) && st.alts.length === 0) {
+        ['s-radar', 'altSigBox'].forEach(function(id){
+          var el = document.getElementById(id); if (el) el.style.display = 'none';
+        });
+        var rTab = document.querySelector('.item.wl.radar'); if (rTab) rTab.style.display = 'none';
+        var rNav = document.querySelector('a.navlink[href="#s-radar"]'); if (rNav) rNav.style.display = 'none';
+      }
       // radar sinyal alanı: kalıcı radar sicilinden beslenir (işlem açılmaz)
       var asb = document.getElementById('altSigBox');
       if (asb && st.altSignals) {
@@ -734,19 +739,12 @@ function diagLine(s, baslik){
 (function(){
   // Fallback: son bilinen fiyatlar (ajan güncellemesinde yenilenir)
   var FALLBACK = [
-    {s:'BTC',  p:'65.238',  c:1.30},
-    {s:'ETH',  p:'1.946',   c:3.60},
-    {s:'SOL',  p:'74,96',   c:0.58},
-    {s:'LINK', p:'8,44',    c:0.69},
-    {s:'DOGE', p:'0,0733',  c:2.16},
-    {s:'XRP',  p:'1,100',   c:0.25},
-    {s:'AVAX', p:'6,70',    c:-1.09}
+    {s:'BTC',   p:'83.941', c:0.84},
+    {s:'XRP',   p:'1,504',  c:1.19},
+    {s:'TRUMP', p:'2,001',  c:-1.04}
   ];
-  // çekirdek evren + altcoin radarı (motordaki COINS + ALTS ile aynı sıra)
-  var PAIRS = ['BTCUSDT','ETHUSDT','SOLUSDT','LINKUSDT','DOGEUSDT',
-               'XRPUSDT','AVAXUSDT','ADAUSDT','POLUSDT','DOTUSDT','ATOMUSDT','NEARUSDT',
-               'APTUSDT','ARBUSDT','OPUSDT','INJUSDT','SUIUSDT','TIAUSDT','SEIUSDT',
-               'LTCUSDT','BCHUSDT','UNIUSDT','AAVEUSDT','FILUSDT','RENDERUSDT'];
+  // tarama evreni (motordaki COINS ile aynı sıra) — 29 Eyl 2026: BTC + XRP + TRUMP
+  var PAIRS = ['BTCUSDT','XRPUSDT','TRUMPUSDT'];
 
   function fmt(n){
     n = parseFloat(n);

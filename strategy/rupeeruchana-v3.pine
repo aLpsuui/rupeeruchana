@@ -1,0 +1,126 @@
+//@version=6
+// ============================================================================
+// Rupeeruchana v3 — scripts/update.mjs kurallarının Pine karşılığı
+//
+// Amaç: TradingView Strateji Testçisi'nin, GitHub'da çalışan motorla AYNI
+// işlemleri gördüğünü doğrulamak. Aynı dönem için scripts/backtest.mjs'in
+// ürettiği işlem listesiyle karşılaştırılır (research/backtest-*-trades.csv).
+//
+// Kullanım: grafik BINANCE:<COIN>USDT (spot; motor spot mumlarıyla karar verir),
+//           zaman dilimi 4 saat. Başka zaman diliminde çalışmaz.
+//
+// Kurallar (update.mjs → analyzeCoin ile birebir):
+//   LONG : fiyat > günlük EMA50 && EMA50 yükseliyor && son 8 kapalı 4s mumda
+//          RSI(14) < 42 görüldü && 4s mum EMA21 üzerine kesişti
+//   SHORT: ayna görüntüsü (EMA50 altı, düşen EMA, RSI > 58, EMA21 altına kesişim)
+//   Risk : stop = 2×ATR(14), hedef = 2,5R, 7 günde çözülmeyen işlem kapanır.
+//   Aynı coinde açık işlem varken yeni sinyal alınmaz.
+//
+// Motorla birebir olsun diye özen gösterilen iki nokta:
+//   1) Günlük EMA50 motorun penceresiyle hesaplanır: son 119 kapanmış gün, ilk 50
+//      günün SMA'sıyla tohumlanır. ta.ema tüm geçmişi kullanır; aradaki tohum farkı
+//      düz günlerde "yükseliyor / düşüyor" kararını çevirebilir.
+//   2) "Kapanmış gün", 4s mumunun KAPANIŞ anına göre seçilir. Günün son 4s mumu
+//      (20:00–00:00 UTC) kapandığında o gün de kapanmıştır ve motor bu turda o
+//      günü görür. Sabit [1] kaydırması bu mumda bir gün geriden gelirdi.
+//
+// Kapatılamayan farklar (karşılaştırmada bunlardan kaynaklı küçük sapma beklenir):
+//   - Aynı saat içinde hem stop hem hedef: motor her zaman STOP sayar; burada
+//     TradingView'in çubuk büyüteci / fiyat yolu varsayımı belirler.
+//   - Süre stopu: motor 7. günün 1s kapanışından çıkar, burada 4s kapanışından.
+//   - Fonlama maliyeti yok (yalnızca %0,05 komisyon) ve 4 pozisyon kontenjanı yok
+//     (strateji tek sembolde çalışır). İkisi de backtest.mjs'te modellenir.
+// ============================================================================
+strategy("Rupeeruchana v3", overlay = true, initial_capital = 1000,
+     commission_type = strategy.commission.percent, commission_value = 0.05,
+     process_orders_on_close = true, pyramiding = 0, use_bar_magnifier = true,
+     max_bars_back = 300)
+
+int   DAILY_LEN = 50
+int   DAILY_WIN = 119        // motor: 1d limit=120, oluşmakta olan gün atılır
+float RSI_LONG  = 42.0
+float RSI_SHORT = 58.0
+int   RSI_WIN   = 8
+float ATR_MULT  = 2.0
+float TARGET_R  = 2.5
+float RISK_PCT  = 0.02       // executor.RISK_PCT
+int   MAX_POS   = 4          // executor.MAX_POSITIONS
+float LEVERAGE  = 10.0       // executor.MAX_LEVERAGE
+int   DAY_MS    = 86400000
+int   TIME_STOP = 7 * DAY_MS // executor.TIME_STOP_MS
+
+if timeframe.period != "240"
+    runtime.error("Rupeeruchana v3 yalnızca 4 saatlik grafikte çalışır.")
+
+// update.mjs → ema(): pencerenin ilk `len` değerinin SMA'sıyla tohumlanır, sonra
+// üstel ortalama. [sondan bir önceki, son] döner (motor: e50.at(-2), e50.at(-1)).
+jsEma(series float src, simple int len, simple int win) =>
+    float k     = 2.0 / (len + 1)
+    float e     = na
+    float ePrev = na
+    if not na(src[win - 1])
+        float s = 0.0
+        for i = win - 1 to win - len
+            s += src[i]
+        e := s / len
+        for i = win - len - 1 to 0
+            ePrev := e
+            e := src[i] * k + e * (1 - k)
+    [ePrev, e]
+
+// Günlük bağlamda iki pencere: bugünü içeren (gün kapandıysa) ve dünde biten.
+dailyEmas() =>
+    [p0, e0] = jsEma(close, DAILY_LEN, DAILY_WIN)
+    [p1, e1] = jsEma(close[1], DAILY_LEN, DAILY_WIN)
+    [p0, e0, p1, e1]
+
+[dPrev0, dEma0, dPrev1, dEma1] = request.security(syminfo.tickerid, "D", dailyEmas(), lookahead = barmerge.lookahead_on)
+
+// lookahead_on içinde bulunulan günün değerini verir. Gün henüz kapanmadıysa dünde
+// biten pencere kullanılır (geleceği görmez); günün son 4s mumunda gün kapanmıştır.
+bool  dayClosed    = time_close % DAY_MS == 0
+float dailyEma     = dayClosed ? dEma0 : dEma1
+float dailyEmaPrev = dayClosed ? dPrev0 : dPrev1
+
+float ema21 = ta.ema(close, 21)
+float rsi14 = ta.rsi(close, 14)
+float atr14 = ta.atr(14)
+
+bool uptrend     = close > dailyEma and dailyEma > dailyEmaPrev
+bool downtrend   = close < dailyEma and dailyEma < dailyEmaPrev
+bool hadPullback = ta.lowest(rsi14, RSI_WIN) < RSI_LONG
+bool hadBounce   = ta.highest(rsi14, RSI_WIN) > RSI_SHORT
+bool crossUp     = close > ema21 and close[1] <= ema21[1]
+bool crossDown   = close < ema21 and close[1] >= ema21[1]
+bool longSig     = uptrend and hadPullback and crossUp
+bool shortSig    = not longSig and downtrend and hadBounce and crossDown
+
+var float stopPx   = na
+var float targetPx = na
+var int   entryMs  = na
+
+// Süre stopu: motor, giriş + 7 günden SONRAKİ ilk turda kapatır (nowMs > deadline).
+bool timeUp = strategy.position_size != 0 and time_close - entryMs > TIME_STOP
+if timeUp
+    strategy.close_all(comment = "SÜRE")
+
+// Motor aynı turda önce eski sinyali kapatır, sonra yeni sinyale bakar.
+if (strategy.position_size == 0 or timeUp) and (longSig or shortSig)
+    float stp  = longSig ? close - ATR_MULT * atr14 : close + ATR_MULT * atr14
+    float dist = math.abs(close - stp)
+    // executor.sizeTrade: bakiyenin %2'si riske edilir; teminat kontenjanı sınırlar
+    float qty  = math.min(strategy.equity * RISK_PCT / dist, strategy.equity / MAX_POS * LEVERAGE / close)
+    stopPx   := stp
+    targetPx := longSig ? close + TARGET_R * dist : close - TARGET_R * dist
+    entryMs  := time_close
+    strategy.entry(longSig ? "LONG" : "SHORT", longSig ? strategy.long : strategy.short, qty = qty)
+
+strategy.exit("LONG çıkış", "LONG", stop = stopPx, limit = targetPx, comment_loss = "STOP", comment_profit = "HEDEF")
+strategy.exit("SHORT çıkış", "SHORT", stop = stopPx, limit = targetPx, comment_loss = "STOP", comment_profit = "HEDEF")
+
+plot(dailyEma, "Günlük EMA50 (motor penceresi)", color = color.orange, linewidth = 2)
+plot(ema21, "4s EMA21", color = color.new(color.blue, 30))
+plot(strategy.position_size != 0 ? stopPx : na, "Stop", color = color.red, style = plot.style_linebr)
+plot(strategy.position_size != 0 ? targetPx : na, "Hedef", color = color.green, style = plot.style_linebr)
+plotshape(longSig, "LONG sinyali", shape.triangleup, location.belowbar, color.green, size = size.small)
+plotshape(shortSig, "SHORT sinyali", shape.triangledown, location.abovebar, color.red, size = size.small)

@@ -10,6 +10,8 @@
 // ============================================================================
 
 import { readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import * as executor from './executor.mjs';
 import { fetchJson } from './http.mjs';
 import { notify, channel } from './notify.mjs';
@@ -20,12 +22,12 @@ import { notify, channel } from './notify.mjs';
 //        listesine girmez, bildirim yollamaz ve sanal cüzdanda pozisyon açmaz.
 //        Gerekçe: 4 pozisyonluk kontenjan düşük likiditeli alt sinyalleriyle
 //        dolarsa çekirdek coinlerin sinyalleri kaçar ve sicil kıyaslanamaz olur.
-const COINS = ['BTC', 'ETH', 'SOL', 'LINK', 'DOGE'];
-const WATCH = ['ETH', 'LINK', 'SOL', 'DOGE', 'BTC']; // izleme listesi sırası
-const ALTS = [
-  'XRP', 'AVAX', 'ADA', 'POL', 'DOT', 'ATOM', 'NEAR', 'APT', 'ARB', 'OP',
-  'INJ', 'SUI', 'TIA', 'SEI', 'LTC', 'BCH', 'UNI', 'AAVE', 'FIL', 'RENDER',
-]; // POL (eski MATIC) ve RENDER (eski RNDR) güncel Binance sembolleridir
+export const COINS = ['BTC', 'XRP', 'TRUMP'];
+const WATCH = ['BTC', 'XRP', 'TRUMP']; // izleme listesi sırası
+// 29 Eyl 2026 — kullanıcı kararı: tarama evreni BTC + XRP + TRUMP ile sınırlı.
+// Altcoin radarı kapatıldı (liste boş bırakıldı, kod yolları olduğu gibi duruyor;
+// eski 20 coinlik evren git geçmişinde mevcut, geri açmak listeyi doldurmak kadar).
+export const ALTS = [];
 const ALL = [...COINS, ...ALTS];
 const BATCH = 4; // aynı anda kaç coin çekilsin (tarama evreni büyüyünce tur süresi patlamasın)
 const STATE_PATH = new URL('../data/state.json', import.meta.url);
@@ -113,11 +115,27 @@ async function ticker24(symbols) {
 }
 
 // ---------------------------- analiz ----------------------------------------
-export function analyzeCoin(coin, daily, h4) {
+// Kural sayıları tek yerde. Canlı motor HER ZAMAN bu değerlerle çalışır; araştırma
+// (scripts/research.mjs) varyantları analyzeCoin'in 4. argümanıyla geçer, böylece
+// denenen kural da canlıyla aynı kod yolundan geçer — ayrı bir kural kopyası olmaz.
+export const RULES = {
+  dailyLen: 50,   // günlük trend EMA'sı
+  emaLen: 21,     // 4s tetik EMA'sı
+  rsiLen: 14,
+  rsiWin: 8,      // geri çekilme/tepki son kaç kapalı 4s mumda aranır
+  rsiLong: 42,    // LONG için görülmesi gereken RSI dibi
+  rsiShort: 58,   // SHORT için görülmesi gereken RSI tepesi
+  atrLen: 14,
+  atrMult: 2,     // stop = giriş ∓ atrMult × ATR
+  targetR: 2.5,   // hedef = giriş ± targetR × R
+};
+
+export function analyzeCoin(coin, daily, h4, rules = RULES) {
+  const R = rules === RULES ? RULES : { ...RULES, ...rules };
   // kapalı mumlarla çalış (son eleman oluşmakta olan mum)
   const dC = daily.closes.slice(0, -1);
   const price = daily.closes.at(-1);
-  const e50 = ema(dC, 50);
+  const e50 = ema(dC, R.dailyLen);
   const dailyEma = e50.at(-1);
   const dailyEmaPrev = e50.at(-2);
   const rising = dailyEma > dailyEmaPrev;
@@ -126,14 +144,14 @@ export function analyzeCoin(coin, daily, h4) {
   const hC = h4.closes.slice(0, -1);
   const hH = h4.highs.slice(0, -1);
   const hL = h4.lows.slice(0, -1);
-  const e21 = ema(hC, 21);
-  const r14 = rsi(hC, 14);
-  const a14 = atr(hH, hL, hC, 14);
+  const e21 = ema(hC, R.emaLen);
+  const r14 = rsi(hC, R.rsiLen);
+  const a14 = atr(hH, hL, hC, R.atrLen);
 
   const last = hC.length - 1, prev = last - 1;
-  const rsiWin = r14.slice(-8).filter(v => v !== null);
-  const hadPullback = Math.min(...rsiWin) < 42;
-  const hadBounce   = Math.max(...rsiWin) > 58;
+  const rsiWin = r14.slice(-R.rsiWin).filter(v => v !== null);
+  const hadPullback = Math.min(...rsiWin) < R.rsiLong;
+  const hadBounce   = Math.max(...rsiWin) > R.rsiShort;
   const crossUp   = hC[last] > e21[last] && hC[prev] <= e21[prev];
   const crossDown = hC[last] < e21[last] && hC[prev] >= e21[prev];
 
@@ -144,12 +162,12 @@ export function analyzeCoin(coin, daily, h4) {
   let signal = null, status = 'BEKLEMEDE', dir = null;
 
   if (uptrend && hadPullback && crossUp) {
-    const entry = hC[last], stop = entry - 2 * atrNow;
-    signal = { dir: 'LONG', entry, stop, target: entry + 2.5 * (entry - stop) };
+    const entry = hC[last], stop = entry - R.atrMult * atrNow;
+    signal = { dir: 'LONG', entry, stop, target: entry + R.targetR * (entry - stop) };
     status = 'SİNYAL'; dir = 'LONG';
   } else if (downtrend && hadBounce && crossDown) {
-    const entry = hC[last], stop = entry + 2 * atrNow;
-    signal = { dir: 'SHORT', entry, stop, target: entry - 2.5 * (stop - entry) };
+    const entry = hC[last], stop = entry + R.atrMult * atrNow;
+    signal = { dir: 'SHORT', entry, stop, target: entry - R.targetR * (stop - entry) };
     status = 'SİNYAL'; dir = 'SHORT';
   } else if (uptrend && hadPullback) { status = 'KURULUM'; dir = 'LONG'; }
   else if (downtrend && hadBounce)   { status = 'KURULUM'; dir = 'SHORT'; }
@@ -159,7 +177,7 @@ export function analyzeCoin(coin, daily, h4) {
   // kilit seviyeler: son 20 günün tepesi / son 10 günün dibi
   const hi = Math.max(...daily.highs.slice(-21, -1));
   const lo = Math.min(...daily.lows.slice(-11, -1));
-  const chg50 = ((price / dC.at(-50) - 1) * 100);
+  const chg50 = ((price / dC.at(-R.dailyLen) - 1) * 100);
 
   return {
     coin, price, dailyEma, rising, falling, uptrend, downtrend,
@@ -247,8 +265,12 @@ async function main() {
   const signals = [];
   for (const s of (old.signals || [])) {
     if (s.state !== 'AKTİF') { signals.push(s); continue; }
+    // Coin tarama evreninden çıkarılmış olabilir (29 Eyl 2026 daraltması gibi):
+    // o zaman analiz yoktur ama açık sinyalin TAKİBİ SÜRMELİ. Sonucu hiç yazılmayan
+    // bir sinyal sonsuza kadar AKTİF kalır ve sicili sessizce bozar. Mum taraması
+    // yalnızca coin adını ve açılış zamanını kullanır; analiz sadece bar taraması
+    // başarısız olursa devreye giren yedek fiyat kontrolü için gerekli.
     const a = analyses[s.coin];
-    if (!a) { signals.push(s); continue; }
     let ns = s;
     const tgt = s.targetN != null ? s.targetN : parseFloat(String(s.target).replace(/\./g,'').replace(',','.'));
     const stp = s.stopN   != null ? s.stopN   : parseFloat(String(s.stop).replace(/\./g,'').replace(',','.'));
@@ -256,11 +278,14 @@ async function main() {
     try { outcome = await barScanOutcome(s, stp, tgt); }
     catch (e) {
       console.error(`sinyal taraması başarısız (${s.coin}):`, e.message);
-      // yedek: anlık fiyat kontrolü
-      if (s.dir === 'LONG'  && a.price >= tgt) outcome = 'HEDEF ✓';
-      else if (s.dir === 'LONG'  && a.price <= stp) outcome = 'STOP ✗';
-      else if (s.dir === 'SHORT' && a.price <= tgt) outcome = 'HEDEF ✓';
-      else if (s.dir === 'SHORT' && a.price >= stp) outcome = 'STOP ✗';
+      // yedek: anlık fiyat kontrolü (yalnızca coin hâlâ taranıyorsa mümkün;
+      // evren dışı coinde yedek yok, sinyal bir sonraki turda yeniden denenir)
+      if (a) {
+        if (s.dir === 'LONG'  && a.price >= tgt) outcome = 'HEDEF ✓';
+        else if (s.dir === 'LONG'  && a.price <= stp) outcome = 'STOP ✗';
+        else if (s.dir === 'SHORT' && a.price <= tgt) outcome = 'HEDEF ✓';
+        else if (s.dir === 'SHORT' && a.price >= stp) outcome = 'STOP ✗';
+      }
     }
     if (outcome) ns = { ...s, state: outcome, closed: now };
     else if (Date.parse(now) - Date.parse(s.ts) > 7 * 86400000) ns = { ...s, state: 'SÜRE ⏱', closed: now }; // 7 günde çözülmeyen sinyal kapatılır
@@ -455,14 +480,76 @@ async function main() {
   };
 
   writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + '\n');
+
+  // --- TUR ÖZETİ BİLDİRİMİ (29 Eyl 2026, kullanıcı isteği) -------------------
+  // Sinyal bildirimleri yalnızca BİR ŞEY OLUNCA gider (sinyal açıldı / kapandı),
+  // yani sakin turlarda telefon hiç titremez ve sistemin çalıştığı görünmez.
+  // Bu mesaj her turda gider: üç coinin nerede durduğu, açık ve bu turda kapanan
+  // sinyaller, sanal cüzdanın hâli. Sinyal bildirimlerinin YERİNE geçmez, ek.
+  // Susturmak için workflow ortamına RUPEE_NO_DIGEST=1 eklemek yeterli.
+  if (process.env.RUPEE_NO_DIGEST !== '1') {
+    try {
+      const durum = COINS.filter(c => analyses[c]).map(c => {
+        const a = analyses[c];
+        const yon = (a.dir && a.status !== 'LONG ADAYI' && a.status !== 'SHORT ADAYI') ? ` ${a.dir}` : '';
+        return `${c} ${px(a.price)} · ${a.status}${yon}${'\n'}   ${noteFor(a)}`;
+      }).join('\n');
+
+      const aktif = signals.filter(x => x.state === 'AKTİF');
+      const aktifMetin = aktif.length
+        ? aktif.map(x => `• ${x.coin} ${x.dir} — giriş ${x.entry} · stop ${x.stop} · hedef ${x.target}`).join('\n')
+        : '• yok — kural tetiklemeden pozisyon açılmaz';
+
+      const kapanan = signals.filter(x => x.closed === now);
+      const kapananMetin = kapanan.length
+        ? `${'\n'}${'\n'}Bu turda kapanan:${'\n'}` + kapanan.map(x => `• ${x.coin} ${x.dir} → ${x.state}`).join('\n')
+        : '';
+
+      // Sanal cüzdan durumu (dosyadan okunur; yoksa mesaj yine gider).
+      let cuzdan = '';
+      try {
+        const l = JSON.parse(readFileSync(new URL('../data/autotrade.json', import.meta.url), 'utf8'));
+        // Kapalı işlemin sonucu `outcome` alanındadır — `state` sinyal kayıtlarına ait.
+        // executor her turda bir özet (stats) yazıyor, varsa onu kullan.
+        const st = l.stats || null;
+        const kapali = l.closed || [];
+        const adet = st ? st.trades : kapali.length;
+        const isabet = st ? st.hedef : kapali.filter(t => String(t.outcome || '').includes('HEDEF')).length;
+        cuzdan = `${'\n'}${'\n'}Sanal cüzdan: ${nf(l.balance, 2)}$ · ${(l.open || []).length} açık pozisyon`
+                + (adet ? ` · sicil ${isabet}✓/${adet}` : '')
+                + (st && st.pnlSum != null ? ` · toplam ${st.pnlSum >= 0 ? '+' : ''}${nf(st.pnlSum, 2)}$` : '');
+      } catch (e) { console.error('cüzdan özeti okunamadı:', e.message); }
+
+      await notify(
+        `📊 4 saatlik analiz — ${COINS.join(' · ')}`,
+        `${durum}${'\n'}${'\n'}Açık sinyaller:${'\n'}${aktifMetin}${kapananMetin}${cuzdan}${'\n'}${'\n'}`
+        + 'Kurallar v3 · 4s · stop 2×ATR · hedef 2,5R. Bilgilendirmedir, yatırım tavsiyesi değildir.',
+        'bar_chart',
+      );
+    } catch (e) {
+      // Özet bildirimi turu asla bloke etmemeli: state.json çoktan yazıldı.
+      console.error('tur özeti gönderilemedi:', e.message);
+    }
+  }
   console.log(`bildirim kanalı: ${channel()}${RADAR_NOTIFY ? ' (radar bildirimleri açık)' : ''}`);
   console.log(`OK ${now} — sinyal: ${signals.filter(s => s.state === 'AKTİF').length} aktif, izleme: ${watchlist.map(w => `${w.coin}:${w.status}`).join(' ')}`);
   console.log(`radar: ${alts.length} altcoin${altHot.length ? ` — öne çıkan: ${altHot.map(a => `${a.coin}:${a.status}`).join(' ')}` : ''}`);
   console.log(`radar sinyalleri: ${altSignals.filter(s => s.state === 'AKTİF').length} aktif / ${altSignals.length} kayıt`);
 }
 
+// Yalnızca doğrudan çalıştırıldığında (node scripts/update.mjs ...) bir şey yap.
+// scripts/backtest.mjs analyzeCoin için bu dosyayı içe aktarır; içe aktarma canlı
+// turu BAŞLATMAMALI (state.json'a yazar ve telefona bildirim yollar).
+const isMain = (() => {
+  if (!process.argv[1]) return false;
+  const self = fileURLToPath(import.meta.url), entry = resolve(process.argv[1]);
+  return process.platform === 'win32' ? self.toLowerCase() === entry.toLowerCase() : self === entry;
+})();
+
 // test modu: `node update.mjs --selftest` → sentetik veriyle kural mantığını doğrula
-if (process.argv.includes('--selftest')) {
+if (!isMain) {
+  // içe aktarıldı: yalnızca dışa açılan fonksiyonlar (analyzeCoin, COINS, ALTS) kullanılır
+} else if (process.argv.includes('--selftest')) {
   const { runSelfTest } = await import('./selftest.mjs');
   runSelfTest({ analyzeCoin });
 } else if (process.argv.includes('--test-trade')) {
