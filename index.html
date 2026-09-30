@@ -112,6 +112,32 @@
 
   /* activity feed */
   .acthead{font-weight:700; font-size:13.5px; margin:4px 0 -6px 2px;}
+
+  /* ---------- ajan katı (piksel ofis, js/kat.js) ---------- */
+  .kat{background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:12px;}
+  .kat-top{display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:9px 14px; border-bottom:1px solid var(--line); font-size:11.5px; color:var(--ink2);}
+  .kat-top b{color:var(--ink); font-size:12.5px;}
+  .kat-top .sep{color:var(--ink3);}
+  .kat-durum{margin-left:auto; font-family:var(--mono); font-size:10px; letter-spacing:1px; padding:2px 8px; border-radius:9px;}
+  .kat-durum.ok{background:var(--mint-dim); color:var(--mint);} .kat-durum.late{background:var(--amber-dim); color:var(--amber);}
+  /* liste SOLDA: sitenin yüzen "Swing Paketi" paneli sağ altı kapatıyor, liste orada kalırsa okunmuyor */
+  .kat-body{display:grid; grid-template-columns:250px 1fr;}
+  .kat-cv{overflow-x:auto; background:#0e1317;}
+  #katCanvas{display:block; width:100%; height:auto; image-rendering:pixelated; image-rendering:crisp-edges; background:#0e1317; cursor:pointer;}
+  @media (max-width:600px){ #katCanvas{min-width:640px;} }   /* telefonda küçülüp okunmaz olmasın, kaydırılsın */
+  .kat-side{border-right:1px solid var(--line); padding:10px; font-size:11.5px; overflow:auto; max-height:440px;}
+  .katbot{display:grid; grid-template-columns:8px auto; column-gap:8px; align-items:center; padding:6px 6px; border-radius:8px; cursor:pointer;}
+  .katbot:hover{background:var(--card2);} .katbot.on{background:var(--card2); outline:1px solid var(--line);}
+  .kdot{width:8px; height:8px; border-radius:50%;}
+  .kname{font-weight:700; font-size:11.5px;}
+  .kline{grid-column:2; color:var(--ink3); font-family:var(--mono); font-size:10px; line-height:1.4; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .katpin{margin-top:10px; padding:10px; background:var(--card2); border:1px solid var(--line); border-radius:9px; font-size:11.5px; line-height:1.5;}
+  .katpin.muted{color:var(--ink3);}
+  .kp-h{font-weight:700;} .kp-f{font-family:var(--mono); font-weight:400; font-size:10px; color:var(--ink3); margin-left:4px;}
+  .kp-g{color:var(--ink2); margin:4px 0 6px;} .kp-l{color:var(--ink3); font-size:10.5px; margin-bottom:2px;} .kp-i{color:var(--ink2); font-family:var(--mono); font-size:10.5px;}
+  .kat-note{padding:8px 14px; border-top:1px solid var(--line); color:var(--ink3); font-size:11px;}
+  .kat-note code{font-family:var(--mono); color:var(--ink2);}
+  @media (max-width:960px){ .kat-body{grid-template-columns:1fr;} .kat-side{order:2; border-right:0; border-top:1px solid var(--line); max-height:none;} }
   .item{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 16px;}
   .irow{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--ink3); margin-bottom:5px; flex-wrap:wrap;}
   .ic{width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex:none;}
@@ -211,6 +237,7 @@
   <nav class="navbox" id="navBox">
     <div class="inv-label">BÖLÜMLER</div>
     <a class="navlink" href="#s-ozet"><span class="ico">📊</span>Özet</a>
+    <a class="navlink" href="#s-kat"><span class="ico">🏢</span>Ajan Katı<span class="cnt">7+1</span></a>
     <a class="navlink" href="#s-akis"><span class="ico">💬</span>Aktivite</a>
     <a class="navlink" href="#s-izleme"><span class="ico">⭐</span>İzleme Listesi<span class="cnt">5</span></a>
     <a class="navlink" href="#s-radar"><span class="ico">📡</span>Altcoin Radarı<span class="cnt" id="navAltCount">20</span></a>
@@ -259,6 +286,19 @@
       <div class="kpi"><div class="l">Maks. Düşüş</div><div class="v amber" id="kDD">5,1%</div></div>
       <div class="kpi"><div class="l">İşlem</div><div class="v" id="kTrades">29</div></div>
       <div class="kpi"><div class="l">Kâr Faktörü</div><div class="v" id="kPF">1,17</div></div>
+    </div>
+
+    <div class="acthead" id="s-kat">🏢 Ajan Katı <span style="font-weight:400; color:var(--ink3); font-size:11px;">— her masa gerçek bir script, her tabela gerçek veri</span></div>
+    <div class="kat">
+      <div class="kat-top">
+        <b>7 masa + 1 şef</b><span class="sep">·</span>vardiya 4 saatte bir<span class="sep">·</span>son tur <span id="katSon">—</span><span class="sep">·</span>sonraki <span id="katSonraki">—</span>
+        <span class="kat-durum ok" id="katDurum">VARDİYADA</span>
+      </div>
+      <div class="kat-body">
+        <div class="kat-side" id="katRoster"></div>
+        <div class="kat-cv"><canvas id="katCanvas" width="784" height="420"></canvas></div>
+      </div>
+      <div class="kat-note">Karakterler <code>state.json</code> ile hareket eder: tabela yanıyorsa o masada şu an aktif sinyal var, herkes hayaletse son tur 7 saatten eski demektir (GitHub cron'u zaten 1-2 saat geç çalışır, o normal). Bir masaya tıkla, hangi script olduğunu ve son turda ne yaptığını gösterir. Süsleme var, uydurma yok.</div>
     </div>
 
     <div class="acthead" id="s-akis">Aktivite</div>
@@ -400,6 +440,7 @@
   © 2026 Rupeeruchana · Yapay zekâ ajanı tarafından 4 saatte bir güncellenir · Kurallar açık · Sicil halka açık
 </footer>
 
+<script src="js/kat.js"></script>
 <script>
 // Teşhis satırı: bir sicil özetini (executor.summarize çıktısı) insan diline çevirir.
 // Asıl soru şudur: işlemler hedefe (2,5R) ulaşamıyorsa en fazla nereye kadar gidiyor?
@@ -584,13 +625,14 @@ function diagLine(s, baslik){
 
   fetch('data/state.json?t=' + Date.now())
     .then(function(r){ return r.json(); })
-    .then(render)
+    .then(function(st){ render(st); if (window.RupeeKat) RupeeKat.feed('state', st); })
     .catch(function(){ /* gömülü içerik zaten günceldi */ });
 
   // ---- dip radarı (ayrı dosya, ayrı tarama) ----
   fetch('data/dipradar.json?t=' + Date.now())
     .then(function(r){ return r.json(); })
     .then(function(dr){
+      if (window.RupeeKat) RupeeKat.feed('dip', dr);
       var act = dr.active || [], st = dr.stats || {};
       var dr_rejim = dr.rejim || 'bilinmiyor', dr_btc = dr.btc, dr_btcEma = dr.btcEma, dr_fark = dr.fark;
       var dr_olculen = dr.olculen || {};
@@ -646,6 +688,7 @@ function diagLine(s, baslik){
   fetch('data/takvim.json?t=' + Date.now())
     .then(function(r){ return r.json(); })
     .then(function(tk){
+      if (window.RupeeKat) RupeeKat.feed('takvim', tk);
       var tc = document.getElementById('takvimCount');
       if (tc) tc.textContent = tk.symbolCount || 0;
       var tb = document.getElementById('takvimBody');
@@ -697,6 +740,7 @@ function diagLine(s, baslik){
   fetch('data/autotrade.json?t=' + Date.now())
     .then(function(r){ return r.json(); })
     .then(function(aw){
+      if (window.RupeeKat) RupeeKat.feed('cuzdan', aw);
       try {
         var closed = aw.closed || [], open = aw.open || [];
         var pnl = closed.reduce(function(a,c){ return a + (c.pnl || 0); }, 0);

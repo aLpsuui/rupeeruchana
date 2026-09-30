@@ -29,8 +29,16 @@ sonuçları ve tüm sinyal sicili halka açıktır.
   Workflow her koşuda önce bu testi çalıştırır; test geçmezse yayın yapılmaz.
 - **`scripts/http.mjs`** — ağ katmanı: her dış istek 25 sn zaman aşımlı ve 2 tekrar
   denemeli. Zaman aşımı olmayan tek bir istek turu saatlerce asabilir (bkz. Bakım notları).
-- **`index.html`** — tek dosyalık site. `state.json`'ı okur; üstte canlı fiyat
-  marquee'si (ziyaretçinin tarayıcısı 30 sn'de bir Binance'den tazeler).
+- **`index.html`** — site. `state.json`'ı okur; üstte canlı fiyat marquee'si
+  (ziyaretçinin tarayıcısı 30 sn'de bir Binance'den tazeler).
+- **`js/kat.js`** — "Ajan Katı": modülleri bir piksel ofisi olarak çizen canvas.
+  Her masa gerçek bir script (Tarayıcı, Trend Ajanı, Altcoin Radarı, Dip Radarı,
+  Risk Bekçisi, Takvim, Sanal Cüzdan + cam odada Şef = bildirim katmanı). Karakterler
+  `state.json` / `dipradar.json` / `takvim.json` / `autotrade.json` ile hareket eder:
+  aktif sinyal varsa masada "CANLI" tabelası yanar, son tur 7 saatten eskiyse herkes
+  hayalet olur ve "tur gecikti" yazar (eşik 7 saat, çünkü GitHub'ın 4 saatlik cron'u
+  pratikte 5,5-6 saat arayla çalışıyor; 5 saat yanlış alarm veriyordu). Bir masaya tıklamak hangi script olduğunu ve
+  son turda ne yaptığını gösterir. Bağımlılık yok. Fikir: pixel-grokbots (MIT).
 
 ## Tarama evreni
 
