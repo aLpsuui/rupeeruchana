@@ -19,7 +19,7 @@
       "ts": "2026-09-29T00:22:29.415Z",
       "mfeR": 0.89,
       "maeR": 0.54,
-      "bars": 29
+      "bars": 38
     },
     {
       "symbol": "BTCUSDT",
@@ -34,9 +34,9 @@
       "marginUsd": 109.28,
       "stopPct": 2,
       "ts": "2026-09-29T10:41:53.133Z",
-      "mfeR": 0.35,
+      "mfeR": 0.99,
       "maeR": 0.64,
-      "bars": 19
+      "bars": 28
     }
   ],
   "closed": [

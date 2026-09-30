@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-30T05:34:59.450Z",
+  "updated": "2026-09-30T14:56:17.729Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -19,6 +19,7 @@
     "ACM",
     "ACT",
     "ADA",
+    "ADBEB",
     "ADX",
     "AERO",
     "AEVO",
@@ -179,6 +180,7 @@
     "FORM",
     "FRAX",
     "FTT",
+    "FWDIB",
     "G",
     "GALA",
     "GAS",
@@ -211,6 +213,7 @@
     "HOME",
     "HOODB",
     "HOT",
+    "HPEB",
     "HUMA",
     "HYPE",
     "HYPER",
@@ -322,6 +325,7 @@
     "OSMO",
     "PARTI",
     "PAXG",
+    "PDDB",
     "PENDLE",
     "PENGU",
     "PEOPLE",
@@ -383,6 +387,7 @@
     "SEI",
     "SENT",
     "SFP",
+    "SHAZB",
     "SHELL",
     "SHIB",
     "SIGN",
@@ -464,6 +469,7 @@
     "WBTC",
     "WCT",
     "WDCB",
+    "WENB",
     "WIF",
     "WIN",
     "WLD",
@@ -491,15 +497,58 @@
     "ZK",
     "ZKC",
     "ZKP",
+    "ZMB",
     "ZRO",
     "ZRX",
     "币安人生",
     "牛来"
   ],
-  "symbolCount": 492,
+  "symbolCount": 499,
   "sonDuyuruId": 285916,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-09-30T14:56:17.729Z",
+      "tip": "yeni-listeleme",
+      "coin": "ADBEB",
+      "baslik": "ADBEB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-30T14:56:17.729Z",
+      "tip": "yeni-listeleme",
+      "coin": "FWDIB",
+      "baslik": "FWDIB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-30T14:56:17.729Z",
+      "tip": "yeni-listeleme",
+      "coin": "HPEB",
+      "baslik": "HPEB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-30T14:56:17.729Z",
+      "tip": "yeni-listeleme",
+      "coin": "PDDB",
+      "baslik": "PDDB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-30T14:56:17.729Z",
+      "tip": "yeni-listeleme",
+      "coin": "SHAZB",
+      "baslik": "SHAZB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-30T14:56:17.729Z",
+      "tip": "yeni-listeleme",
+      "coin": "WENB",
+      "baslik": "WENB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-09-30T14:56:17.729Z",
+      "tip": "yeni-listeleme",
+      "coin": "ZMB",
+      "baslik": "ZMB/USDT işlem görmeye başladı"
+    },
     {
       "ts": "2026-09-30T05:34:59.450Z",
       "tip": "duyuru-listeleme",
