@@ -165,11 +165,7 @@
   .sig .note{font-size:10.5px; color:var(--ink3); margin-top:8px;}
 
   /* right float panel */
-  .float{position:fixed; right:26px; bottom:26px; width:360px; background:var(--panel); border:1px solid #263029; border-radius:16px; box-shadow:0 18px 50px rgba(0,0,0,.55); padding:16px; z-index:40;}
-  @media (max-width:1240px){ .float{position:static; width:auto; box-shadow:none; order:3;} }
-  .fhead{display:flex; align-items:center; gap:8px; margin-bottom:12px;}
-  .fhead .t{font-weight:700; font-size:13.5px;}
-  .fhead .x{margin-left:auto; color:var(--ink3); letter-spacing:2px; font-size:12px;}
+  /* .float / .fhead kaldırıldı (30 Eyl 2026): yüzen panel yok artık */
   .fmsg{display:flex; gap:8px; margin-bottom:11px; font-size:12.5px;}
   .fmsg .st{margin-top:5px;}
   .fmsg .who{color:var(--ink3); font-size:11px;}
@@ -411,29 +407,10 @@
   </div>
 </div>
 
-<!-- ================= FLOAT PANEL ================= -->
-<div class="float">
-  <div class="fhead"><div class="st on" style="width:7px;height:7px;border-radius:50%;"></div><div class="t">Swing Paketi</div><span class="chip g" style="font-size:9px;">LIVE</span><div class="x">— ✕</div></div>
-  <div id="floatBody" style="display:contents">
-  <div class="fmsg"><div class="st on" style="width:6px;height:6px;border-radius:50%;flex:none;"></div>
-    <div><div class="who">Risk Bekçisi · şimdi</div><div class="tx"><b>Rejim long tarafına döndü — BTC + ETH aday.</b><br>İkisinde de taze geri çekilme kanıtı yok — tetik yok, sinyal yok. Ajan geri çekilme bekliyor.</div></div>
-  </div>
-  <div class="sig" style="margin:0 0 11px 0;">
-    <div class="top"><span class="w">ADAY</span> · <span class="k">LONG</span></div>
-    <div class="pair">BTC + ETH / USDT <span class="tf">geri çekilme bekleniyor</span></div>
-    <div class="nums">
-      <div class="n">Giriş<b>geri çekilme sonrası</b></div>
-      <div class="n">Stop<b>−2×ATR</b></div>
-      <div class="n">Hedef<b>+2,5R</b></div>
-    </div>
-    <div class="note">İleriye dönük varsayımsal · borsa bağlantısı yok</div>
-  </div>
-  <div class="fmsg"><div class="st on" style="width:6px;height:6px;border-radius:50%;flex:none;"></div>
-    <div><div class="who">Trend Ajanı · 1 dk önce</div><div class="tx">66.921 kırılırsa büyük resim de döner. Alarmlar görevde.</div></div>
-  </div>
-  </div><!-- /floatBody -->
-  <div class="ask">Pakete bu sinyali sor... <span class="arr">↑</span></div>
-</div>
+<!-- Yüzen "Swing Paketi" paneli 30 Eyl 2026'da kaldırıldı: sağ altı kapatıyordu ve
+     Ajan Katı ile Aktivite bölümü aynı bilgiyi (aktif sinyal, Risk Bekçisi notu) zaten
+     veriyor. Motor state.float yazmaya devam eder, sayfa artık okumaz. -->
+
 
 <footer>
   <div class="disc">⚠️ <b>Yasal Uyarı:</b> Rupeeruchana bir eğitim ve şeffaflık projesidir; hiçbir içerik yatırım tavsiyesi değildir. Sinyaller kural tabanlı bir algoritmanın çıktısıdır ve zarar ettirebilir. Kararlarınız kendi sorumluluğunuzdadır.</div>
@@ -600,17 +577,7 @@ function diagLine(s, baslik){
         ah += '<div class="diag">'+diagLine(st.altStats, 'Radar')+'</div>';
         asb.innerHTML = ah;
       }
-      // float panel
-      var flb = document.getElementById('floatBody');
-      if (flb && st.float) {
-        var f = st.float;
-        flb.innerHTML =
-          '<div class="fmsg"><div class="st on" style="width:6px;height:6px;border-radius:50%;flex:none;"></div>'+
-          '<div><div class="who">Risk Bekçisi · '+tfmt(st.updated)+'</div><div class="tx"><b>'+esc(f.headline)+'</b><br>'+esc(f.detail)+'</div></div></div>'+
-          (f.candidate ? '<div style="margin:0 0 11px 0;">'+sigCard({dir:f.candidate.dir, pair:f.candidate.pair, tf:'', trigger:f.candidate.entry, stop:f.candidate.stop, target:f.candidate.target})+'</div>' : '')+
-          '<div class="fmsg"><div class="st on" style="width:6px;height:6px;border-radius:50%;flex:none;"></div>'+
-          '<div><div class="who">Trend Ajanı</div><div class="tx">'+esc(f.trailing)+'</div></div></div>';
-      }
+      // (yüzen panel kaldırıldı, st.float artık sayfada kullanılmıyor)
       // envanter
       var e1=document.getElementById('invCoins'); if(e1&&st.ticker) e1.textContent = st.ticker.length;
       var e0=document.getElementById('scanCount'); if(e0&&st.ticker) e0.textContent = st.ticker.length;
