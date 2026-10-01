@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-01T05:55:48.162Z",
+  "updated": "2026-10-01T15:27:49.970Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -504,9 +504,14 @@
     "牛来"
   ],
   "symbolCount": 499,
-  "sonDuyuruId": 285916,
+  "sonDuyuruId": 286040,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-10-01T15:27:49.970Z",
+      "tip": "duyuru-vadeli",
+      "baslik": "Binance Futures Will Launch USDⓈ-Margined CTUSDT Perpetual Contract (2026-10-01)"
+    },
     {
       "ts": "2026-09-30T14:56:17.729Z",
       "tip": "yeni-listeleme",
