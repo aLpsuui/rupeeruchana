@@ -498,9 +498,13 @@ async function main() {
       }).join('\n');
 
       const aktif = signals.filter(x => x.state === 'AKTİF');
+      // Bunlar SİSTEMİN izlediği sinyaller, kullanıcının pozisyonu değil. Başlık eskiden
+      // "Açık sinyaller" idi ve "açık pozisyonum var" diye okunuyordu (3 Eki 2026). Her
+      // satıra açılış günü ve süre stopu yazılır ki eski bir sinyal yeni sanılmasın.
+      const gun = iso => new Date(iso).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', timeZone: 'UTC' });
       const aktifMetin = aktif.length
-        ? aktif.map(x => `• ${x.coin} ${x.dir} — giriş ${x.entry} · stop ${x.stop} · hedef ${x.target}`).join('\n')
-        : '• yok — kural tetiklemeden pozisyon açılmaz';
+        ? aktif.map(x => `• ${x.coin} ${x.dir} — giriş ${x.entry} · stop ${x.stop} · hedef ${x.target} · ${gun(x.ts)}'de açıldı, süre ${gun(Date.parse(x.ts) + 7 * 86400000)}`).join('\n')
+        : '• yok';
 
       const kapanan = signals.filter(x => x.closed === now);
       const kapananMetin = kapanan.length
@@ -534,13 +538,13 @@ async function main() {
       try {
         const g = JSON.parse(readFileSync(new URL('../data/gercek.json', import.meta.url), 'utf8'));
         const gs = g.stats || { trades: 0, hedef: 0, pnlSum: 0 };
-        gercek = `${'\n'}Gerçek cüzdan: ${nf(g.balance, 2)}$ · ${(g.open || []).length} açık · sicil ${gs.hedef}✓/${gs.trades}`
+        gercek = `${'\n'}SENİN cüzdanın: ${nf(g.balance, 2)}$ · ${(g.open || []).length} açık pozisyon · sicil ${gs.hedef}✓/${gs.trades}`
                + (gs.trades ? ` · toplam ${gs.pnlSum >= 0 ? '+' : ''}${nf(gs.pnlSum, 2)}$` : '') + ` · hedef 20 işlem, kalan ${Math.max(0, 20 - gs.trades)}`;
       } catch (e) { /* defter henüz yok */ }
 
       await notify(
         `📊 4 saatlik analiz — ${COINS.join(' · ')}`,
-        `${durum}${'\n'}${'\n'}Açık sinyaller:${'\n'}${aktifMetin}${kapananMetin}${radarMetin}${cuzdan}${gercek}${'\n'}${'\n'}`
+        `${durum}${'\n'}${'\n'}Sistemin izlediği sinyaller (senin pozisyonun değil):${'\n'}${aktifMetin}${kapananMetin}${radarMetin}${cuzdan}${gercek}${'\n'}${'\n'}`
         + 'Kurallar v3 · 4s · stop 2×ATR · hedef 2,5R. Bilgilendirmedir, yatırım tavsiyesi değildir.',
         'bar_chart',
       );
