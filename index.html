@@ -235,8 +235,8 @@
     <a class="navlink" href="#s-ozet"><span class="ico">📊</span>Özet</a>
     <a class="navlink" href="#s-kat"><span class="ico">🏢</span>Ajan Katı<span class="cnt">7+1</span></a>
     <a class="navlink" href="#s-akis"><span class="ico">💬</span>Aktivite</a>
-    <a class="navlink" href="#s-izleme"><span class="ico">⭐</span>İzleme Listesi<span class="cnt">5</span></a>
-    <a class="navlink" href="#s-radar"><span class="ico">📡</span>Altcoin Radarı<span class="cnt" id="navAltCount">20</span></a>
+    <a class="navlink" href="#s-izleme"><span class="ico">⭐</span>İzleme Listesi<span class="cnt">4</span></a>
+    <a class="navlink" href="#s-radar"><span class="ico">📡</span>Altcoin Radarı<span class="cnt" id="navAltCount">22</span></a>
     <a class="navlink" href="#s-dip"><span class="ico">🕳</span>Dip Radarı<span class="cnt" id="navDipCount">0</span></a>
     <a class="navlink" href="#s-takvim"><span class="ico">🗓</span>Takvim</a>
     <a class="navlink" href="#s-gercek"><span class="ico">💵</span>Gerçek Cüzdan<span class="cnt" id="navGwOpen">0</span></a>
@@ -340,7 +340,7 @@
     <div class="radarhead" id="s-radar">
       <div class="t">📡 Altcoin Radarı</div>
       <div class="sub">4 saatte bir taranır · yalnızca izleme</div>
-      <div class="cnt"><span id="altCount">20</span> coin</div>
+      <div class="cnt"><span id="altCount">22</span> coin</div>
     </div>
     <div class="altsigs" id="altSigBox">
       <div class="altsigs-none">Radar sinyalleri bir sonraki analiz turunda görünür.</div>
@@ -399,7 +399,6 @@
         <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Bakiye</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="gwBalance">50,00$</div></div>
         <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Toplam PnL</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="gwPnl">+0,00$</div></div>
         <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Sicil</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="gwRecord">0✓ / 0✗</div></div>
-        <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">20 işlem hedefi</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="gwGoal">0 / 20</div></div>
         <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Atlanan sinyal</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="gwSkipped">0</div></div>
       </div>
       <table>
@@ -408,7 +407,7 @@
           <tr><td colspan="9" style="text-align:center; color:var(--ink3); padding:14px;">— Henüz işlem yok. İlk sinyal bekleniyor. —</td></tr>
         </tbody>
       </table>
-      <div class="diag" id="gwDiag">Kurallar: işlem başına %2 risk (1$), izole 2x, aynı anda en fazla 3 pozisyon, BTC yok (vadeli minimumu kasadan büyük), çekirdek + radar sinyallerinin hepsi geliş sırasıyla, 7 gün süre stopu, ekleme ve stop taşıma yok, kasa 35$'a inerse dur. Hedef kâr değil: 20 gerçek işlemde sanal ile gerçek arasındaki farkı ölçmek.</div>
+      <div class="diag" id="gwDiag">Kurallar: işlem başına %2 risk (1$), izole 2x, aynı anda en fazla 3 pozisyon, ana liste (BTC, ETH, XRP, TRUMP) + altcoin sinyallerinin hepsi geliş sırasıyla, 7 gün süre stopu, ekleme ve stop taşıma yok, kasa 35$'a inerse dur. BTC istisnası: borsanın en küçük emri 0,001 BTC olduğu için BTC işleminde risk ~%5,6 olur (izole 5x).</div>
     </div>
 
     <div class="acthead" id="s-kurallar">Sistem — Açık Kurallar</div>
@@ -762,7 +761,6 @@ function diagLine(s, baslik){
         document.getElementById('gwBalance').textContent = g.balance.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '$';
         var pe = document.getElementById('gwPnl'); pe.textContent = money(s.pnlSum || 0); pe.style.color = (s.pnlSum||0) > 0 ? 'var(--mint)' : (s.pnlSum||0) < 0 ? 'var(--red)' : '';
         document.getElementById('gwRecord').textContent = (s.hedef||0) + '✓ / ' + ((s.trades||0) - (s.hedef||0)) + '✗';
-        document.getElementById('gwGoal').textContent = (s.trades||0) + ' / 20';
         document.getElementById('gwSkipped').textContent = (g.skipped||[]).length;
         var nav = document.getElementById('navGwOpen'); if (nav) nav.textContent = (g.open||[]).length;
         var rows = '';
@@ -776,7 +774,7 @@ function diagLine(s, baslik){
         if (rows) document.getElementById('gwBody').innerHTML = rows;
         if (s.trades) {
           var k = s.kaynak || {}, y = s.yon || {};
-          document.getElementById('gwDiag').innerHTML = 'İşlem başına <b>'+esc(String(s.rAvg))+'R</b> · toplam '+esc(String(s.rSum))+'R · maliyet '+esc(String(s.feeSum))+'$ · çekirdek '+esc((k.cekirdek||{}).hedef)+'/'+esc((k.cekirdek||{}).n)+' · radar '+esc((k.radar||{}).hedef)+'/'+esc((k.radar||{}).n)+' · LONG '+esc((y.LONG||{}).hedef)+'/'+esc((y.LONG||{}).n)+' · SHORT '+esc((y.SHORT||{}).hedef)+'/'+esc((y.SHORT||{}).n)+'. Sanal cüzdanla kıyas için 20 işlem bekleniyor.';
+          document.getElementById('gwDiag').innerHTML = 'İşlem başına <b>'+esc(String(s.rAvg))+'R</b> · toplam '+esc(String(s.rSum))+'R · maliyet '+esc(String(s.feeSum))+'$ · çekirdek '+esc((k.cekirdek||{}).hedef)+'/'+esc((k.cekirdek||{}).n)+' · radar '+esc((k.radar||{}).hedef)+'/'+esc((k.radar||{}).n)+' · LONG '+esc((y.LONG||{}).hedef)+'/'+esc((y.LONG||{}).n)+' · SHORT '+esc((y.SHORT||{}).hedef)+'/'+esc((y.SHORT||{}).n)+'.';
         }
       } catch(e) { /* gömülü içerik kalır */ }
     })
@@ -799,8 +797,8 @@ function diagLine(s, baslik){
     {s:'TRUMP', p:'2,001',  c:-1.04}
   ];
   // çekirdek evren + altcoin radarı (motordaki COINS + ALTS ile aynı sıra)
-  var PAIRS = ['BTCUSDT','ETHUSDT','SOLUSDT','LINKUSDT','DOGEUSDT',
-               'XRPUSDT','TRUMPUSDT','AVAXUSDT','ADAUSDT','POLUSDT','DOTUSDT','ATOMUSDT',
+  var PAIRS = ['BTCUSDT','ETHUSDT','XRPUSDT','TRUMPUSDT',
+               'SOLUSDT','LINKUSDT','DOGEUSDT','AVAXUSDT','ADAUSDT','POLUSDT','DOTUSDT','ATOMUSDT',
                'NEARUSDT','APTUSDT','ARBUSDT','OPUSDT','INJUSDT','SUIUSDT','TIAUSDT',
                'SEIUSDT','LTCUSDT','BCHUSDT','UNIUSDT','AAVEUSDT','FILUSDT','RENDERUSDT'];
 

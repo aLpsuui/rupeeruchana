@@ -142,7 +142,7 @@ async function sinyalleriYansit() {
       continue;
     }
 
-    const o = defter.pozisyonOner(l, fiyat, stop);
+    const o = defter.pozisyonOner(l, fiyat, stop, coin);
     if (!o.sigar) { defter.atlaKayit(l, { coin, dir: s.dir, sebep: 'pozisyon kasaya sığmıyor (stop çok dar)' }); l.skipped[0].sinyalTs = s.ts; defter.kaydet(l); continue; }
     let qty = o.poz / fiyat;
     try {
@@ -152,7 +152,8 @@ async function sinyalleriYansit() {
         // borsa minimumu: en küçük emre çık, riski yeniden hesapla, %2'nin %60 üstüne çıkıyorsa atla
         qty = Math.max(flt.minQty, await bx.miktarYuvarla(coin + 'USDT', (flt.minNotional || 0) / fiyat + flt.stepSize));
         const risk = qty * Math.abs(fiyat - stop);
-        if (risk > l.balance * KURAL.RISK_PCT * 1.6) {
+        // MIN_ISTISNA (BTC): borsa minimumu riski kuralın üstüne çıkarsa da atlanmaz (kullanıcı kararı).
+        if (risk > l.balance * KURAL.RISK_PCT * 1.6 && !KURAL.MIN_ISTISNA.includes(coin)) {
           defter.atlaKayit(l, { coin, dir: s.dir, sebep: `borsa minimumu riski ${f2(risk)}$'a çıkarıyor (kural ${f2(l.balance * KURAL.RISK_PCT)}$)` }); l.skipped[0].sinyalTs = s.ts; defter.kaydet(l);
           await tg(`⏭ Atlandı: ${coin} ${s.dir}`, `borsa minimum emir büyüklüğü riski ${f2(risk)}$'a çıkarıyor`, 'fast_forward');
           continue;
@@ -161,7 +162,7 @@ async function sinyalleriYansit() {
     } catch (e) { await hataBildir(`${coin} filtre`, e); continue; }
 
     try {
-      const sonuc = await bx.pozisyonAc({ symbol: coin + 'USDT', dir: s.dir, qty, stop, target: hedef, kaldirac: KURAL.KALDIRAC });
+      const sonuc = await bx.pozisyonAc({ symbol: coin + 'USDT', dir: s.dir, qty, stop, target: hedef, kaldirac: defter.kaldiracOf(coin) });
       const gerçekGiris = sonuc.entry.avgPrice || fiyat;
       const k = defter.acKayit(l, { coin, dir: s.dir, giris: gerçekGiris, stop, hedef, poz: sonuc.entry.qty * gerçekGiris, kaynak: s.kaynak,
         not: `sinyal ${px(giris)}, giriş ${px(gerçekGiris)}`, ekstra: { mode: MODE, sinyalTs: s.ts, orders: { entry: sonuc.entry.orderId, stop: sonuc.stop.orderId, target: sonuc.target.orderId } } });
@@ -307,7 +308,7 @@ async function basla() {
   if (TUR_SIMDI) { await tur('elle'); }
   if (ONCE) { await izle(); log('tek tik bitti'); return; }
   panoSunucusu();
-  await tg(`🟢 Yürütücü başladı (${MODE})`, `kurallar: risk %${KURAL.RISK_PCT * 100} · max ${KURAL.MAX_POS} pozisyon · ${KURAL.KALDIRAC}x izole · BTC yok · 7 gün süre stopu · dur ${KURAL.DUR_BAKIYE}$`, 'green_circle');
+  await tg(`🟢 Yürütücü başladı (${MODE})`, `kurallar: risk %${KURAL.RISK_PCT * 100} · max ${KURAL.MAX_POS} pozisyon · ${KURAL.KALDIRAC}x izole · BTC istisna (risk ~%5,6) · 7 gün süre stopu · dur ${KURAL.DUR_BAKIYE}$`, 'green_circle');
   for (;;) {
     const basi = Date.now();
     try { await tik(); } catch (e) { await hataBildir('tik', e); }

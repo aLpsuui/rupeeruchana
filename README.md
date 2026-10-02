@@ -44,8 +44,8 @@ sonuçları ve tüm sinyal sicili halka açıktır.
 
 | | Coinler | Sinyal üretir | Sanal cüzdan |
 |---|---|---|---|
-| **Çekirdek** | BTC · ETH · SOL · LINK · DOGE | evet | evet |
-| **Altcoin radarı** | XRP · TRUMP · AVAX · ADA · POL · DOT · ATOM · NEAR · APT · ARB · OP · INJ · SUI · TIA · SEI · LTC · BCH · UNI · AAVE · FIL · RENDER | hayır | hayır |
+| **Ana liste** | BTC · ETH · XRP · TRUMP | evet | evet (gerçek cüzdan) |
+| **Altcoinler** | SOL · LINK · DOGE · AVAX · ADA · POL · DOT · ATOM · NEAR · APT · ARB · OP · INJ · SUI · TIA · SEI · LTC · BCH · UNI · AAVE · FIL · RENDER | evet | evet (gerçek cüzdan) |
 
 Radar, aynı v3 kurallarıyla 21 altcoinin durumunu (sinyal / kurulum / aday) hesaplar,
 sitede ayrı bir tabloda gösterir ve kendi sicilini tutar, ama sinyal listesine girmez
@@ -317,11 +317,9 @@ git checkout -- data/                     # deneme turunun yazdığı veriyi ger
 Sanal cüzdan **kaldırıldı**; tek cüzdan var, gerçek: **50$**. Emirleri insan girer, defteri
 `scripts/gercek.mjs` tutar (`data/gercek.json`), site ve tur özeti oradan okur. Kurallar
 sanal cüzdanla aynı maliyet modelini kullanır (`executor.tradeCosts`): işlem başına %2 risk
-(1$), izole 2x, aynı anda en fazla 3 pozisyon, **BTC yok** (vadeli minimumu 0,001 BTC ≈ 86$,
-kasadan büyük), çekirdek + radar sinyallerinin **hepsi geliş sırasıyla** (seçmece yok;
+(1$), izole 2x, aynı anda en fazla 3 pozisyon, **BTC istisnası** (borsa minimumu 0,001 BTC ≈ 85$ olduğu için BTC işleminde risk ~%5,6, izole 5x), çekirdek + radar sinyallerinin **hepsi geliş sırasıyla** (seçmece yok;
 kontenjan doluysa `atla` ile kaydedilir), 7 gün süre stopu, ekleme ve stop taşıma yok, kasa
-35$'a inerse dur. Amaç kâr değil: **20 gerçek işlemde** sinyal sicili ile gerçek uygulama
-arasındaki farkı (slipaj, kaçırılan sinyal, disiplin) ölçmek.
+35$'a inerse dur. Tur özetinde yalnızca kullanıcının açık işlemleri listelenir; sistemin izlediği sinyaller mesajda gösterilmez, sonuçları "Sinyal sicili" satırında sayılır.
 
 ```
 node scripts/gercek.mjs oner  GİRİŞ STOP                      # %2 risk için pozisyon büyüklüğü

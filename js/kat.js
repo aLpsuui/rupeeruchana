@@ -26,7 +26,7 @@
     { id: 'trend',  ad: 'Trend Ajanı',    kisa: 'TREND',  renk: '#6ee7ff', sac: '#3d2a18', ten: '#f0d0b0', desk: { x: 7,  y: 4 },
       dosya: 'scripts/update.mjs · trendComment', gorev: 'BTC\'nin günlük EMA50 rejimini okur ve akışa tek satırlık yön yorumu yazar.' },
     { id: 'radar',  ad: 'Altcoin Radarı', kisa: 'RADAR',  renk: '#f2d27a', sac: '#5a3a22', ten: '#d9a078', desk: { x: 12, y: 4 },
-      dosya: 'scripts/update.mjs · ALTS', gorev: '21 altcoini aynı kurallarla izler, sicil tutar, işlem AÇMAZ.' },
+      dosya: 'scripts/update.mjs · ALTS', gorev: '22 altcoini aynı kurallarla tarar ve sicil tutar. Sinyalleri gerçek cüzdanda ana listeyle aynı kurallarla işlenir.' },
     { id: 'dip',    ad: 'Dip Radarı',     kisa: 'DİP',    renk: '#c58aff', sac: '#111111', ten: '#b57a52', desk: { x: 17, y: 4 },
       dosya: 'scripts/dipradar.mjs', gorev: 'Binance\'teki tüm USDT çiftlerini tarar, EMA50\'nin çok altındaki adayları listeler, 30 gün takip eder.' },
     { id: 'risk',   ad: 'Risk Bekçisi',   kisa: 'RİSK',   renk: '#ff6b74', sac: '#4a2c14', ten: '#e2b48a', desk: { x: 2,  y: 11 },
@@ -34,7 +34,7 @@
     { id: 'takvim', ad: 'Takvim',         kisa: 'TAKVİM', renk: '#f5b455', sac: '#2a1c12', ten: '#c58a62', desk: { x: 7,  y: 11 },
       dosya: 'scripts/takvim.mjs', gorev: 'Yeni listeleme, delist ve token kilit açılışlarını izler.' },
     { id: 'cuzdan', ad: 'Gerçek Cüzdan',  kisa: 'CÜZDAN', renk: '#8fd3ff', sac: '#1b1b1b', ten: '#e7c7a4', desk: { x: 12, y: 11 },
-      dosya: 'scripts/gercek.mjs · data/gercek.json', gorev: '50$ gerçek para, aynı kurallar: işlem başına %2 risk, en fazla 3 pozisyon, BTC yok. Emirleri insan girer, defteri bu masa tutar. Hedef 20 işlemlik sicil.' },
+      dosya: 'scripts/gercek.mjs · data/gercek.json', gorev: '50$ gerçek para: işlem başına %2 risk, en fazla 3 pozisyon, ana liste + altcoin sinyallerinin hepsi. Defteri bu masa tutar. BTC istisnası: borsa minimumu yüzünden risk ~%5,6.' },
     { id: 'sef',    ad: 'Şef',            kisa: 'ŞEF',    renk: '#e6ebe9', sac: '#2a2a2a', ten: '#e7c7a4', desk: { x: 23, y: 7 }, patron: true,
       dosya: 'scripts/notify.mjs · tur özeti', gorev: 'İşlem yapmaz. Turun sonunda herkesin raporunu toplar ve sana Telegram\'dan yollar.' }
   ];
@@ -129,7 +129,7 @@
     // Gerçek cüzdan (data/gercek.json, scripts/gercek.mjs yazar). Kapanan işlemler 'closed',
     // atlanan sinyaller 'skipped'; alan adları sanal cüzdanla aynı tutuldu.
     model.cuzdan = { canli: !!(cz && (cz.open || []).length),
-      satir: cz ? (nf(cz.balance, 2) + '$ gerçek · ' + (cz.open || []).length + ' açık · sicil ' + ((cz.stats || {}).hedef || 0) + '✓/' + ((cz.stats || {}).trades || 0) + ' · hedef 20 işlem') : 'defter bekleniyor',
+      satir: cz ? (nf(cz.balance, 2) + '$ gerçek · ' + (cz.open || []).length + ' açık · sicil ' + ((cz.stats || {}).hedef || 0) + '✓/' + ((cz.stats || {}).trades || 0)) : 'defter bekleniyor',
       feed: cz && cz.open && cz.open.length ? cz.open.slice(0, 3).map(function (o) { return (o.coin || o.symbol) + ' ' + o.dir + ' (' + (o.kaynak || '?') + ') · giriş ' + nf(o.entry, 4) + ' · risk ' + nf(o.riskUsd, 2) + '$'; })
           : ['Açık işlem yok. İlk sinyal gelince insan açar, defter buraya yazar.'] };
     model.sef = { bekle: aktif.length > 0,

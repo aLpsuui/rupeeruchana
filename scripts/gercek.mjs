@@ -7,7 +7,7 @@
 // Maliyet modeli executor.tradeCosts ile aynı; borsadan gerçek komisyon gelirse o yazılır.
 //
 // Plan (2 Eki 2026): kasa 50$, işlem başına risk %2 (1$), izole 2x, aynı anda en
-// fazla 3 pozisyon, BTC yok (vadeli minimumu 86$ > kasa), çekirdek + radar sinyallerinin
+// fazla 3 pozisyon, ana liste (BTC, ETH, XRP, TRUMP) + altcoin sinyallerinin
 // HEPSİ geliş sırasıyla (seçmece yok), stop + hedef emri anında, 7 gün süre stopu,
 // ekleme ve stop taşıma yok, kasa 35$'a inerse DUR.
 // ============================================================================
@@ -17,12 +17,19 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tradeCosts } from './executor.mjs';
 
-// Kuru moddaki yürütücü (RUPEE_MODE=dry) AYRI deftere yazar: 20 işlemlik gerçek
+// Kuru moddaki yürütücü (RUPEE_MODE=dry) AYRI deftere yazar: gerçek
 // sicil prova kayıtlarıyla kirlenmesin. Komut satırı (insan) RUPEE_MODE görmez,
 // hep gerçek deftere yazar. gercek-kuru.json git'e girmez (.gitignore).
 const DOSYA = new URL(process.env.RUPEE_MODE === 'dry' ? '../data/gercek-kuru.json' : '../data/gercek.json', import.meta.url);
-export const KURAL = { RISK_PCT: 0.02, MAX_POS: 3, DUR_BAKIYE: 35, KALDIRAC: 2, SURE_GUN: 7, HEDEF_ISLEM: 20,
-  YASAK: { BTC: 'vadeli minimum 0,001 BTC ≈ 86$, 50$ kasaya sığmaz' } };
+// 3 Eki 2026: BTC yasağı kullanıcı kararıyla kaldırıldı, "20 işlem hedefi" çerçevesi de.
+// BTC'nin bedeli: borsanın en küçük emri 0,001 BTC (~85$). Stop mesafesi ~%3,3 iken bu
+// ~2,8$ risk = kasanın ~%5,6'sı (kural %2). İstisna olarak kabul edildi: MIN_ISTISNA
+// listesindeki coinde borsa minimumu riski kuralın üstüne çıkarsa işlem ATLANMAZ, risk
+// açılış mesajında açıkça yazılır. Teminat kasaya sığsın diye BTC'de kaldıraç 5x (izole);
+// kaldıraç riski değiştirmez, riski stop mesafesi belirler.
+export const KURAL = { RISK_PCT: 0.02, MAX_POS: 3, DUR_BAKIYE: 35, KALDIRAC: 2, SURE_GUN: 7,
+  KALDIRAC_OZEL: { BTC: 5 }, MIN_ISTISNA: ['BTC'], YASAK: {} };
+export const kaldiracOf = coin => KURAL.KALDIRAC_OZEL[coin] || KURAL.KALDIRAC;
 
 const f2 = n => Number(n).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const px = n => Number(n).toLocaleString('tr-TR', { maximumFractionDigits: n < 1 ? 5 : n < 100 ? 4 : 2 });
@@ -55,11 +62,12 @@ export function ozet(l) {
 }
 
 // %2 risk için pozisyon büyüklüğü
-export function pozisyonOner(l, giris, stop) {
+export function pozisyonOner(l, giris, stop, coin = null) {
   const mesafe = Math.abs(giris - stop) / giris;
   const risk = l.balance * KURAL.RISK_PCT;
   const poz = risk / mesafe;
-  return { mesafe, risk, poz, teminat: poz / KURAL.KALDIRAC, sigar: poz <= l.balance * KURAL.KALDIRAC };
+  const kal = kaldiracOf(coin);
+  return { mesafe, risk, poz, kaldirac: kal, teminat: poz / kal, sigar: poz <= l.balance * kal };
 }
 
 // Açılış kaydı. Kuralları burada zorlar; borsa emri BU fonksiyondan ÖNCE/SONRA ayrı atılır.
@@ -79,7 +87,7 @@ export function acKayit(l, { coin, dir, giris, stop, hedef, poz, kaynak = 'radar
   const riskUsd = poz * mesafe, riskPct = riskUsd / l.balance;
   const kayit = {
     coin, dir, kaynak, ts: simdi(), entry: giris, stop, target: hedef, notional: +poz.toFixed(2), qty: +(poz / giris).toFixed(6),
-    leverage: KURAL.KALDIRAC, marginUsd: +(poz / KURAL.KALDIRAC).toFixed(2), riskUsd: +riskUsd.toFixed(2), riskPct: +(riskPct * 100).toFixed(2),
+    leverage: kaldiracOf(coin), marginUsd: +(poz / kaldiracOf(coin)).toFixed(2), riskUsd: +riskUsd.toFixed(2), riskPct: +(riskPct * 100).toFixed(2),
     stopPct: +(mesafe * 100).toFixed(2), rr: +(Math.abs(hedef - giris) / Math.abs(giris - stop)).toFixed(2),
     deadline: new Date(Date.now() + KURAL.SURE_GUN * 864e5).toISOString(), note: not, ...ekstra,
   };
@@ -122,7 +130,6 @@ export function durumMetni(l) {
   sat.push(`açık ${l.open.length}/${KURAL.MAX_POS}:` + (l.open.length ? '' : ' yok'));
   l.open.forEach(o => sat.push(`  ${o.coin} ${o.dir} (${o.kaynak}) giriş ${px(o.entry)} stop ${px(o.stop)} hedef ${px(o.target)} · ${f2(o.notional)}$ · risk ${f2(o.riskUsd)}$ · süre ${o.deadline.slice(0, 10)}${o.mode ? ' · ' + o.mode : ''}`));
   if (l.closed.length) { sat.push('son kapananlar:'); l.closed.slice(0, 5).forEach(c => sat.push(`  ${c.closedTs.slice(0, 10)} ${c.coin} ${c.dir} ${c.outcome} ${f2(c.pnl)}$ (${c.rResult}R)`)); }
-  sat.push(`${KURAL.HEDEF_ISLEM} işlem hedefine kalan: ${Math.max(0, KURAL.HEDEF_ISLEM - s.trades)}`);
   return sat.join('\n');
 }
 
@@ -140,7 +147,8 @@ if (isMain) {
     if (komut === 'oner') {
       const o = pozisyonOner(l, +a[0], +a[1]);
       console.log(`Bakiye ${f2(l.balance)}$ · risk %${KURAL.RISK_PCT * 100} = ${f2(o.risk)}$ · stop mesafesi %${(o.mesafe * 100).toFixed(2)}`);
-      console.log(`-> pozisyon ${f2(o.poz)}$ (izole ${KURAL.KALDIRAC}x ile teminat ${f2(o.teminat)}$)${o.sigar ? '' : '  UYARI: kasaya sığmıyor, atla'}`);
+      console.log(`-> pozisyon ${f2(o.poz)}$ (izole ${o.kaldirac}x ile teminat ${f2(o.teminat)}$)${o.sigar ? '' : '  UYARI: kasaya sığmıyor, atla'}`);
+      console.log('(coin vererek çağırırsan özel kaldıraç uygulanır: BTC 5x. BTC\'de borsa minimumu 0,001 BTC, risk %2\'yi aşar.)');
     } else if (komut === 'ac') {
       const [coin, dir, giris, stop, hedef, poz, kaynak, ...not] = a;
       const k = acKayit(l, { coin, dir, giris, stop, hedef, poz: poz != null ? +poz : null, kaynak: kaynak || 'radar', not: not.join(' ') || null, ekstra: { mode: 'elle' } });

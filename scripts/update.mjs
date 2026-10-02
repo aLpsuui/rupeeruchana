@@ -29,10 +29,14 @@ import { notify, channel } from './notify.mjs';
 // Yani evreni daraltmak, sistemin işe yarayıp yaramadığını öğrenmeyi iki yıla yayıyordu.
 // Sicil birikene kadar geniş evren kalır. TRUMP radara eklendi: kendi sicilini
 // biriktirir ama 4 pozisyonluk kontenjanı çekirdek coinlerden çalmaz.
-export const COINS = ['BTC', 'ETH', 'SOL', 'LINK', 'DOGE'];
-const WATCH = ['ETH', 'LINK', 'SOL', 'DOGE', 'BTC']; // izleme listesi sırası
+// 3 Eki 2026 (kullanıcı kararı): ANA LİSTE = BTC, ETH, XRP, TRUMP; geri kalan her şey
+// altcoin. Toplam evren aynı (26 coin), yani öğrenme hızı değişmedi; değişen yalnızca
+// gruplama: tur özetinde ana liste ayrıntılı, altcoinler tek satır. Gerçek cüzdan iki
+// grubun sinyallerini de işler (scripts/gercek.mjs, kaynak: cekirdek | radar).
+export const COINS = ['BTC', 'ETH', 'XRP', 'TRUMP'];
+const WATCH = ['BTC', 'ETH', 'XRP', 'TRUMP']; // izleme listesi sırası
 export const ALTS = [
-  'XRP', 'TRUMP', 'AVAX', 'ADA', 'POL', 'DOT', 'ATOM', 'NEAR', 'APT', 'ARB',
+  'SOL', 'LINK', 'DOGE', 'AVAX', 'ADA', 'POL', 'DOT', 'ATOM', 'NEAR', 'APT', 'ARB',
   'OP', 'INJ', 'SUI', 'TIA', 'SEI', 'LTC', 'BCH', 'UNI', 'AAVE', 'FIL', 'RENDER',
 ]; // POL (eski MATIC) ve RENDER (eski RNDR) güncel Binance sembolleridir
 const ALL = [...COINS, ...ALTS];
@@ -498,12 +502,14 @@ async function main() {
       }).join('\n');
 
       const aktif = signals.filter(x => x.state === 'AKTİF');
-      // Bunlar SİSTEMİN izlediği sinyaller, kullanıcının pozisyonu değil. Başlık eskiden
-      // "Açık sinyaller" idi ve "açık pozisyonum var" diye okunuyordu (3 Eki 2026). Her
-      // satıra açılış günü ve süre stopu yazılır ki eski bir sinyal yeni sanılmasın.
-      const gun = iso => new Date(iso).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', timeZone: 'UTC' });
-      const aktifMetin = aktif.length
-        ? aktif.map(x => `• ${x.coin} ${x.dir} — giriş ${x.entry} · stop ${x.stop} · hedef ${x.target} · ${gun(x.ts)}'de açıldı, süre ${gun(Date.parse(x.ts) + 7 * 86400000)}`).join('\n')
+      // Ekranda yalnızca KULLANICININ açık işlemleri gösterilir (3 Eki 2026 kararı). Sistemin
+      // izlediği sinyaller mesajda listelenmez: kullanıcı onları kendi pozisyonu sandı. Yeni
+      // sinyal ayrı bildirimle gelir, sonuçları "Sinyal sicili" satırında sayılır.
+      let gDefter = null;
+      try { gDefter = JSON.parse(readFileSync(new URL('../data/gercek.json', import.meta.url), 'utf8')); } catch (e) { /* defter henüz yok */ }
+      const gAcik = (gDefter && gDefter.open) || [];
+      const aktifMetin = gAcik.length
+        ? gAcik.map(o => `• ${o.coin} ${o.dir} — giriş ${px(o.entry)} · stop ${px(o.stop)} · hedef ${px(o.target)} · ${nf(o.notional, 2)}$ · risk ${nf(o.riskUsd, 2)}$`).join('\n')
         : '• yok';
 
       const kapanan = signals.filter(x => x.closed === now);
@@ -518,11 +524,11 @@ async function main() {
       // 10+ "öne çıkan" üretiyor ve mesaj okunmaz hale geliyor.
       const ilk5 = altHot.slice(0, 5).map(a => `${a.coin}:${a.status}`).join(', ');
       const radarMetin = alts.length
-        ? `${'\n'}${'\n'}Radar: ${alts.length} coin izleniyor`
+        ? `${'\n'}${'\n'}Altcoinler: ${alts.length} coin taranıyor`
           + (altHot.length
               ? ` · öne çıkan ${ilk5}${altHot.length > 5 ? ` (+${altHot.length - 5} coin daha)` : ''}`
               : ' · öne çıkan yok')
-          + (radarAktif.length ? ` · ${radarAktif.length} aktif radar sinyali (izleme, işlem açılmaz)` : '')
+          + (radarAktif.length ? ` · ${radarAktif.length} aktif altcoin sinyali` : '')
         : '';
 
       // Sinyal sicili: sistemin otomatik ölçümü. Sanal cüzdan 2 Eki 2026'da kaldırıldı;
@@ -531,20 +537,20 @@ async function main() {
         const k = liste.filter(function (x) { return x.state !== 'AKTİF'; });
         return k.filter(function (x) { return String(x.state).includes('HEDEF'); }).length + '✓/' + k.length;
       };
-      const cuzdan = `${'\n'}${'\n'}Sinyal sicili: çekirdek ${sicil(signals)} · radar ${sicil(altSignals)}`;
+      const cuzdan = `${'\n'}${'\n'}Sinyal sicili: ana liste ${sicil(signals)} · altcoin ${sicil(altSignals)}`;
 
       // Gerçek cüzdan (2 Eki 2026'dan beri, elle yürütülür; scripts/gercek.mjs). Dosya yoksa satır yok.
       let gercek = '';
       try {
         const g = JSON.parse(readFileSync(new URL('../data/gercek.json', import.meta.url), 'utf8'));
         const gs = g.stats || { trades: 0, hedef: 0, pnlSum: 0 };
-        gercek = `${'\n'}SENİN cüzdanın: ${nf(g.balance, 2)}$ · ${(g.open || []).length} açık pozisyon · sicil ${gs.hedef}✓/${gs.trades}`
-               + (gs.trades ? ` · toplam ${gs.pnlSum >= 0 ? '+' : ''}${nf(gs.pnlSum, 2)}$` : '') + ` · hedef 20 işlem, kalan ${Math.max(0, 20 - gs.trades)}`;
+        gercek = `${'\n'}Cüzdan: ${nf(g.balance, 2)}$ · sicil ${gs.hedef}✓/${gs.trades}`
+               + (gs.trades ? ` · toplam ${gs.pnlSum >= 0 ? '+' : ''}${nf(gs.pnlSum, 2)}$` : '');
       } catch (e) { /* defter henüz yok */ }
 
       await notify(
         `📊 4 saatlik analiz — ${COINS.join(' · ')}`,
-        `${durum}${'\n'}${'\n'}Sistemin izlediği sinyaller (senin pozisyonun değil):${'\n'}${aktifMetin}${kapananMetin}${radarMetin}${cuzdan}${gercek}${'\n'}${'\n'}`
+        `${durum}${'\n'}${'\n'}Açık işlemlerin:${'\n'}${aktifMetin}${radarMetin}${cuzdan}${gercek}${'\n'}${'\n'}`
         + 'Kurallar v3 · 4s · stop 2×ATR · hedef 2,5R. Bilgilendirmedir, yatırım tavsiyesi değildir.',
         'bar_chart',
       );
