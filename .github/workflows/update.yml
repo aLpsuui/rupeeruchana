@@ -6,6 +6,11 @@ on:
   # GitHub'ın zamanlanmış işleri 1-2 saat gecikiyordu, bazen tur atlıyordu.
   # Bu workflow artık iki iş yapar: (1) her push'ta siteyi yayınla, (2) elle
   # tetiklenirse motoru burada çalıştır (VPS düşerse yedek).
+  #
+  # GEÇİŞ DÖNEMİ: VPS kurulup yürütücü canlıya girene kadar zamanlama AÇIK kalır,
+  # yoksa hiçbir tur koşmaz. VPS canlı olunca aşağıdaki iki satır silinir.
+  schedule:
+    - cron: '17 */4 * * *'
   push:
     branches: [main]
   workflow_dispatch:
@@ -66,14 +71,14 @@ jobs:
 
       # Motor yalnızca ELLE tetiklemede çalışır (VPS yedeği). Push'ta sadece yayın.
       - name: Analizi çalıştır
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+        if: ${{ github.event_name != 'push' }}
         timeout-minutes: 10
         run: node scripts/update.mjs
 
       # Dip radarı 400+ coin tarar, ~1 dakika sürer. continue-on-error: analiz
       # motorunun sağlığı bu taramaya bağlı olmamalı; radar düşerse tur devam eder.
       - name: Dip radarı taraması
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+        if: ${{ github.event_name != 'push' }}
         timeout-minutes: 6
         continue-on-error: true
         run: node scripts/dipradar.mjs
@@ -82,13 +87,13 @@ jobs:
       # Duyuru kaynağı (www.binance.com) sunuculardan engellenebilir; o durumda
       # modül sembol farkıyla çalışmaya devam eder. Yine de motoru bloke etmesin.
       - name: Takvim / olay taraması
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+        if: ${{ github.event_name != 'push' }}
         timeout-minutes: 4
         continue-on-error: true
         run: node scripts/takvim.mjs
 
       - name: Değişiklik varsa kaydet
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+        if: ${{ github.event_name != 'push' }}
         run: |
           git config user.name "rupeeruchana-agent"
           git config user.email "agent@rupeeruchana.local"
