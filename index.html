@@ -239,7 +239,7 @@
     <a class="navlink" href="#s-radar"><span class="ico">📡</span>Altcoin Radarı<span class="cnt" id="navAltCount">20</span></a>
     <a class="navlink" href="#s-dip"><span class="ico">🕳</span>Dip Radarı<span class="cnt" id="navDipCount">0</span></a>
     <a class="navlink" href="#s-takvim"><span class="ico">🗓</span>Takvim</a>
-    <a class="navlink" href="#s-cuzdan"><span class="ico">🤖</span>Sanal Cüzdan</a>
+    <a class="navlink" href="#s-gercek"><span class="ico">💵</span>Gerçek Cüzdan<span class="cnt" id="navGwOpen">0</span></a>
     <a class="navlink" href="#s-kurallar"><span class="ico">📐</span>Kurallar</a>
   </nav>
 
@@ -254,7 +254,7 @@
         <div class="agent"><div class="st idle"></div><div><div class="nm">Tarayıcı</div><div class="ds"><span id="scanCount">25</span> coin taranıyor</div></div><div class="tag mut">4s'te</div></div>
         <div class="agent"><div class="st on"></div><div><div class="nm">Risk Bekçisi</div><div class="ds">sinyal kalitesi denetimi</div></div><div class="tag mut">şimdi</div></div>
       </div>
-      <div class="pack2" style="color:var(--ink);"><div class="st on" style="width:8px;height:8px;border-radius:50%;"></div><div>Sanal Cüzdan<br><span style="font-size:10.5px;color:var(--ink3);">otomatik simülasyon · canlı</span></div><div style="margin-left:auto;font-family:var(--mono);font-weight:700;" id="awSideBal">1.000,00$</div></div>
+      <div class="pack2" style="color:var(--ink);"><div class="st on" style="width:8px;height:8px;border-radius:50%;"></div><div>Gerçek Cüzdan<br><span style="font-size:10.5px;color:var(--ink3);">50$ gerçek para · elle yürütülür</span></div><div style="margin-left:auto;font-family:var(--mono);font-weight:700;" id="gwSideBal">50,00$</div></div>
     </div>
     <div class="sidebox">
       <div class="inv-label">ENVANTER</div>
@@ -381,21 +381,23 @@
       <div class="radarfoot">Takvimin amacı pump bulmak değil, bilinen olaylardan haberdar etmek. Token kilitleri <b>aşağı</b> yönlü olaylardır: kilit açılınca arz artar. Kilit listesi elle tutulur (<code>data/unlocks.json</code>), çünkü ücretsiz ve güvenilir bir kilit takvimi API'si yok. Yeni listeleme tespiti ise tamamen mekaniktir: her turda Binance'in çift listesi bir öncekiyle karşılaştırılır.</div>
     </div>
 
-    <div class="acthead" id="s-cuzdan">🤖 Sanal Cüzdan <span style="font-weight:400; color:var(--ink3); font-size:11px;">— 1.000$ simülasyon · işlem başına %2 sabit risk · gerçek para değildir</span></div>
+    <!-- Sanal cüzdan bölümü 2 Eki 2026'da kaldırıldı: tek cüzdan var, gerçek. Arşiv: data/autotrade.json (18 işlem). -->
+    <div class="acthead" id="s-gercek">💵 Gerçek Cüzdan <span style="font-weight:400; color:var(--ink3); font-size:11px;">— 50$ gerçek para · aynı kurallar · emirleri insan girer · 2 Ekim 2026'dan beri</span></div>
     <div class="item wl">
       <div style="display:flex; gap:22px; flex-wrap:wrap; margin-bottom:12px;">
-        <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Bakiye</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="awBalance">1.000,00$</div></div>
-        <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Toplam PnL</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="awPnl">+0,00$</div></div>
-        <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Sicil</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="awRecord">0✓ / 0✗</div></div>
+        <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Bakiye</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="gwBalance">50,00$</div></div>
+        <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Toplam PnL</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="gwPnl">+0,00$</div></div>
+        <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Sicil</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="gwRecord">0✓ / 0✗</div></div>
+        <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">20 işlem hedefi</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="gwGoal">0 / 20</div></div>
+        <div><div style="font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px;">Atlanan sinyal</div><div style="font-family:var(--mono); font-size:19px; font-weight:700;" id="gwSkipped">0</div></div>
       </div>
       <table>
-        <thead><tr><th>Durum</th><th>Parite</th><th>Yön</th><th>Giriş</th><th>Pozisyon</th><th>Kaldıraç</th><th>Stop</th><th>Hedef</th><th>Sonuç / PnL</th></tr></thead>
-        <tbody id="awBody">
-          <tr><td colspan="9" style="text-align:center; color:var(--ink3); padding:14px;">— Sicil yükleniyor… —</td></tr>
+        <thead><tr><th>Durum</th><th>Parite</th><th>Yön</th><th>Kaynak</th><th>Giriş</th><th>Pozisyon</th><th>Stop</th><th>Hedef</th><th>Sonuç / PnL</th></tr></thead>
+        <tbody id="gwBody">
+          <tr><td colspan="9" style="text-align:center; color:var(--ink3); padding:14px;">— Henüz işlem yok. İlk sinyal bekleniyor. —</td></tr>
         </tbody>
       </table>
-      <div class="diag" id="awDiag">Teşhis satırı bir sonraki kapanışta dolar.</div>
-      <p style="margin:8px 0 0; font-size:10.5px; color:var(--ink3);">Motor her resmî sinyali sanal cüzdana yansıtır (%2 risk/işlem), stop ve hedefi gerçek piyasa verisiyle izler. Aynı mumda ikisi de dokunursa tutucu varsayım: STOP sayılır. 7 günde çözülmeyen pozisyon son fiyattan kapatılır (SÜRE ⏱).</p>
+      <div class="diag" id="gwDiag">Kurallar: işlem başına %2 risk (1$), izole 2x, aynı anda en fazla 3 pozisyon, BTC yok (vadeli minimumu kasadan büyük), çekirdek + radar sinyallerinin hepsi geliş sırasıyla, 7 gün süre stopu, ekleme ve stop taşıma yok, kasa 35$'a inerse dur. Hedef kâr değil: 20 gerçek işlemde sanal ile gerçek arasındaki farkı ölçmek.</div>
     </div>
 
     <div class="acthead" id="s-kurallar">Sistem — Açık Kurallar</div>
@@ -702,49 +704,41 @@ function diagLine(s, baslik){
   }, { passive: true });
   markActive();
 
-  // ---- sanal cüzdan panelini autotrade.json'dan çiz ----
-  function pxa(n){ return n >= 1000 ? n.toLocaleString('tr-TR',{maximumFractionDigits:0}) : n >= 10 ? n.toLocaleString('tr-TR',{maximumFractionDigits:2}) : n.toLocaleString('tr-TR',{maximumFractionDigits:5}); }
-  fetch('data/autotrade.json?t=' + Date.now())
+  // ---- GERÇEK cüzdan panelini gercek.json'dan çiz (scripts/gercek.mjs yazar) ----
+  fetch('data/gercek.json?t=' + Date.now())
     .then(function(r){ return r.json(); })
-    .then(function(aw){
-      if (window.RupeeKat) RupeeKat.feed('cuzdan', aw);
+    .then(function(g){
+      if (window.RupeeKat) RupeeKat.feed('cuzdan', g);
       try {
-        var closed = aw.closed || [], open = aw.open || [];
-        var pnl = closed.reduce(function(a,c){ return a + (c.pnl || 0); }, 0);
-        var wins = closed.filter(function(c){ return (c.outcome||'').indexOf('HEDEF') === 0 || (c.outcome||'').indexOf('HEDEF') > -1; }).length;
-        var bal = (aw.balance != null ? aw.balance : 50);
-        document.getElementById('awBalance').textContent = bal.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '$';
-        var e = document.getElementById('awSideBal'); if (e) e.textContent = bal.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '$';
-        var pe = document.getElementById('awPnl');
-        pe.textContent = (pnl >= 0 ? '+' : '') + pnl.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '$';
-        pe.style.color = pnl > 0 ? 'var(--mint)' : (pnl < 0 ? 'var(--red)' : 'var(--ink)');
-        document.getElementById('awRecord').textContent = wins + '✓ / ' + (closed.length - wins) + '✗';
+        var s = g.stats || {trades:0, hedef:0, stop:0, sure:0, elle:0, pnlSum:0, rSum:0, skipped:(g.skipped||[]).length};
+        var sb = document.getElementById('gwSideBal'); if (sb) sb.textContent = g.balance.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '$';
+        var money = function(n){ return (n >= 0 ? '+' : '') + n.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '$'; };
+        document.getElementById('gwBalance').textContent = g.balance.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '$';
+        var pe = document.getElementById('gwPnl'); pe.textContent = money(s.pnlSum || 0); pe.style.color = (s.pnlSum||0) > 0 ? 'var(--mint)' : (s.pnlSum||0) < 0 ? 'var(--red)' : '';
+        document.getElementById('gwRecord').textContent = (s.hedef||0) + '✓ / ' + ((s.trades||0) - (s.hedef||0)) + '✗';
+        document.getElementById('gwGoal').textContent = (s.trades||0) + ' / 20';
+        document.getElementById('gwSkipped').textContent = (g.skipped||[]).length;
+        var nav = document.getElementById('navGwOpen'); if (nav) nav.textContent = (g.open||[]).length;
         var rows = '';
-        var lv = function(p){ return (p.notional != null ? p.notional.toFixed(0)+'$' : '—'); };
-        var lx = function(p){ return (p.leverage != null ? p.leverage.toFixed(1).replace('.',',')+'x' : '—'); };
-        open.forEach(function(p){
-          rows += '<tr><td><span class="chip g">AÇIK</span></td><td><b>'+esc(p.symbol)+'</b></td><td>'+esc(p.dir)+'</td>'+
-            '<td class="lv">'+pxa(p.entry)+'</td><td class="lv">'+lv(p)+'</td><td class="lv">'+lx(p)+'</td>'+
-            '<td class="lv">'+pxa(p.stop)+'</td><td class="lv">'+pxa(p.target)+'</td>'+
-            '<td class="lv">risk '+(p.riskUsd||1)+'$</td></tr>';
+        (g.open||[]).forEach(function(o){
+          rows += '<tr><td><span class="chip g">AÇIK</span></td><td><b>'+esc(o.coin)+'</b></td><td>'+esc(o.dir)+'</td><td class="cnote">'+esc(o.kaynak)+'</td><td class="num">'+esc(pxa(o.entry))+'</td><td class="num">'+esc(o.notional.toFixed(2))+'$</td><td class="num">'+esc(pxa(o.stop))+'</td><td class="num">'+esc(pxa(o.target))+'</td><td class="cnote">risk '+esc(o.riskUsd.toFixed(2))+'$ · süre '+esc(String(o.deadline).slice(5,10))+'</td></tr>';
         });
-        closed.slice(0, 10).forEach(function(c){
+        (g.closed||[]).slice(0, 20).forEach(function(c){
           var win = (c.outcome||'').indexOf('HEDEF') > -1;
-          var chipCls2 = win ? 'g' : ((c.outcome||'').indexOf('SÜRE') > -1 ? 'a' : 'r');
-          rows += '<tr style="opacity:.75;"><td><span class="chip '+chipCls2+'">'+esc(c.outcome)+'</span></td><td><b>'+esc(c.symbol)+'</b></td><td>'+esc(c.dir)+'</td>'+
-            '<td class="lv">'+pxa(c.entry)+'</td><td class="lv">'+lv(c)+'</td><td class="lv">'+lx(c)+'</td>'+
-            '<td class="lv">'+pxa(c.stop)+'</td><td class="lv">'+pxa(c.target)+'</td>'+
-            '<td class="lv" style="color:'+((c.pnl||0)>=0?'var(--mint)':'var(--red)')+';">'+((c.pnl||0)>=0?'+':'')+(c.pnl||0).toFixed(2)+'$</td></tr>';
+          rows += '<tr><td><span class="chip '+(win?'g':'r')+'">'+esc(c.outcome)+'</span></td><td><b>'+esc(c.coin)+'</b></td><td>'+esc(c.dir)+'</td><td class="cnote">'+esc(c.kaynak)+'</td><td class="num">'+esc(pxa(c.entry))+'</td><td class="num">'+esc(c.notional.toFixed(2))+'$</td><td class="num">'+esc(pxa(c.stop))+'</td><td class="num">'+esc(pxa(c.target))+'</td><td class="num '+(c.pnl>=0?'up':'dn')+'">'+esc(money(c.pnl))+' · '+esc(String(c.rResult))+'R</td></tr>';
         });
-        if (!rows) rows = '<tr><td colspan="9" style="text-align:center; color:var(--ink3); padding:14px;">— Henüz sanal işlem yok. Motor sinyal bekliyor. —</td></tr>';
-        document.getElementById('awBody').innerHTML = rows;
-
-        // teşhis satırı: işlemler lehe/aleyhe kaç R gidiyor?
-        var db = document.getElementById('awDiag');
-        if (db) db.innerHTML = diagLine(aw.stats, 'Sanal cüzdan');
-      } catch(e) {}
+        if (rows) document.getElementById('gwBody').innerHTML = rows;
+        if (s.trades) {
+          var k = s.kaynak || {}, y = s.yon || {};
+          document.getElementById('gwDiag').innerHTML = 'İşlem başına <b>'+esc(String(s.rAvg))+'R</b> · toplam '+esc(String(s.rSum))+'R · maliyet '+esc(String(s.feeSum))+'$ · çekirdek '+esc((k.cekirdek||{}).hedef)+'/'+esc((k.cekirdek||{}).n)+' · radar '+esc((k.radar||{}).hedef)+'/'+esc((k.radar||{}).n)+' · LONG '+esc((y.LONG||{}).hedef)+'/'+esc((y.LONG||{}).n)+' · SHORT '+esc((y.SHORT||{}).hedef)+'/'+esc((y.SHORT||{}).n)+'. Sanal cüzdanla kıyas için 20 işlem bekleniyor.';
+        }
+      } catch(e) { /* gömülü içerik kalır */ }
     })
-    .catch(function(){ /* gömülü satır kalır */ });
+    .catch(function(){ /* defter henüz yok */ });
+
+  // ---- fiyat biçimleyici (gerçek cüzdan tablosu kullanır) ----
+  function pxa(n){ return n >= 1000 ? n.toLocaleString('tr-TR',{maximumFractionDigits:0}) : n >= 10 ? n.toLocaleString('tr-TR',{maximumFractionDigits:2}) : n.toLocaleString('tr-TR',{maximumFractionDigits:5}); }
+  // (sanal cüzdan çizimi kaldırıldı, 2 Eki 2026; pxa yukarıda gerçek cüzdan için kalıyor)
 })();
 
 (function(){

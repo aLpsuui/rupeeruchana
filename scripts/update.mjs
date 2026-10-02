@@ -306,12 +306,10 @@ async function main() {
     signals.push(ns);
   }
 
-  // --- sanal cüzdan: açık pozisyonların durumunu kontrol et (hedef/stop dokundu mu?)
-  try { await executor.reconcile(notify); }
-  catch (e) { console.error('sanal takip hatası:', e.message); }
-  // --- sinyal aynası: cüzdanda karşılığı olmayan aktif sinyalleri aç
-  try { await executor.adoptSignals(signals, notify); }
-  catch (e) { console.error('sinyal aynası hatası:', e.message); }
+  // Sanal cüzdan 2 Eki 2026'da KALDIRILDI (kullanıcı kararı: tek cüzdan var, gerçek 50$,
+  // scripts/gercek.mjs). executor.reconcile / adoptSignals artık çağrılmaz; data/autotrade.json
+  // 18 işlemlik arşiv olarak duruyor. Sistemin performansı sinyal sicilinden okunur
+  // (signals / altSignals: HEDEF ✓, STOP ✗, SÜRE ⏱), o ölçüm otomatik sürüyor.
 
   // --- yeni sinyaller
   const feed = [];
@@ -338,13 +336,7 @@ async function main() {
         `Giriş ${px(a.signal.entry)} · Stop ${px(a.signal.stop)} · Hedef ${px(a.signal.target)} (2,5R)`,
         a.signal.dir === 'LONG' ? 'green_circle' : 'red_circle'
       );
-      // --- sanal cüzdan otomatik işlem (LONG + SHORT)
-      try {
-        await executor.openTrade({ coinRaw: c, dir: a.signal.dir, entryNum: a.signal.entry, stopNum: a.signal.stop, targetNum: a.signal.target }, notify);
-      } catch (e) {
-        console.error(`sanal işlem hatası ${c}:`, e.message);
-        await notify(`⚠️ Sanal işlem hatası: ${c}`, e.message.slice(0, 150), 'warning');
-      }
+      // (sanal cüzdana otomatik işlem açma kaldırıldı, 2 Eki 2026; gerçek işlemi insan açar)
     }
   }
 
@@ -473,10 +465,13 @@ async function main() {
     updated: now,
     engine: 'github-actions-v1',
     kpi: old.kpi,
-    signals: signals.slice(0, 12),
+    // 2 Eki 2026: sanal cüzdan kalkınca sinyal listesi sistemin TEK otomatik sicili oldu;
+    // 12'lik kesme sicili her turda tıraşlıyordu. Sayfa yalnızca AKTİF olanları çizer,
+    // kapananlar sicil için saklanır. (Eski kayıtlar git geçmişindeki state.json'larda.)
+    signals: signals.slice(0, 500),
     watchlist,
     alts,
-    altSignals: altSignals.slice(0, 40),
+    altSignals: altSignals.slice(0, 500),   // aynı gerekçe; sayfa aktifleri + son 6 kapananı gösterir
     // radar sicilinin teşhis özeti: hedefe ulaşamayanlar ortalama kaç R'ye gitti?
     altStats: executor.summarize(
       altSignals.filter(s => s.state !== 'AKTİF').map(s => ({ outcome: s.state, mfeR: s.mfeR, maeR: s.maeR, bars: s.bars }))
@@ -526,24 +521,26 @@ async function main() {
           + (radarAktif.length ? ` · ${radarAktif.length} aktif radar sinyali (izleme, işlem açılmaz)` : '')
         : '';
 
-      // Sanal cüzdan durumu (dosyadan okunur; yoksa mesaj yine gider).
-      let cuzdan = '';
+      // Sinyal sicili: sistemin otomatik ölçümü. Sanal cüzdan 2 Eki 2026'da kaldırıldı;
+      // performans doğrudan sinyal sonuçlarından okunur (hedef / stop / süre).
+      const sicil = function (liste) {
+        const k = liste.filter(function (x) { return x.state !== 'AKTİF'; });
+        return k.filter(function (x) { return String(x.state).includes('HEDEF'); }).length + '✓/' + k.length;
+      };
+      const cuzdan = `${'\n'}${'\n'}Sinyal sicili: çekirdek ${sicil(signals)} · radar ${sicil(altSignals)}`;
+
+      // Gerçek cüzdan (2 Eki 2026'dan beri, elle yürütülür; scripts/gercek.mjs). Dosya yoksa satır yok.
+      let gercek = '';
       try {
-        const l = JSON.parse(readFileSync(new URL('../data/autotrade.json', import.meta.url), 'utf8'));
-        // Kapalı işlemin sonucu `outcome` alanındadır — `state` sinyal kayıtlarına ait.
-        // executor her turda bir özet (stats) yazıyor, varsa onu kullan.
-        const st = l.stats || null;
-        const kapali = l.closed || [];
-        const adet = st ? st.trades : kapali.length;
-        const isabet = st ? st.hedef : kapali.filter(t => String(t.outcome || '').includes('HEDEF')).length;
-        cuzdan = `${'\n'}${'\n'}Sanal cüzdan: ${nf(l.balance, 2)}$ · ${(l.open || []).length} açık pozisyon`
-                + (adet ? ` · sicil ${isabet}✓/${adet}` : '')
-                + (st && st.pnlSum != null ? ` · toplam ${st.pnlSum >= 0 ? '+' : ''}${nf(st.pnlSum, 2)}$` : '');
-      } catch (e) { console.error('cüzdan özeti okunamadı:', e.message); }
+        const g = JSON.parse(readFileSync(new URL('../data/gercek.json', import.meta.url), 'utf8'));
+        const gs = g.stats || { trades: 0, hedef: 0, pnlSum: 0 };
+        gercek = `${'\n'}Gerçek cüzdan: ${nf(g.balance, 2)}$ · ${(g.open || []).length} açık · sicil ${gs.hedef}✓/${gs.trades}`
+               + (gs.trades ? ` · toplam ${gs.pnlSum >= 0 ? '+' : ''}${nf(gs.pnlSum, 2)}$` : '') + ` · hedef 20 işlem, kalan ${Math.max(0, 20 - gs.trades)}`;
+      } catch (e) { /* defter henüz yok */ }
 
       await notify(
         `📊 4 saatlik analiz — ${COINS.join(' · ')}`,
-        `${durum}${'\n'}${'\n'}Açık sinyaller:${'\n'}${aktifMetin}${kapananMetin}${radarMetin}${cuzdan}${'\n'}${'\n'}`
+        `${durum}${'\n'}${'\n'}Açık sinyaller:${'\n'}${aktifMetin}${kapananMetin}${radarMetin}${cuzdan}${gercek}${'\n'}${'\n'}`
         + 'Kurallar v3 · 4s · stop 2×ATR · hedef 2,5R. Bilgilendirmedir, yatırım tavsiyesi değildir.',
         'bar_chart',
       );
@@ -573,10 +570,6 @@ if (!isMain) {
 } else if (process.argv.includes('--selftest')) {
   const { runSelfTest } = await import('./selftest.mjs');
   runSelfTest({ analyzeCoin });
-} else if (process.argv.includes('--test-trade')) {
-  // Elle tetiklenen zincir testi: dar bantlı minik sanal işlem açar
-  await executor.forceTestTrade(notify);
-  console.log('Sanal test işlemi açıldı.');
 } else if (process.argv.includes('--test-notify')) {
   // Bildirim kanalı testi: kurulumu doğrulamak için tek mesaj yollar
   console.log(`bildirim kanalı: ${channel()}`);

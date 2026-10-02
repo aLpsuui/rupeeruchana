@@ -7,12 +7,6 @@ on:
     inputs:
       # type: choice → GitHub açılır liste gösterir; elle 'true' yazmak gerekmez.
       # (Bildirim testi için ayrıca tek tıklık notify-test.yml workflow'u var.)
-      test_trade:
-        description: 'Zincir testi: minik BTC sanal işlemi aç'
-        required: false
-        default: 'false'
-        type: choice
-        options: ['false', 'true']
       test_notify:
         description: 'Bildirim testi: telefona tek mesaj yolla'
         required: false
@@ -64,11 +58,6 @@ jobs:
         if: ${{ github.event.inputs.test_notify == 'true' }}
         timeout-minutes: 2
         run: node scripts/update.mjs --test-notify
-
-      - name: Zincir testi (yalnızca elle tetiklemede)
-        if: ${{ github.event.inputs.test_trade == 'true' }}
-        timeout-minutes: 5
-        run: node scripts/update.mjs --test-trade
 
       - name: Analizi çalıştır
         timeout-minutes: 10

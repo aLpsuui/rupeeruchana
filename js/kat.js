@@ -2,7 +2,7 @@
  * Rupeeruchana — Ajan Katı
  * Sistemin modüllerini bir piksel ofisi olarak çizer. Her masa gerçek bir script,
  * her karakter o scriptin SON TURDA ne yaptığını gösterir; sahte hareket yok:
- *   - veri state.json / dipradar.json / takvim.json / autotrade.json'dan gelir,
+ *   - veri state.json / dipradar.json / takvim.json / gercek.json'dan gelir,
  *   - aktif sinyal varsa masanın üstünde "CANLI" tabelası yanar,
  *   - son tur 5 saatten eskiyse herkes hayalet olur ve "tur gecikti" yazar.
  * Fikir: pixel-grokbots (MIT, Davidgon8) ve Pixel Agents. Çizim ve kod özgün.
@@ -33,8 +33,8 @@
       dosya: 'scripts/update.mjs · sinyal takibi', gorev: 'Açık sinyalleri mum mum tarar: stop mu, hedef mi, süre mi? Tetiksiz kurulumu yayınlatmaz.' },
     { id: 'takvim', ad: 'Takvim',         kisa: 'TAKVİM', renk: '#f5b455', sac: '#2a1c12', ten: '#c58a62', desk: { x: 7,  y: 11 },
       dosya: 'scripts/takvim.mjs', gorev: 'Yeni listeleme, delist ve token kilit açılışlarını izler.' },
-    { id: 'cuzdan', ad: 'Sanal Cüzdan',   kisa: 'CÜZDAN', renk: '#8fd3ff', sac: '#1b1b1b', ten: '#e7c7a4', desk: { x: 12, y: 11 },
-      dosya: 'scripts/executor.mjs', gorev: 'Sinyalleri %2 riskle sanal olarak açar, komisyon ve fonlamayı düşer, sicili tutar. Gerçek para yok.' },
+    { id: 'cuzdan', ad: 'Gerçek Cüzdan',  kisa: 'CÜZDAN', renk: '#8fd3ff', sac: '#1b1b1b', ten: '#e7c7a4', desk: { x: 12, y: 11 },
+      dosya: 'scripts/gercek.mjs · data/gercek.json', gorev: '50$ gerçek para, aynı kurallar: işlem başına %2 risk, en fazla 3 pozisyon, BTC yok. Emirleri insan girer, defteri bu masa tutar. Hedef 20 işlemlik sicil.' },
     { id: 'sef',    ad: 'Şef',            kisa: 'ŞEF',    renk: '#e6ebe9', sac: '#2a2a2a', ten: '#e7c7a4', desk: { x: 23, y: 7 }, patron: true,
       dosya: 'scripts/notify.mjs · tur özeti', gorev: 'İşlem yapmaz. Turun sonunda herkesin raporunu toplar ve sana Telegram\'dan yollar.' }
   ];
@@ -126,9 +126,12 @@
       feed: feedSatirlari('Risk Bekçisi') };
     model.takvim = { satir: tk ? ((tk.olaylar || []).length + ' olay · ' + (tk.yakinKilitler || []).length + ' yakın kilit · ' + (tk.symbolCount || 0) + ' sembol') : 'takvim bekleniyor',
       feed: tk && tk.note ? [kirp(tk.note, 110)] : [] };
+    // Gerçek cüzdan (data/gercek.json, scripts/gercek.mjs yazar). Kapanan işlemler 'closed',
+    // atlanan sinyaller 'skipped'; alan adları sanal cüzdanla aynı tutuldu.
     model.cuzdan = { canli: !!(cz && (cz.open || []).length),
-      satir: cz ? (nf(cz.balance, 2) + '$ · ' + (cz.open || []).length + ' açık · sicil ' + ((cz.stats || {}).hedef || 0) + '✓/' + ((cz.stats || {}).trades || 0)) : 'cüzdan bekleniyor',
-      feed: cz && cz.open ? cz.open.slice(0, 3).map(function (o) { return o.symbol + ' ' + o.dir + ' · giriş ' + nf(o.entry, 4) + ' · risk ' + nf(o.riskUsd, 2) + '$'; }) : [] };
+      satir: cz ? (nf(cz.balance, 2) + '$ gerçek · ' + (cz.open || []).length + ' açık · sicil ' + ((cz.stats || {}).hedef || 0) + '✓/' + ((cz.stats || {}).trades || 0) + ' · hedef 20 işlem') : 'defter bekleniyor',
+      feed: cz && cz.open && cz.open.length ? cz.open.slice(0, 3).map(function (o) { return (o.coin || o.symbol) + ' ' + o.dir + ' (' + (o.kaynak || '?') + ') · giriş ' + nf(o.entry, 4) + ' · risk ' + nf(o.riskUsd, 2) + '$'; })
+          : ['Açık işlem yok. İlk sinyal gelince insan açar, defter buraya yazar.'] };
     model.sef = { bekle: aktif.length > 0,
       satir: sonTur ? ('son tur ' + saat(sonTur) + ' · sonraki ~' + saat(sonrakiTur(sonTur)) + (gecikti ? ' · TUR GECİKTİ' : '')) : 'ilk tur bekleniyor',
       feed: [aktif.length ? aktif.length + ' aktif sinyal Telegram\'a bildirildi' : 'Bu tur bildirilecek yeni sinyal yok', 'Tur özeti her 4 saatte bir Telegram\'a gider'] };

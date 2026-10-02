@@ -33,8 +33,8 @@ sonuçları ve tüm sinyal sicili halka açıktır.
   (ziyaretçinin tarayıcısı 30 sn'de bir Binance'den tazeler).
 - **`js/kat.js`** — "Ajan Katı": modülleri bir piksel ofisi olarak çizen canvas.
   Her masa gerçek bir script (Tarayıcı, Trend Ajanı, Altcoin Radarı, Dip Radarı,
-  Risk Bekçisi, Takvim, Sanal Cüzdan + cam odada Şef = bildirim katmanı). Karakterler
-  `state.json` / `dipradar.json` / `takvim.json` / `autotrade.json` ile hareket eder:
+  Risk Bekçisi, Takvim, Gerçek Cüzdan + cam odada Şef = bildirim katmanı). Karakterler
+  `state.json` / `dipradar.json` / `takvim.json` / `gercek.json` ile hareket eder:
   aktif sinyal varsa masada "CANLI" tabelası yanar, son tur 7 saatten eskiyse herkes
   hayalet olur ve "tur gecikti" yazar (eşik 7 saat, çünkü GitHub'ın 4 saatlik cron'u
   pratikte 5,5-6 saat arayla çalışıyor; 5 saat yanlış alarm veriyordu). Bir masaya tıklamak hangi script olduğunu ve
@@ -312,7 +312,34 @@ git checkout -- data/                     # deneme turunun yazdığı veriyi ger
 - KPI kutuları TradingView Strateji Testçisi'ndeki backtest sonuçlarıdır; canlı sicil
   sinyaller biriktikçe bu sayfada oluşur.
 
-## Sanal Cüzdan — Otomatik İşlem Simülasyonu
+## Gerçek Cüzdan (2 Ekim 2026'dan beri)
+
+Sanal cüzdan **kaldırıldı**; tek cüzdan var, gerçek: **50$**. Emirleri insan girer, defteri
+`scripts/gercek.mjs` tutar (`data/gercek.json`), site ve tur özeti oradan okur. Kurallar
+sanal cüzdanla aynı maliyet modelini kullanır (`executor.tradeCosts`): işlem başına %2 risk
+(1$), izole 2x, aynı anda en fazla 3 pozisyon, **BTC yok** (vadeli minimumu 0,001 BTC ≈ 86$,
+kasadan büyük), çekirdek + radar sinyallerinin **hepsi geliş sırasıyla** (seçmece yok;
+kontenjan doluysa `atla` ile kaydedilir), 7 gün süre stopu, ekleme ve stop taşıma yok, kasa
+35$'a inerse dur. Amaç kâr değil: **20 gerçek işlemde** sinyal sicili ile gerçek uygulama
+arasındaki farkı (slipaj, kaçırılan sinyal, disiplin) ölçmek.
+
+```
+node scripts/gercek.mjs oner  GİRİŞ STOP                      # %2 risk için pozisyon büyüklüğü
+node scripts/gercek.mjs ac    LTC LONG 95.2 92.1 103.0 31 radar  # açılış (pozisyon $, kaynak)
+node scripts/gercek.mjs kapat LTC 103.0 hedef                 # kapanış (sebep: hedef|stop|sure|elle)
+node scripts/gercek.mjs atla  ARB LONG kontenjan dolu          # alınmayan sinyal de veridir
+node scripts/gercek.mjs durum
+```
+
+Sistemin kendi performansı sanal cüzdan olmadan da ölçülüyor: `state.json` içindeki sinyal
+sicili (HEDEF ✓ / STOP ✗ / SÜRE ⏱) otomatik birikir, tur özetinde "Sinyal sicili" satırı olarak gider.
+
+## Sanal Cüzdan — Otomatik İşlem Simülasyonu (ARŞİV, 2 Ekim 2026'da kaldırıldı)
+
+> 12 Ağustos - 2 Ekim 2026 arasında çalıştı: 18 kapanan işlem, 7 hedef / 11 stop, +93,58$
+> (1.000$ başlangıç). Kayıt `data/autotrade.json` içinde duruyor, motor artık yazmıyor.
+> Aşağısı tarihçe için saklandı.
+
 
 Motor, kendi içinde **1.000$'lık sanal bir cüzdan** işletir (borsa yok, anahtar yok):
 sinyal doğduğunda sanal pozisyon açar, her turda gerçek piyasa verisiyle stop/hedefi

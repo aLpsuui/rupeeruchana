@@ -1,0 +1,10 @@
+{
+  "note": "GERÇEK cüzdan — elle yürütülen işlemler, sanal cüzdanla aynı kurallar ve maliyet modeli. Plan (2 Eki 2026): 50$, işlem başına %2 risk, izole 2x, aynı anda en fazla 3 pozisyon, BTC yok, çekirdek + radar sinyallerinin hepsi geliş sırasıyla, 7 gün süre stopu, ekleme/stop taşıma yok, 35$'da dur. Hedef: 20 işlemlik gerçek sicil, kâr değil.",
+  "startBalance": 50,
+  "balance": 50,
+  "startedAt": "2026-10-02T00:00:00.000Z",
+  "open": [],
+  "closed": [],
+  "skipped": [],
+  "stats": null
+}
