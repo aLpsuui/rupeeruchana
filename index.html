@@ -765,11 +765,11 @@ function diagLine(s, baslik){
         var nav = document.getElementById('navGwOpen'); if (nav) nav.textContent = (g.open||[]).length;
         var rows = '';
         (g.open||[]).forEach(function(o){
-          rows += '<tr><td><span class="chip g">AÇIK</span></td><td><b>'+esc(o.coin)+'</b></td><td>'+esc(o.dir)+'</td><td class="cnote">'+esc(o.kaynak)+'</td><td class="num">'+esc(pxa(o.entry))+'</td><td class="num">'+esc(o.notional.toFixed(2))+'$</td><td class="num">'+esc(pxa(o.stop))+'</td><td class="num">'+esc(pxa(o.target))+'</td><td class="cnote">risk '+esc(o.riskUsd.toFixed(2))+'$ · süre '+esc(String(o.deadline).slice(5,10))+'</td></tr>';
+          rows += '<tr><td><span class="chip g">AÇIK</span></td><td><b>'+esc(o.coin)+'</b></td><td>'+esc(o.dir)+'</td><td class="cnote">'+esc(o.kaynak)+'</td><td class="num">'+esc(pxa(o.entry))+'</td><td class="num">'+esc(o.notional.toFixed(2))+'$</td><td class="num">'+esc(pxa(o.stop))+'</td><td class="num">'+(o.target != null ? esc(pxa(o.target)) : '—')+'</td><td class="cnote">'+esc(String(o.leverage))+'x · risk '+esc(o.riskUsd.toFixed(2))+'$ · süre '+esc(String(o.deadline).slice(5,10))+'</td></tr>';
         });
         (g.closed||[]).slice(0, 20).forEach(function(c){
           var win = (c.outcome||'').indexOf('HEDEF') > -1;
-          rows += '<tr><td><span class="chip '+(win?'g':'r')+'">'+esc(c.outcome)+'</span></td><td><b>'+esc(c.coin)+'</b></td><td>'+esc(c.dir)+'</td><td class="cnote">'+esc(c.kaynak)+'</td><td class="num">'+esc(pxa(c.entry))+'</td><td class="num">'+esc(c.notional.toFixed(2))+'$</td><td class="num">'+esc(pxa(c.stop))+'</td><td class="num">'+esc(pxa(c.target))+'</td><td class="num '+(c.pnl>=0?'up':'dn')+'">'+esc(money(c.pnl))+' · '+esc(String(c.rResult))+'R</td></tr>';
+          rows += '<tr><td><span class="chip '+(win?'g':'r')+'">'+esc(c.outcome)+'</span></td><td><b>'+esc(c.coin)+'</b></td><td>'+esc(c.dir)+'</td><td class="cnote">'+esc(c.kaynak)+'</td><td class="num">'+esc(pxa(c.entry))+'</td><td class="num">'+esc(c.notional.toFixed(2))+'$</td><td class="num">'+esc(pxa(c.stop))+'</td><td class="num">'+(c.target != null ? esc(pxa(c.target)) : '—')+'</td><td class="num '+(c.pnl>=0?'up':'dn')+'">'+esc(money(c.pnl))+' · '+esc(String(c.rResult))+'R</td></tr>';
         });
         if (rows) document.getElementById('gwBody').innerHTML = rows;
         if (s.trades) {

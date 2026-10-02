@@ -183,6 +183,7 @@ async function dolumlariIsle() {
   if (MODE !== 'dry') { try { pozlar = await bx.pozisyonlar(); } catch (e) { await hataBildir('pozisyon sorgusu', e); return; } }
 
   for (const o of [...l.open]) {
+    if (o.mode === 'elle') continue;   // insanın elle açtığı işlem: emirleri yürütücüde değil, takibi de insanda
     const symbol = o.coin + 'USDT';
     let fiyat = null; try { fiyat = await bx.fiyat(symbol); } catch {}
     const yon = o.dir === 'LONG' ? 1 : -1;
@@ -192,7 +193,7 @@ async function dolumlariIsle() {
       // kuru modda dolumu fiyattan taklit et (sadece rapor amaçlı)
       if (fiyat == null) continue;
       let sebep = null;
-      if (yon * (fiyat - o.target) >= 0) sebep = 'hedef'; else if (yon * (fiyat - o.stop) <= 0) sebep = 'stop'; else if (sureDoldu) sebep = 'sure';
+      if (o.target != null && yon * (fiyat - o.target) >= 0) sebep = 'hedef'; else if (yon * (fiyat - o.stop) <= 0) sebep = 'stop'; else if (sureDoldu) sebep = 'sure';
       if (!sebep) continue;
       const k = defter.kapatKayit(l, { coin: o.coin, cikis: sebep === 'hedef' ? o.target : sebep === 'stop' ? o.stop : fiyat, sebep, ekstra: { mode: 'dry' } });
       await tg(`🧪 KURU kapandı: ${o.coin} ${o.dir} → ${k.outcome}`, `net ${f2(k.pnl)}$ (${k.rResult}R) · bakiye ${f2(l.balance)}$ · sicil ${l.stats.hedef}✓/${l.stats.trades}`, k.outcome.includes('HEDEF') ? 'dart' : 'octagonal_sign');
@@ -262,7 +263,7 @@ async function panoUret() {
     let fiyat = null; try { fiyat = await bx.fiyat(o.coin + 'USDT'); } catch {}
     const yon = o.dir === 'LONG' ? 1 : -1;
     acik.push({ ...o, fiyat, pnl: fiyat ? +(((fiyat - o.entry) * o.qty * yon)).toFixed(2) : null, r: fiyat ? +(((fiyat - o.entry) * o.qty * yon) / o.riskUsd).toFixed(2) : null,
-      stopaMesafe: fiyat ? +((o.stop / fiyat - 1) * 100).toFixed(2) : null, hedefeMesafe: fiyat ? +((o.target / fiyat - 1) * 100).toFixed(2) : null,
+      stopaMesafe: fiyat ? +((o.stop / fiyat - 1) * 100).toFixed(2) : null, hedefeMesafe: fiyat && o.target != null ? +((o.target / fiyat - 1) * 100).toFixed(2) : null,
       kalanSaat: Math.max(0, Math.round((Date.parse(o.deadline) - simdi) / 36e5)) });
   }
   let borsa = null;

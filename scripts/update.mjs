@@ -509,7 +509,7 @@ async function main() {
       try { gDefter = JSON.parse(readFileSync(new URL('../data/gercek.json', import.meta.url), 'utf8')); } catch (e) { /* defter henüz yok */ }
       const gAcik = (gDefter && gDefter.open) || [];
       const aktifMetin = gAcik.length
-        ? gAcik.map(o => `• ${o.coin} ${o.dir} — giriş ${px(o.entry)} · stop ${px(o.stop)} · hedef ${px(o.target)} · ${nf(o.notional, 2)}$ · risk ${nf(o.riskUsd, 2)}$`).join('\n')
+        ? gAcik.map(o => `• ${o.coin} ${o.dir} — giriş ${px(o.entry)} · stop ${px(o.stop)} · hedef ${o.target != null ? px(o.target) : 'yok'} · ${nf(o.notional, 2)}$ @${o.leverage}x · risk ${nf(o.riskUsd, 2)}$`).join('\n')
         : '• yok';
 
       const kapanan = signals.filter(x => x.closed === now);

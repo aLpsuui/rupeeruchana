@@ -3,8 +3,67 @@
   "startBalance": 50,
   "balance": 50,
   "startedAt": "2026-10-02T00:00:00.000Z",
-  "open": [],
+  "open": [
+    {
+      "coin": "ETH",
+      "dir": "SHORT",
+      "kaynak": "cekirdek",
+      "ts": "2026-10-02T19:56:06.029Z",
+      "entry": 2703,
+      "stop": 2798,
+      "target": null,
+      "notional": 200,
+      "qty": 0.073992,
+      "leverage": 25,
+      "marginUsd": 8,
+      "riskUsd": 7.03,
+      "riskPct": 14.06,
+      "stopPct": 3.51,
+      "rr": null,
+      "deadline": "2026-10-09T19:56:06.030Z",
+      "note": "Elle açıldı (kullanıcı bildirdi, 3 Eki 2026). Teminat 8$, 25x izole. Stop emri bildirilmedi: stop alanı TAHMİNİ LİKİDASYON fiyatıdır. Hedef yok.",
+      "mode": "elle",
+      "stopTahmini": true
+    }
+  ],
   "closed": [],
   "skipped": [],
-  "stats": null
+  "stats": {
+    "trades": 0,
+    "hedef": 0,
+    "stop": 0,
+    "sure": 0,
+    "elle": 0,
+    "winRate": null,
+    "pnlSum": 0,
+    "rSum": 0,
+    "rAvg": null,
+    "feeSum": 0,
+    "kaynak": {
+      "cekirdek": {
+        "n": 0,
+        "hedef": 0,
+        "R": 0
+      },
+      "radar": {
+        "n": 0,
+        "hedef": 0,
+        "R": 0
+      }
+    },
+    "yon": {
+      "LONG": {
+        "n": 0,
+        "hedef": 0,
+        "R": 0
+      },
+      "SHORT": {
+        "n": 0,
+        "hedef": 0,
+        "R": 0
+      }
+    },
+    "skipped": 0
+  },
+  "updated": "2026-10-02T19:56:06.031Z"
 }

@@ -73,14 +73,14 @@ export function pozisyonOner(l, giris, stop, coin = null) {
 // Açılış kaydı. Kuralları burada zorlar; borsa emri BU fonksiyondan ÖNCE/SONRA ayrı atılır.
 export function acKayit(l, { coin, dir, giris, stop, hedef, poz, kaynak = 'radar', not = null, ekstra = {} }) {
   coin = String(coin || '').toUpperCase().replace('USDT', ''); dir = String(dir || '').toUpperCase();
-  giris = +giris; stop = +stop; hedef = +hedef;
-  if (!coin || !['LONG', 'SHORT'].includes(dir) || !giris || !stop || !hedef) throw new Error('eksik alan: coin, dir, giriş, stop, hedef');
+  giris = +giris; stop = +stop; hedef = (hedef == null || hedef === '' || hedef === '-') ? null : +hedef;   // hedefsiz işlem: '-' ya da boş
+  if (!coin || !['LONG', 'SHORT'].includes(dir) || !giris || !stop) throw new Error('eksik alan: coin, dir, giriş, stop');
   if (KURAL.YASAK[coin]) throw new Error(`${coin} yasak: ${KURAL.YASAK[coin]}`);
   if (!['radar', 'cekirdek'].includes(kaynak)) throw new Error('kaynak radar ya da cekirdek olmalı');
   if (l.open.some(o => o.coin === coin)) throw new Error(`${coin} zaten açık (ekleme yok, kural)`);
   if (l.open.length >= KURAL.MAX_POS) throw new Error(`kontenjan dolu (${KURAL.MAX_POS})`);
   if (l.balance <= KURAL.DUR_BAKIYE) throw new Error(`DUR kuralı: bakiye ${f2(l.balance)}$ ≤ ${KURAL.DUR_BAKIYE}$`);
-  if (dir === 'LONG' ? !(stop < giris && hedef > giris) : !(stop > giris && hedef < giris)) throw new Error('stop/hedef yön ile tutarsız');
+  if (dir === 'LONG' ? !(stop < giris && (hedef == null || hedef > giris)) : !(stop > giris && (hedef == null || hedef < giris))) throw new Error('stop/hedef yön ile tutarsız');
   const mesafe = Math.abs(giris - stop) / giris;
   if (poz == null) poz = pozisyonOner(l, giris, stop).poz;
   poz = +poz;
@@ -88,7 +88,7 @@ export function acKayit(l, { coin, dir, giris, stop, hedef, poz, kaynak = 'radar
   const kayit = {
     coin, dir, kaynak, ts: simdi(), entry: giris, stop, target: hedef, notional: +poz.toFixed(2), qty: +(poz / giris).toFixed(6),
     leverage: kaldiracOf(coin), marginUsd: +(poz / kaldiracOf(coin)).toFixed(2), riskUsd: +riskUsd.toFixed(2), riskPct: +(riskPct * 100).toFixed(2),
-    stopPct: +(mesafe * 100).toFixed(2), rr: +(Math.abs(hedef - giris) / Math.abs(giris - stop)).toFixed(2),
+    stopPct: +(mesafe * 100).toFixed(2), rr: hedef == null ? null : +(Math.abs(hedef - giris) / Math.abs(giris - stop)).toFixed(2),
     deadline: new Date(Date.now() + KURAL.SURE_GUN * 864e5).toISOString(), note: not, ...ekstra,
   };
   l.open.push(kayit); kaydet(l);
@@ -107,7 +107,7 @@ export function kapatKayit(l, { coin, cikis, sebep = null, not = null, maliyet =
   const feeUsd = +(m.feeUsd ?? 0), fundingUsd = +(m.fundingUsd ?? 0);
   const pnl = pnlGross - feeUsd - fundingUsd;
   const outcome = { hedef: 'HEDEF ✓', stop: 'STOP ✗', sure: 'SÜRE ⏱', elle: 'ELLE ✋' }[sebep] ||
-    (yon * (cikis - o.target) >= 0 ? 'HEDEF ✓' : yon * (cikis - o.stop) <= 0 ? 'STOP ✗' : 'ELLE ✋');
+    (o.target != null && yon * (cikis - o.target) >= 0 ? 'HEDEF ✓' : yon * (cikis - o.stop) <= 0 ? 'STOP ✗' : 'ELLE ✋');
   const kayit = { ...o, exit: cikis, closedTs: simdi(), outcome, pnlGross: +pnlGross.toFixed(2), feeUsd: +feeUsd.toFixed(2), fundingUsd: +fundingUsd.toFixed(2),
     pnl: +pnl.toFixed(2), rResult: +(pnl / o.riskUsd).toFixed(2), bars: Math.round((Date.now() - Date.parse(o.ts)) / 36e5), closeNote: not, ...ekstra };
   l.open.splice(i, 1); l.closed.unshift(kayit); l.balance = +(l.balance + pnl).toFixed(2); kaydet(l);
@@ -128,7 +128,7 @@ export function durumMetni(l) {
   sat.push(`sicil ${s.hedef}✓ ${s.stop}✗ ${s.sure}⏱ ${s.elle}✋ / ${s.trades} · isabet ${s.winRate ?? '-'}% · toplam ${s.rSum}R · işlem başına ${s.rAvg ?? '-'}R · atlanan ${s.skipped}`);
   sat.push(`kaynak: çekirdek ${s.kaynak.cekirdek.hedef}/${s.kaynak.cekirdek.n} (${s.kaynak.cekirdek.R}R) · radar ${s.kaynak.radar.hedef}/${s.kaynak.radar.n} (${s.kaynak.radar.R}R) · yön: LONG ${s.yon.LONG.hedef}/${s.yon.LONG.n} · SHORT ${s.yon.SHORT.hedef}/${s.yon.SHORT.n}`);
   sat.push(`açık ${l.open.length}/${KURAL.MAX_POS}:` + (l.open.length ? '' : ' yok'));
-  l.open.forEach(o => sat.push(`  ${o.coin} ${o.dir} (${o.kaynak}) giriş ${px(o.entry)} stop ${px(o.stop)} hedef ${px(o.target)} · ${f2(o.notional)}$ · risk ${f2(o.riskUsd)}$ · süre ${o.deadline.slice(0, 10)}${o.mode ? ' · ' + o.mode : ''}`));
+  l.open.forEach(o => sat.push(`  ${o.coin} ${o.dir} (${o.kaynak}) giriş ${px(o.entry)} stop ${px(o.stop)} hedef ${o.target != null ? px(o.target) : 'yok'} · ${f2(o.notional)}$ · risk ${f2(o.riskUsd)}$ · süre ${o.deadline.slice(0, 10)}${o.mode ? ' · ' + o.mode : ''}`));
   if (l.closed.length) { sat.push('son kapananlar:'); l.closed.slice(0, 5).forEach(c => sat.push(`  ${c.closedTs.slice(0, 10)} ${c.coin} ${c.dir} ${c.outcome} ${f2(c.pnl)}$ (${c.rResult}R)`)); }
   return sat.join('\n');
 }
@@ -153,7 +153,7 @@ if (isMain) {
       const [coin, dir, giris, stop, hedef, poz, kaynak, ...not] = a;
       const k = acKayit(l, { coin, dir, giris, stop, hedef, poz: poz != null ? +poz : null, kaynak: kaynak || 'radar', not: not.join(' ') || null, ekstra: { mode: 'elle' } });
       if (k.riskPct > KURAL.RISK_PCT * 130) console.log(`UYARI: risk %${k.riskPct}, kural %${KURAL.RISK_PCT * 100}. Borsa minimumundan geliyorsa not düş.`);
-      console.log(`AÇILDI ${k.coin} ${k.dir} (${k.kaynak}) · giriş ${px(k.entry)} · stop ${px(k.stop)} (−%${k.stopPct}) · hedef ${px(k.target)} (${k.rr}R)`);
+      console.log(`AÇILDI ${k.coin} ${k.dir} (${k.kaynak}) · giriş ${px(k.entry)} · stop ${px(k.stop)} (−%${k.stopPct}) · hedef ${k.target != null ? px(k.target) + ' (' + k.rr + 'R)' : 'yok'}`);
       console.log(`pozisyon ${f2(k.notional)}$ · teminat ${f2(k.marginUsd)}$ @${k.leverage}x · riske edilen ${f2(k.riskUsd)}$ (%${k.riskPct}) · süre stopu ${k.deadline.slice(0, 10)}`);
       console.log('ŞİMDİ: borsada stop-market + take-profit emirlerini gir. Sonra ekrana bakma.');
     } else if (komut === 'kapat') {
