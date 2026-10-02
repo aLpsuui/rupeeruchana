@@ -334,6 +334,29 @@ node scripts/gercek.mjs durum
 Sistemin kendi performansı sanal cüzdan olmadan da ölçülüyor: `state.json` içindeki sinyal
 sicili (HEDEF ✓ / STOP ✗ / SÜRE ⏱) otomatik birikir, tur özetinde "Sinyal sicili" satırı olarak gider.
 
+## Canlı yürütücü (VPS) — otomatik işlem + sürekli izleme
+
+`scripts/live-executor.mjs` VPS'te tek süreç olarak çalışır (systemd, `vps-setup.sh` kurar):
+
+- **Her 4 saatlik mum kapanışında** (00/04/08/12/16/20 UTC + 1 dk) motoru çalıştırır,
+  `data/`'yı GitHub'a push eder (site oradan yayınlanır; GitHub cron kapatıldı, workflow
+  push'ta yalnızca yayınlar, elle tetiklemede yedek motor), yeni SİNYAL'leri (çekirdek +
+  radar, geliş sırasıyla) Binance USDⓈ-M vadeli hesabına yansıtır: piyasa giriş + stop-market
+  + take-profit (closePosition), izole 2x. Kurallar `gercek.mjs` içindeki `KURAL`'dan gelir.
+- **Her dakika:** stop/hedef dolumlarını borsadan okur ve `gercek.json`'a gerçek komisyonla
+  yazar, 7 günlük süre stopunu uygular, canlı panoyu üretir (`data/canli.json` + `127.0.0.1:8787`,
+  Caddy arkasında HTTPS), Telegram'a yalnızca değişim olunca yazar (emir doldu, atlandı,
+  "kapanışa ≤ 30 dk kala mum şimdi kapansa sinyal olur").
+- **Modlar** (`RUPEE_MODE`): `dry` emir yok, "açardım" raporu; `testnet` sahte para, gerçek emir
+  akışı; `live`. Önce 3 tur `dry`, sonra canlı. **Durdurma:** repo kökünde `DUR` dosyası →
+  yeni giriş yok (açıklar borsadaki emirleriyle kapanır).
+- **Sinyal 4 saatte bir, izleme sürekli.** Kural kapalı 4s mum üstüne tanımlıdır; pano
+  "şimdi kapansa ne olurdu"yu gösterir, bu ısınma göstergesidir, sinyal değildir.
+- **Güvenlik:** API anahtarı yalnızca Futures yetkili, para çekme kapalı, IP kısıtı VPS;
+  `.env` sunucuda, git'te değil. Stop/hedef konamazsa pozisyon anında kapatılır.
+- Sinyalden %1'den fazla uzaklaşmış fiyatta giriş yapılmaz, "atlandı" yazılır. Borsa minimumu
+  riski kuralın %60 üstüne çıkarıyorsa atlanır. BTC her zaman atlanır.
+
 ## Sanal Cüzdan — Otomatik İşlem Simülasyonu (ARŞİV, 2 Ekim 2026'da kaldırıldı)
 
 > 12 Ağustos - 2 Ekim 2026 arasında çalıştı: 18 kapanan işlem, 7 hedef / 11 stop, +93,58$

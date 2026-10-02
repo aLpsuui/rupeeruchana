@@ -240,6 +240,7 @@
     <a class="navlink" href="#s-dip"><span class="ico">🕳</span>Dip Radarı<span class="cnt" id="navDipCount">0</span></a>
     <a class="navlink" href="#s-takvim"><span class="ico">🗓</span>Takvim</a>
     <a class="navlink" href="#s-gercek"><span class="ico">💵</span>Gerçek Cüzdan<span class="cnt" id="navGwOpen">0</span></a>
+    <a class="navlink" href="#s-canli"><span class="ico">📶</span>Canlı Pano<span class="cnt" id="navCanli">—</span></a>
     <a class="navlink" href="#s-kurallar"><span class="ico">📐</span>Kurallar</a>
   </nav>
 
@@ -382,6 +383,16 @@
     </div>
 
     <!-- Sanal cüzdan bölümü 2 Eki 2026'da kaldırıldı: tek cüzdan var, gerçek. Arşiv: data/autotrade.json (18 işlem). -->
+    <div class="acthead" id="s-canli">📶 Canlı Pano <span style="font-weight:400; color:var(--ink3); font-size:11px;">— VPS'teki yürütücü dakikada bir yazar · "şimdi kapansa" bir sinyal DEĞİLDİR, ısınma göstergesidir</span></div>
+    <div class="item wl" id="canliBox">
+      <div class="cnote" id="canliDurum">Canlı pano çevrimdışı: VPS yürütücüsü henüz bağlı değil (CANLI_URL boş ya da ulaşılamıyor). Sinyaller ve özet 4 saatlik turdan gelmeye devam eder.</div>
+      <table id="canliTablo" style="display:none">
+        <thead><tr><th>Coin</th><th class="num">Fiyat</th><th>Resmî durum</th><th>Şimdi kapansa</th><th class="num">RSI</th><th class="num">EMA21'e</th></tr></thead>
+        <tbody id="canliBody"></tbody>
+      </table>
+      <div id="canliAcik" style="margin-top:10px"></div>
+    </div>
+
     <div class="acthead" id="s-gercek">💵 Gerçek Cüzdan <span style="font-weight:400; color:var(--ink3); font-size:11px;">— 50$ gerçek para · aynı kurallar · emirleri insan girer · 2 Ekim 2026'dan beri</span></div>
     <div class="item wl">
       <div style="display:flex; gap:22px; flex-wrap:wrap; margin-bottom:12px;">
@@ -703,6 +714,41 @@ function diagLine(s, baslik){
     window.requestAnimationFrame(function(){ markActive(); ticking = false; });
   }, { passive: true });
   markActive();
+
+  // ---- CANLI PANO: VPS yürütücüsünün ucu (scripts/live-executor.mjs). URL boşsa çevrimdışı. ----
+  // GitHub Pages HTTPS olduğu için uç da HTTPS olmalı (vps-setup.sh: CANLI_HOST + Caddy).
+  var CANLI_URL = '';   // ör. 'https://canli.alanadin.com/canli.json'
+  function canliCek(){
+    if (!CANLI_URL) return;
+    fetch(CANLI_URL + '?t=' + Date.now(), { cache: 'no-store' })
+      .then(function(r){ return r.json(); })
+      .then(function(p){
+        var d = document.getElementById('canliDurum'), t = document.getElementById('canliTablo'), b = document.getElementById('canliBody'), a = document.getElementById('canliAcik');
+        var yas = Math.round((Date.now() - Date.parse(p.updated)) / 60000);
+        d.innerHTML = 'Mod <b>' + esc(p.mode) + '</b>' + (p.dur ? ' · <span style="color:var(--amber)">DUR aktif, yeni giriş yok</span>' : '') +
+          ' · mum kapanışına <b>' + esc(String(p.mumKapanisaDk)) + ' dk</b> · bakiye <b>' + esc(Number(p.bakiye).toLocaleString('tr-TR',{minimumFractionDigits:2})) + '$</b>' +
+          (p.borsaBakiye ? ' (borsa ' + esc(Number(p.borsaBakiye.toplam).toLocaleString('tr-TR',{minimumFractionDigits:2})) + '$)' : '') +
+          ' · güncelleme ' + (yas > 3 ? '<span style="color:var(--amber)">' + yas + ' dk önce (yürütücü gecikti?)</span>' : yas + ' dk önce');
+        var rows = '';
+        (p.coinler || []).forEach(function(c){
+          var sicak = c.simdiKapansa === 'SİNYAL' || c.simdiKapansa === 'KURULUM';
+          rows += '<tr' + (c.simdiKapansa === 'SİNYAL' ? ' class="hot"' : '') + '><td><b>' + esc(c.coin) + '</b> <span class="cnote">' + esc(c.kaynak) + '</span></td><td class="num">' + esc(pxa(c.fiyat)) + '</td>' +
+            '<td><span class="chip ' + chipCls(c.durum, c.dir) + '">' + esc(chipTxt(c.durum, c.dir)) + '</span></td>' +
+            '<td><span class="chip ' + chipCls(c.simdiKapansa, c.simdiDir) + '">' + esc(chipTxt(c.simdiKapansa, c.simdiDir)) + '</span>' + (sicak && c.simdiKapansa !== c.durum ? ' <span class="cnote">←</span>' : '') + '</td>' +
+            '<td class="num">' + (c.rsi != null ? esc(Number(c.rsi).toFixed(0)) : '—') + '</td><td class="num ' + (c.uzaklikEma21 >= 0 ? 'up' : 'dn') + '">' + (c.uzaklikEma21 != null ? esc((c.uzaklikEma21 >= 0 ? '+' : '') + String(c.uzaklikEma21).replace('.', ',') + '%') : '—') + '</td></tr>';
+        });
+        b.innerHTML = rows; t.style.display = rows ? '' : 'none';
+        var ac = p.acik || [];
+        a.innerHTML = ac.length ? '<div class="altsigs-h">Açık işlemler <span class="cnt">' + ac.length + '</span></div>' + ac.map(function(o){
+          return '<div class="kp-i">' + esc(o.coin) + ' ' + esc(o.dir) + ' (' + esc(o.kaynak) + ') · giriş ' + esc(pxa(o.entry)) + ' · şimdi ' + esc(o.fiyat != null ? pxa(o.fiyat) : '—') +
+            ' · <span class="' + (o.pnl >= 0 ? 'up' : 'dn') + '">' + esc(o.pnl != null ? (o.pnl >= 0 ? '+' : '') + o.pnl.toFixed(2) + '$ (' + o.r + 'R)' : '—') + '</span>' +
+            ' · stop ' + esc(String(o.stopaMesafe).replace('.', ',')) + '% · hedef +' + esc(String(o.hedefeMesafe).replace('.', ',')) + '% · süre ' + esc(String(o.kalanSaat)) + ' sa</div>';
+        }).join('') : '<div class="cnote">Açık işlem yok.</div>';
+        var n = document.getElementById('navCanli'); if (n) n.textContent = p.mumKapanisaDk + 'dk';
+      })
+      .catch(function(){ var d = document.getElementById('canliDurum'); if (d) d.textContent = 'Canlı pano ulaşılamıyor (yürütücü kapalı ya da ağ). Sinyaller 4 saatlik turdan gelmeye devam eder.'; });
+  }
+  canliCek(); setInterval(canliCek, 60000);
 
   // ---- GERÇEK cüzdan panelini gercek.json'dan çiz (scripts/gercek.mjs yazar) ----
   fetch('data/gercek.json?t=' + Date.now())

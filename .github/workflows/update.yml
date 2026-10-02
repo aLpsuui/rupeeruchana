@@ -1,8 +1,13 @@
 name: Rupeeruchana 4 saatlik analiz
 
 on:
-  schedule:
-    - cron: '17 */4 * * *'   # her 4 saatte bir (UTC), :17'de — 4s mum kapanışından hemen sonra
+  # 2 Eki 2026: GitHub cron KAPATILDI. Motor artık VPS'teki canlı yürütücüde
+  # (scripts/live-executor.mjs) tam mum kapanışında çalışır ve data/'yı push eder.
+  # GitHub'ın zamanlanmış işleri 1-2 saat gecikiyordu, bazen tur atlıyordu.
+  # Bu workflow artık iki iş yapar: (1) her push'ta siteyi yayınla, (2) elle
+  # tetiklenirse motoru burada çalıştır (VPS düşerse yedek).
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       # type: choice → GitHub açılır liste gösterir; elle 'true' yazmak gerekmez.
@@ -59,13 +64,16 @@ jobs:
         timeout-minutes: 2
         run: node scripts/update.mjs --test-notify
 
+      # Motor yalnızca ELLE tetiklemede çalışır (VPS yedeği). Push'ta sadece yayın.
       - name: Analizi çalıştır
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         timeout-minutes: 10
         run: node scripts/update.mjs
 
       # Dip radarı 400+ coin tarar, ~1 dakika sürer. continue-on-error: analiz
       # motorunun sağlığı bu taramaya bağlı olmamalı; radar düşerse tur devam eder.
       - name: Dip radarı taraması
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         timeout-minutes: 6
         continue-on-error: true
         run: node scripts/dipradar.mjs
@@ -74,11 +82,13 @@ jobs:
       # Duyuru kaynağı (www.binance.com) sunuculardan engellenebilir; o durumda
       # modül sembol farkıyla çalışmaya devam eder. Yine de motoru bloke etmesin.
       - name: Takvim / olay taraması
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         timeout-minutes: 4
         continue-on-error: true
         run: node scripts/takvim.mjs
 
       - name: Değişiklik varsa kaydet
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           git config user.name "rupeeruchana-agent"
           git config user.email "agent@rupeeruchana.local"

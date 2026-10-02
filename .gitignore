@@ -1,0 +1,10 @@
+# Sunucuya özel / sırlar — asla git'e girmez
+.env
+DUR
+
+# VPS yürütücüsünün dakikada bir yazdığı dosyalar (git add data bunları almasın)
+data/canli.json
+data/gercek-kuru.json
+
+# araştırma önbelleği (Binance'ten yeniden çekilebilir)
+research/cache/
