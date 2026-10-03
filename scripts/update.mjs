@@ -301,9 +301,12 @@ async function main() {
     if (outcome) ns = { ...s, state: outcome, closed: now };
     else if (Date.parse(now) - Date.parse(s.ts) > 7 * 86400000) ns = { ...s, state: 'SÜRE ⏱', closed: now }; // 7 günde çözülmeyen sinyal kapatılır
     if (ns !== s) {
+      // "kapandı" kelimesi kullanıcının pozisyonu kapanmış gibi okunuyordu; bu SİSTEMİN
+      // sinyalinin sonucudur. Süre stopunda eski metin yanlışlıkla "Stop seviyesi görüldü" diyordu.
+      const sonucMetni = ns.state.includes('HEDEF') ? 'hedefe ulaştı' : ns.state.includes('STOP') ? 'stop oldu' : '7 gün doldu, süre stopu';
       await notify(
-        `${ns.state.includes('HEDEF') ? '🎯' : '🛑'} ${s.coin} ${s.dir} kapandı: ${ns.state}`,
-        `Giriş ${s.entry} → ${ns.state.includes('HEDEF') ? 'Hedef' : 'Stop'} seviyesi görüldü. Detay: sitede.`,
+        `${ns.state.includes('HEDEF') ? '🎯' : '🛑'} Sinyal sonucu: ${s.coin} ${s.dir} ${sonucMetni}`,
+        `Giriş ${s.entry} · stop ${s.stop} · hedef ${s.target}\nBu, sistemin sinyalinin sonucu. Bu sinyalde işlemin yoksa yapacak bir şey yok.`,
         ns.state.includes('HEDEF') ? 'dart' : 'octagonal_sign'
       );
     }
@@ -337,7 +340,7 @@ async function main() {
       });
       await notify(
         `${a.signal.dir === 'LONG' ? '🟢' : '🔴'} YENİ SİNYAL: ${c} ${a.signal.dir}`,
-        `Giriş ${px(a.signal.entry)} · Stop ${px(a.signal.stop)} · Hedef ${px(a.signal.target)} (2,5R)`,
+        `Giriş ${px(a.signal.entry)}\nStop ${px(a.signal.stop)}\nHedef ${px(a.signal.target)} (2,5R)\n\nBu bir işlem sinyali. Fiyat girişten %1'den fazla uzaklaştıysa girme.`,
         a.signal.dir === 'LONG' ? 'green_circle' : 'red_circle'
       );
       // (sanal cüzdana otomatik işlem açma kaldırıldı, 2 Eki 2026; gerçek işlemi insan açar)
@@ -404,9 +407,11 @@ async function main() {
     if (r?.outcome && RADAR_NOTIFY) {
       const kapali = altSignals.filter(x => x.state !== 'AKTİF');
       const isabet = kapali.filter(x => (x.state || '').includes('HEDEF')).length;
+      // Altcoin sinyalleri de işlem sinyalidir (3 Eki 2026); mesaj dili ana listeyle aynı.
+      const altSonuc = r.outcome.includes('HEDEF') ? 'hedefe ulaştı' : r.outcome.includes('STOP') ? 'stop oldu' : '7 gün doldu, süre stopu';
       await notify(
-        `📡 RADAR kapandı: ${s.coin} ${s.dir} ${r.outcome}`,
-        `Giriş ${s.entry} → ${r.outcome.includes('HEDEF') ? 'hedef' : r.outcome.includes('STOP') ? 'stop' : 'süre'} · Lehe en fazla ${r.mfeR}R, aleyhe ${r.maeR}R · Radar sicili: ${isabet}✓/${kapali.length}\n\nİzleme amaçlıdır, işlem açılmadı.`,
+        `${r.outcome.includes('HEDEF') ? '🎯' : '🛑'} Sinyal sonucu: ${s.coin} ${s.dir} ${altSonuc}`,
+        `Giriş ${s.entry} · stop ${s.stop} · hedef ${s.target}\nBu, sistemin sinyalinin sonucu. Bu sinyalde işlemin yoksa yapacak bir şey yok.\nAltcoin sicili: ${isabet}✓/${kapali.length}`,
         r.outcome.includes('HEDEF') ? 'dart' : 'octagonal_sign'
       );
     }
@@ -419,11 +424,13 @@ async function main() {
         entry: px(a.signal.entry), stop: px(a.signal.stop), target: px(a.signal.target),
         entryN: a.signal.entry, stopN: a.signal.stop, targetN: a.signal.target,
       });
-      console.log(`radar sinyali acildi (islem yok): ${c} ${a.signal.dir}`);
+      console.log(`altcoin sinyali acildi: ${c} ${a.signal.dir}`);
       if (RADAR_NOTIFY) {
+        // Ana liste sinyaliyle AYNI başlık ve metin: kullanıcı "📡 RADAR ... işlem açılmaz"
+        // ile "YENİ SİNYAL"i iki ayrı şey sanıyordu, artık ikisi de işlem sinyali.
         await notify(
-          `📡 RADAR: ${c} ${a.signal.dir}`,
-          `Giriş ${px(a.signal.entry)} · Stop ${px(a.signal.stop)} · Hedef ${px(a.signal.target)} (2,5R) — izleme amaçlıdır, işlem açılmaz.`,
+          `${a.signal.dir === 'LONG' ? '🟢' : '🔴'} YENİ SİNYAL: ${c} ${a.signal.dir}`,
+          `Giriş ${px(a.signal.entry)}\nStop ${px(a.signal.stop)}\nHedef ${px(a.signal.target)} (2,5R)\n\nBu bir işlem sinyali. Fiyat girişten %1'den fazla uzaklaştıysa girme.`,
           a.signal.dir === 'LONG' ? 'green_circle' : 'red_circle'
         );
       }
@@ -434,8 +441,8 @@ async function main() {
   feed.push({
     who: 'Altcoin Radarı', ts: now, kind: 'dot',
     body: altHot.length
-      ? `${alts.length} altcoin tarandı — öne çıkanlar: ${altHot.map(a => `${a.coin} (${a.status.toLowerCase()})`).join(', ')}. Radar izleme amaçlıdır; sanal cüzdana işlem açmaz.`
-      : `${alts.length} altcoin tarandı — kurulum aşamasında olan yok. Radar izleme amaçlıdır; sanal cüzdana işlem açmaz.`,
+      ? `${alts.length} altcoin tarandı — öne çıkanlar: ${altHot.map(a => `${a.coin} (${a.status.toLowerCase()})`).join(', ')}. "Sinyal" yazanlar işlem sinyali, "kurulum" yazanlar henüz değil (tetik bekleniyor).`
+      : `${alts.length} altcoin tarandı — kurulum aşamasında olan yok.`,
   });
 
   // --- izleme listesi
@@ -488,70 +495,66 @@ async function main() {
   writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + '\n');
 
   // --- TUR ÖZETİ BİLDİRİMİ (29 Eyl 2026, kullanıcı isteği) -------------------
-  // Sinyal bildirimleri yalnızca BİR ŞEY OLUNCA gider (sinyal açıldı / kapandı),
+  // Sinyal bildirimleri yalnızca BİR ŞEY OLUNCA gider (yeni sinyal / sinyal sonucu),
   // yani sakin turlarda telefon hiç titremez ve sistemin çalıştığı görünmez.
-  // Bu mesaj her turda gider: üç coinin nerede durduğu, açık ve bu turda kapanan
-  // sinyaller, sanal cüzdanın hâli. Sinyal bildirimlerinin YERİNE geçmez, ek.
+  // Bu mesaj her turda gider ve üç başlıktan ibarettir: yeni sinyaller, hazırlananlar,
+  // kullanıcının açık işlemleri. Sinyal bildirimlerinin YERİNE geçmez, ek.
   // Susturmak için workflow ortamına RUPEE_NO_DIGEST=1 eklemek yeterli.
   if (process.env.RUPEE_NO_DIGEST !== '1') {
     try {
-      const durum = COINS.filter(c => analyses[c]).map(c => {
-        const a = analyses[c];
-        const yon = (a.dir && a.status !== 'LONG ADAYI' && a.status !== 'SHORT ADAYI') ? ` ${a.dir}` : '';
-        return `${c} ${px(a.price)} · ${a.status}${yon}${'\n'}   ${noteFor(a)}`;
-      }).join('\n');
+      // SADE ÖZET (3 Eki 2026). Kullanıcı eski mesajda neyin sinyal neyin kurulum olduğunu
+      // ayırt edemedi ("mesaj içeriği çok karışık"). Artık üç başlık var ve her biri ne
+      // yapılacağını söyler; başka hiçbir şey yok:
+      //   YENİ SİNYAL     → işlem açılır (bu mum kapanışında doğanlar, ana liste + altcoin)
+      //   HAZIRLANIYOR    → sinyal DEĞİL, tetik bekleniyor (KURULUM durumundaki coinler)
+      //   AÇIK İŞLEMLERİN → gerçek defterdeki pozisyonlar, anlık kâr/zararla
+      // Çıkarılanlar: coin başına "LONG ADAYI / trend yukarı" satırları, "öne çıkan" listesi,
+      // sistemin eski aktif sinyalleri, "bu turda kapanan" ve kural dipnotu.
+      const yeni = [
+        ...signals.filter(x => x.ts === now && x.state === 'AKTİF'),
+        ...altSignals.filter(x => x.ts === now && x.state === 'AKTİF'),
+      ];
+      const yeniMetin = yeni.length
+        ? yeni.map(x => `• ${x.coin} ${x.dir} — giriş ${x.entry} · stop ${x.stop} · hedef ${x.target}`).join('\n')
+        : 'Bu turda yeni sinyal yok.';
 
-      const aktif = signals.filter(x => x.state === 'AKTİF');
-      // Ekranda yalnızca KULLANICININ açık işlemleri gösterilir (3 Eki 2026 kararı). Sistemin
-      // izlediği sinyaller mesajda listelenmez: kullanıcı onları kendi pozisyonu sandı. Yeni
-      // sinyal ayrı bildirimle gelir, sonuçları "Sinyal sicili" satırında sayılır.
+      const hazir = [...COINS, ...ALTS]
+        .filter(c => analyses[c] && analyses[c].status === 'KURULUM')
+        .map(c => `${c} ${String(analyses[c].dir).toLowerCase()}`);
+      const hazirMetin = hazir.length ? hazir.join(' · ') : 'yok';
+
       let gDefter = null;
       try { gDefter = JSON.parse(readFileSync(new URL('../data/gercek.json', import.meta.url), 'utf8')); } catch (e) { /* defter henüz yok */ }
       const gAcik = (gDefter && gDefter.open) || [];
-      const aktifMetin = gAcik.length
-        ? gAcik.map(o => `• ${o.coin} ${o.dir} — giriş ${px(o.entry)} · stop ${px(o.stop)} · hedef ${o.target != null ? px(o.target) : 'yok'} · ${nf(o.notional, 2)}$ @${o.leverage}x · risk ${nf(o.riskUsd, 2)}$`).join('\n')
-        : '• yok';
+      const acikMetin = gAcik.length
+        ? gAcik.map(o => {
+            const a = analyses[o.coin];                       // taranan coinse anlık fiyat var
+            const pnl = a ? (a.price - o.entry) * o.qty * (o.dir === 'LONG' ? 1 : -1) : null;
+            return `• ${o.coin} ${o.dir} — giriş ${px(o.entry)}`
+              + (a ? ` · şimdi ${px(a.price)} · ${pnl >= 0 ? '+' : ''}${nf(pnl, 2)}$` : '')
+              + ` · stop ${px(o.stop)}${o.stopTahmini ? ' (stop emri yok, likidasyon)' : ''}`
+              + ` · hedef ${o.target != null ? px(o.target) : 'yok'}`;
+          }).join('\n')
+        : 'yok';
 
-      const kapanan = signals.filter(x => x.closed === now);
-      const kapananMetin = kapanan.length
-        ? `${'\n'}${'\n'}Bu turda kapanan:${'\n'}` + kapanan.map(x => `• ${x.coin} ${x.dir} → ${x.state}`).join('\n')
+      const gs = (gDefter && gDefter.stats) || { trades: 0, hedef: 0, pnlSum: 0 };
+      const cuzdanMetin = gDefter
+        ? `Cüzdan ${nf(gDefter.balance, 2)}$ · sicil ${gs.hedef}✓/${gs.trades}` + (gs.trades ? ` · toplam ${gs.pnlSum >= 0 ? '+' : ''}${nf(gs.pnlSum, 2)}$` : '')
         : '';
 
-      // Radar tek satırda özetlenir: mesajın uzunluğu 21 coinle patlamasın, ama
-      // sadece çekirdeği yazıp radarı hiç anmamak da eksik rapor olur.
-      const radarAktif = altSignals.filter(x => x.state === 'AKTİF');
-      // Öne çıkanlar en fazla 5 coinle yazılır: 21 coinlik radar bazı turlarda
-      // 10+ "öne çıkan" üretiyor ve mesaj okunmaz hale geliyor.
-      const ilk5 = altHot.slice(0, 5).map(a => `${a.coin}:${a.status}`).join(', ');
-      const radarMetin = alts.length
-        ? `${'\n'}${'\n'}Altcoinler: ${alts.length} coin taranıyor`
-          + (altHot.length
-              ? ` · öne çıkan ${ilk5}${altHot.length > 5 ? ` (+${altHot.length - 5} coin daha)` : ''}`
-              : ' · öne çıkan yok')
-          + (radarAktif.length ? ` · ${radarAktif.length} aktif altcoin sinyali` : '')
-        : '';
-
-      // Sinyal sicili: sistemin otomatik ölçümü. Sanal cüzdan 2 Eki 2026'da kaldırıldı;
-      // performans doğrudan sinyal sonuçlarından okunur (hedef / stop / süre).
+      // Sistem sicili: sinyallerin otomatik ölçümü (hedef / toplam kapanan).
       const sicil = function (liste) {
         const k = liste.filter(function (x) { return x.state !== 'AKTİF'; });
         return k.filter(function (x) { return String(x.state).includes('HEDEF'); }).length + '✓/' + k.length;
       };
-      const cuzdan = `${'\n'}${'\n'}Sinyal sicili: ana liste ${sicil(signals)} · altcoin ${sicil(altSignals)}`;
-
-      // Gerçek cüzdan (2 Eki 2026'dan beri, elle yürütülür; scripts/gercek.mjs). Dosya yoksa satır yok.
-      let gercek = '';
-      try {
-        const g = JSON.parse(readFileSync(new URL('../data/gercek.json', import.meta.url), 'utf8'));
-        const gs = g.stats || { trades: 0, hedef: 0, pnlSum: 0 };
-        gercek = `${'\n'}Cüzdan: ${nf(g.balance, 2)}$ · sicil ${gs.hedef}✓/${gs.trades}`
-               + (gs.trades ? ` · toplam ${gs.pnlSum >= 0 ? '+' : ''}${nf(gs.pnlSum, 2)}$` : '');
-      } catch (e) { /* defter henüz yok */ }
 
       await notify(
-        `📊 4 saatlik analiz — ${COINS.join(' · ')}`,
-        `${durum}${'\n'}${'\n'}Açık işlemlerin:${'\n'}${aktifMetin}${radarMetin}${cuzdan}${gercek}${'\n'}${'\n'}`
-        + 'Kurallar v3 · 4s · stop 2×ATR · hedef 2,5R. Bilgilendirmedir, yatırım tavsiyesi değildir.',
+        '📊 4 saatlik özet',
+        `🟢 YENİ SİNYAL (işlem açılır)\n${yeniMetin}\n\n`
+        + `🟡 HAZIRLANIYOR (sinyal değil, tetik bekleniyor)\n${hazirMetin}\n\n`
+        + `💼 AÇIK İŞLEMLERİN\n${acikMetin}\n\n`
+        + (cuzdanMetin ? cuzdanMetin + '\n' : '')
+        + `Sistem sicili: ana liste ${sicil(signals)} · altcoin ${sicil(altSignals)}`,
         'bar_chart',
       );
     } catch (e) {
