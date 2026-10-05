@@ -36,7 +36,7 @@ import { notify, channel } from './notify.mjs';
 export const COINS = ['BTC', 'ETH', 'XRP', 'TRUMP'];
 const WATCH = ['BTC', 'ETH', 'XRP', 'TRUMP']; // izleme listesi sırası
 export const ALTS = [
-  'SOL', 'LINK', 'DOGE', 'AVAX', 'ADA', 'POL', 'DOT', 'ATOM', 'NEAR', 'APT', 'ARB',
+  'BNB', 'SOL', 'LINK', 'DOGE', 'AVAX', 'ADA', 'POL', 'DOT', 'ATOM', 'NEAR', 'APT', 'ARB',
   'OP', 'INJ', 'SUI', 'TIA', 'SEI', 'LTC', 'BCH', 'UNI', 'AAVE', 'FIL', 'RENDER',
 ]; // POL (eski MATIC) ve RENDER (eski RNDR) güncel Binance sembolleridir
 const ALL = [...COINS, ...ALTS];

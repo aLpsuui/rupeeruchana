@@ -45,7 +45,7 @@ sonuçları ve tüm sinyal sicili halka açıktır.
 | | Coinler | Sinyal üretir | Sanal cüzdan |
 |---|---|---|---|
 | **Ana liste** | BTC · ETH · XRP · TRUMP | evet | evet (gerçek cüzdan) |
-| **Altcoinler** | SOL · LINK · DOGE · AVAX · ADA · POL · DOT · ATOM · NEAR · APT · ARB · OP · INJ · SUI · TIA · SEI · LTC · BCH · UNI · AAVE · FIL · RENDER | evet | evet (gerçek cüzdan) |
+| **Altcoinler** | BNB · SOL · LINK · DOGE · AVAX · ADA · POL · DOT · ATOM · NEAR · APT · ARB · OP · INJ · SUI · TIA · SEI · LTC · BCH · UNI · AAVE · FIL · RENDER | evet | evet (gerçek cüzdan) |
 
 Radar, aynı v3 kurallarıyla 21 altcoinin durumunu (sinyal / kurulum / aday) hesaplar,
 sitede ayrı bir tabloda gösterir ve kendi sicilini tutar, ama sinyal listesine girmez
