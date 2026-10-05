@@ -1,16 +1,14 @@
 name: Rupeeruchana 4 saatlik analiz
 
 on:
-  # 2 Eki 2026: GitHub cron KAPATILDI. Motor artık VPS'teki canlı yürütücüde
-  # (scripts/live-executor.mjs) tam mum kapanışında çalışır ve data/'yı push eder.
-  # GitHub'ın zamanlanmış işleri 1-2 saat gecikiyordu, bazen tur atlıyordu.
-  # Bu workflow artık iki iş yapar: (1) her push'ta siteyi yayınla, (2) elle
-  # tetiklenirse motoru burada çalıştır (VPS düşerse yedek).
-  #
-  # GEÇİŞ DÖNEMİ: VPS kurulup yürütücü canlıya girene kadar zamanlama AÇIK kalır,
-  # yoksa hiçbir tur koşmaz. VPS canlı olunca aşağıdaki iki satır silinir.
+  # Zamanlama SAATTE BİR (5 Eki 2026). Tur yine 4 saatlik mum başına bir kez atılır:
+  # scripts/tur-gerekli.mjs, son kapanan mum için tur atılmış mı diye bakar; atılmışsa
+  # motor çalışmaz. Gerekçe: GitHub zamanlanmış işleri geciktiriyor ve atlıyor (4 saatlik
+  # cron pratikte 5-9 saat arayla çalıştı). Saatte bir denemek, atlanan tetiği en geç bir
+  # sonraki saatte telafi eder. Kalıcı çözüm VPS'teki canlı yürütücü
+  # (scripts/live-executor.mjs); o devreye girince bu zamanlama silinir.
   schedule:
-    - cron: '17 */4 * * *'
+    - cron: '17 * * * *'
   push:
     branches: [main]
   workflow_dispatch:
@@ -44,6 +42,8 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      yayin: ${{ steps.tur.outputs.yayin }}
     env:
       BINANCE_TESTNET_KEY: ${{ secrets.BINANCE_TESTNET_KEY }}
       BINANCE_TESTNET_SECRET: ${{ secrets.BINANCE_TESTNET_SECRET }}
@@ -64,21 +64,25 @@ jobs:
         timeout-minutes: 3
         run: node scripts/update.mjs --selftest
 
+      # Bu 4 saatlik mumun turu atıldı mı? calis=true ise motor adımları koşar.
+      - name: Tur gerekli mi
+        id: tur
+        run: node scripts/tur-gerekli.mjs
+
       - name: Bildirim testi (yalnızca elle tetiklemede)
         if: ${{ github.event.inputs.test_notify == 'true' }}
         timeout-minutes: 2
         run: node scripts/update.mjs --test-notify
 
-      # Motor yalnızca ELLE tetiklemede çalışır (VPS yedeği). Push'ta sadece yayın.
       - name: Analizi çalıştır
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ steps.tur.outputs.calis == 'true' }}
         timeout-minutes: 10
         run: node scripts/update.mjs
 
       # Dip radarı 400+ coin tarar, ~1 dakika sürer. continue-on-error: analiz
       # motorunun sağlığı bu taramaya bağlı olmamalı; radar düşerse tur devam eder.
       - name: Dip radarı taraması
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ steps.tur.outputs.calis == 'true' }}
         timeout-minutes: 6
         continue-on-error: true
         run: node scripts/dipradar.mjs
@@ -87,13 +91,13 @@ jobs:
       # Duyuru kaynağı (www.binance.com) sunuculardan engellenebilir; o durumda
       # modül sembol farkıyla çalışmaya devam eder. Yine de motoru bloke etmesin.
       - name: Takvim / olay taraması
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ steps.tur.outputs.calis == 'true' }}
         timeout-minutes: 4
         continue-on-error: true
         run: node scripts/takvim.mjs
 
       - name: Değişiklik varsa kaydet
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ steps.tur.outputs.calis == 'true' }}
         run: |
           git config user.name "rupeeruchana-agent"
           git config user.email "agent@rupeeruchana.local"
@@ -113,11 +117,14 @@ jobs:
           echo "push 3 denemede de başarısız oldu"
           exit 1
 
+      # Zamanlı boş geçişte (tur zaten atılmış) site yeniden yayınlanmaz.
       - uses: actions/configure-pages@v5
+        if: ${{ steps.tur.outputs.yayin == 'true' }}
         with:
           enablement: true
 
       - uses: actions/upload-pages-artifact@v3
+        if: ${{ steps.tur.outputs.yayin == 'true' }}
         with:
           path: .
 
@@ -126,6 +133,7 @@ jobs:
   #    cancel-in-progress ile bu job'ı devirir.
   deploy:
     needs: analyze
+    if: ${{ needs.analyze.outputs.yayin == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
