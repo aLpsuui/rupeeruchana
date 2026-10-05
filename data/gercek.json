@@ -3,51 +3,7 @@
   "startBalance": 50,
   "balance": 50,
   "startedAt": "2026-10-02T00:00:00.000Z",
-  "open": [
-    {
-      "coin": "ETH",
-      "dir": "SHORT",
-      "kaynak": "cekirdek",
-      "ts": "2026-10-02T19:56:06.029Z",
-      "entry": 2703,
-      "stop": 2798,
-      "target": null,
-      "notional": 200,
-      "qty": 0.073992,
-      "leverage": 25,
-      "marginUsd": 8,
-      "riskUsd": 7.03,
-      "riskPct": 14.06,
-      "stopPct": 3.51,
-      "rr": null,
-      "deadline": "2026-10-09T19:56:06.030Z",
-      "note": "Elle açıldı (kullanıcı bildirdi, 3 Eki 2026). Teminat 8$, 25x izole. Stop emri bildirilmedi: stop alanı TAHMİNİ LİKİDASYON fiyatıdır. Hedef yok.",
-      "mode": "elle",
-      "stopTahmini": true
-    },
-    {
-      "coin": "AVAX",
-      "dir": "LONG",
-      "kaynak": "radar",
-      "ts": "2026-10-04T03:08:57.183Z",
-      "entry": 11.049,
-      "stop": 10.491,
-      "target": 12.733,
-      "notional": 19.5,
-      "qty": 1.764866,
-      "leverage": 2,
-      "marginUsd": 9.75,
-      "riskUsd": 0.98,
-      "riskPct": 1.97,
-      "stopPct": 5.05,
-      "rr": 3.02,
-      "deadline": "2026-10-11T03:08:57.184Z",
-      "note": "Elle açıldı (kullanıcı bildirdi, 4 Eki 2026): giriş 11,0490. Sistem sinyali 3 Eki 13:22 UTC, sinyal girişi 11,132. Pozisyon büyüklüğü VARSAYIM (önerilen 19,5$, 2x izole); kullanıcı teyit edecek. Stop/hedef emirlerinin borsaya konduğu teyit edilmedi.",
-      "mode": "elle",
-      "sinyalTs": "2026-10-03T13:22:09.471Z",
-      "boyutVarsayim": true
-    }
-  ],
+  "open": [],
   "closed": [],
   "skipped": [],
   "stats": {
@@ -87,5 +43,11 @@
     },
     "skipped": 0
   },
-  "updated": "2026-10-04T03:08:57.185Z"
+  "updated": "2026-10-05T14:14:33.909Z",
+  "resetNotes": [
+    {
+      "ts": "2026-10-05T14:14:33.908Z",
+      "not": "Kullanıcı bildirdi: açık işlem yok, kasa 50$. Açık listesinden çıkarılanlar: ETH SHORT giriş 2703 (2026-10-02); AVAX LONG giriş 11.049 (2026-10-04). Çıkış fiyatları bildirilmedi, bu yüzden sicile (closed) yazılmadı; kullanıcı beyanıyla net sonuç 0 kabul edildi."
+    }
+  ]
 }
