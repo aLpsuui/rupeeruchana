@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-07T01:33:12.429Z",
+  "updated": "2026-10-07T08:40:41.481Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 25,
@@ -9,7 +9,7 @@
   },
   "scanned": 469,
   "skipped": 24,
-  "hits": 0,
+  "hits": 1,
   "active": [
     {
       "coin": "VANRY",
@@ -45,27 +45,14 @@
       "days": 0
     },
     {
-      "coin": "BANK",
-      "ts": "2026-09-07T04:42:55.277Z",
-      "entry": 0.0348,
-      "price": 0.0283,
-      "emaGapPct": -36.4,
-      "katman": "siki",
-      "rejim": "boga",
-      "chgPct": -18.7,
-      "maxPct": 18.4,
-      "minPct": -29.9,
-      "days": 29
-    },
-    {
       "coin": "KAITO",
       "ts": "2026-09-15T19:42:24.293Z",
       "entry": 0.2865,
-      "price": 0.332,
+      "price": 0.3232,
       "emaGapPct": -34.9,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 15.9,
+      "chgPct": 12.8,
       "maxPct": 31.1,
       "minPct": -2.6,
       "days": 21
@@ -113,11 +100,11 @@
       "coin": "SYN",
       "ts": "2026-09-10T12:55:34.750Z",
       "entry": 0.08209,
-      "price": 0.19275,
+      "price": 0.19293,
       "emaGapPct": -29.1,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 134.8,
+      "chgPct": 135,
       "maxPct": 237.4,
       "minPct": -5.8,
       "days": 26
@@ -126,24 +113,24 @@
       "coin": "SOXSB",
       "ts": "2026-10-01T05:55:40.516Z",
       "entry": 30.63,
-      "price": 29.56,
+      "price": 30.19,
       "emaGapPct": -26.2,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": -3.5,
+      "chgPct": -1.4,
       "maxPct": 10.5,
       "minPct": -7,
-      "days": 5
+      "days": 6
     },
     {
       "coin": "RVN",
       "ts": "2026-09-10T12:55:34.750Z",
       "entry": 0.00241,
-      "price": 0.002311,
+      "price": 0.002238,
       "emaGapPct": -26,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": -4.1,
+      "chgPct": -7.1,
       "maxPct": 29,
       "minPct": -17,
       "days": 26
@@ -152,11 +139,11 @@
       "coin": "ROBO",
       "ts": "2026-09-09T22:34:06.824Z",
       "entry": 0.00974,
-      "price": 0.00867,
+      "price": 0.00838,
       "emaGapPct": -25.5,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": -11,
+      "chgPct": -14,
       "maxPct": 11.2,
       "minPct": -19.9,
       "days": 27
@@ -165,17 +152,44 @@
       "coin": "FOGO",
       "ts": "2026-09-10T22:35:57.332Z",
       "entry": 0.00626,
-      "price": 0.00546,
+      "price": 0.00515,
       "emaGapPct": -25.2,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": -12.8,
+      "chgPct": -17.7,
       "maxPct": 18.1,
-      "minPct": -19.3,
+      "minPct": -23.5,
       "days": 26
+    },
+    {
+      "coin": "2Z",
+      "ts": "2026-10-07T08:40:41.481Z",
+      "entry": 0.03978,
+      "price": 0.03978,
+      "emaGapPct": -25.1,
+      "katman": "genis",
+      "rejim": "boga",
+      "chgPct": 0,
+      "maxPct": 0,
+      "minPct": 0,
+      "days": 0
     }
   ],
   "closed": [
+    {
+      "coin": "BANK",
+      "ts": "2026-09-07T04:42:55.277Z",
+      "entry": 0.0348,
+      "price": 0.0277,
+      "emaGapPct": -36.4,
+      "katman": "siki",
+      "rejim": "boga",
+      "chgPct": -20.4,
+      "maxPct": 18.4,
+      "minPct": -29.9,
+      "days": 30,
+      "closedTs": "2026-10-07T08:40:41.481Z"
+    },
     {
       "coin": "OPEN",
       "ts": "2026-09-01T22:36:54.023Z",
@@ -414,19 +428,19 @@
     }
   ],
   "stats": {
-    "n": 17,
-    "ortChg": 9.7,
+    "n": 18,
+    "ortChg": 8.1,
     "medyanChg": 6.7,
-    "artida": 71,
-    "pct50": 35.3,
+    "artida": 67,
+    "pct50": 33.3,
     "pct100": 0
   },
   "statsSiki": {
-    "n": 1,
-    "ortChg": 78.2,
+    "n": 2,
+    "ortChg": 28.9,
     "medyanChg": 78.2,
-    "artida": 100,
-    "pct50": 100,
+    "artida": 50,
+    "pct50": 50,
     "pct100": 0
   },
   "statsGenis": {
@@ -438,9 +452,9 @@
     "pct100": 0
   },
   "rejim": "boga",
-  "btc": 85316,
+  "btc": 84052,
   "btcEma": 79321,
-  "fark": 7.6,
+  "fark": 6,
   "olculen": {
     "boga": {
       "ort": 8.4,
@@ -458,10 +472,10 @@
     }
   },
   "statsBoga": {
-    "n": 6,
-    "ortChg": 6.8,
-    "medyanChg": 6.7,
-    "artida": 67,
+    "n": 7,
+    "ortChg": 2.9,
+    "medyanChg": 2.5,
+    "artida": 57,
     "pct50": 0,
     "pct100": 0
   },

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-07T01:33:19.410Z",
+  "updated": "2026-10-07T08:40:51.221Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -503,9 +503,14 @@
     "牛来"
   ],
   "symbolCount": 498,
-  "sonDuyuruId": 286171,
+  "sonDuyuruId": 286228,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-10-07T08:40:51.221Z",
+      "tip": "duyuru-listeleme",
+      "baslik": "Binance Exchange Adds JPMorgan Chase (JPMB), Eli Lilly (LLYB), Securitize Corp (SECZB) and StablecoinX Inc (USDEB) bStocks Trading Pairs on Binance Spot/Convert - 2026-10-07"
+    },
     {
       "ts": "2026-10-06T10:19:45.624Z",
       "tip": "delist",
@@ -831,12 +836,6 @@
       "tip": "delist",
       "coin": "PYR",
       "baslik": "PYR/USDT artık işlem görmüyor"
-    },
-    {
-      "ts": "2026-08-17T04:58:55.147Z",
-      "tip": "delist",
-      "coin": "VANRY",
-      "baslik": "VANRY/USDT artık işlem görmüyor"
     }
   ]
 }
