@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-07T08:40:51.221Z",
+  "updated": "2026-10-07T16:29:57.258Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -234,6 +234,7 @@
     "IRENB",
     "JASMY",
     "JOE",
+    "JPMB",
     "JST",
     "JTO",
     "JUP",
@@ -257,6 +258,7 @@
     "LINK",
     "LISTA",
     "LITEB",
+    "LLYB",
     "LPT",
     "LQTY",
     "LSK",
@@ -384,6 +386,7 @@
     "SAPIEN",
     "SC",
     "SCR",
+    "SECZB",
     "SEI",
     "SENT",
     "SFP",
@@ -453,6 +456,7 @@
     "USARB",
     "USD1",
     "USDE",
+    "USDEB",
     "USDS",
     "USTC",
     "USUAL",
@@ -502,10 +506,34 @@
     "币安人生",
     "牛来"
   ],
-  "symbolCount": 498,
+  "symbolCount": 502,
   "sonDuyuruId": 286228,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-10-07T16:29:57.258Z",
+      "tip": "yeni-listeleme",
+      "coin": "JPMB",
+      "baslik": "JPMB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-10-07T16:29:57.258Z",
+      "tip": "yeni-listeleme",
+      "coin": "LLYB",
+      "baslik": "LLYB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-10-07T16:29:57.258Z",
+      "tip": "yeni-listeleme",
+      "coin": "SECZB",
+      "baslik": "SECZB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-10-07T16:29:57.258Z",
+      "tip": "yeni-listeleme",
+      "coin": "USDEB",
+      "baslik": "USDEB/USDT işlem görmeye başladı"
+    },
     {
       "ts": "2026-10-07T08:40:51.221Z",
       "tip": "duyuru-listeleme",
@@ -812,30 +840,6 @@
       "ts": "2026-08-19T04:52:28.521Z",
       "tip": "duyuru-vadeli",
       "baslik": "Binance Futures Will Launch UNITREEUSDT USDⓈ-Margined Perpetual Contract (2026-08-19)"
-    },
-    {
-      "ts": "2026-08-17T04:58:55.147Z",
-      "tip": "delist",
-      "coin": "ACX",
-      "baslik": "ACX/USDT artık işlem görmüyor"
-    },
-    {
-      "ts": "2026-08-17T04:58:55.147Z",
-      "tip": "delist",
-      "coin": "HFT",
-      "baslik": "HFT/USDT artık işlem görmüyor"
-    },
-    {
-      "ts": "2026-08-17T04:58:55.147Z",
-      "tip": "delist",
-      "coin": "PIVX",
-      "baslik": "PIVX/USDT artık işlem görmüyor"
-    },
-    {
-      "ts": "2026-08-17T04:58:55.147Z",
-      "tip": "delist",
-      "coin": "PYR",
-      "baslik": "PYR/USDT artık işlem görmüyor"
     }
   ]
 }
