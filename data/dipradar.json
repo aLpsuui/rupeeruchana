@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-11T01:54:58.841Z",
+  "updated": "2026-10-11T08:53:06.172Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 25,
@@ -37,11 +37,11 @@
       "coin": "DEXE",
       "ts": "2026-10-08T16:29:41.130Z",
       "entry": 1.758,
-      "price": 1.889,
+      "price": 1.879,
       "emaGapPct": -43.3,
       "katman": "siki",
       "rejim": "boga",
-      "chgPct": 7.5,
+      "chgPct": 6.9,
       "maxPct": 8.9,
       "minPct": -2.4,
       "days": 2
@@ -61,11 +61,11 @@
       "coin": "KAITO",
       "ts": "2026-09-15T19:42:24.293Z",
       "entry": 0.2865,
-      "price": 0.3198,
+      "price": 0.3184,
       "emaGapPct": -34.9,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 11.6,
+      "chgPct": 11.1,
       "maxPct": 31.1,
       "minPct": -2.6,
       "days": 25
@@ -113,27 +113,27 @@
       "coin": "SOXSB",
       "ts": "2026-10-01T05:55:40.516Z",
       "entry": 30.63,
-      "price": 34.19,
+      "price": 34.46,
       "emaGapPct": -26.2,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 11.6,
+      "chgPct": 12.5,
       "maxPct": 14.1,
       "minPct": -7,
-      "days": 9
+      "days": 10
     },
     {
       "coin": "2Z",
       "ts": "2026-10-07T08:40:41.481Z",
       "entry": 0.03978,
-      "price": 0.03756,
+      "price": 0.03748,
       "emaGapPct": -25.1,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": -5.6,
+      "chgPct": -5.8,
       "maxPct": 4,
       "minPct": -13.9,
-      "days": 3
+      "days": 4
     }
   ],
   "closed": [
@@ -469,9 +469,9 @@
     "pct100": 5.3
   },
   "rejim": "boga",
-  "btc": 83028,
+  "btc": 83080,
   "btcEma": 79817,
-  "fark": 4,
+  "fark": 4.1,
   "olculen": {
     "boga": {
       "ort": 8.4,
