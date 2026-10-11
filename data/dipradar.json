@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-10T22:33:10.810Z",
+  "updated": "2026-10-11T01:54:58.841Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 25,
@@ -37,12 +37,12 @@
       "coin": "DEXE",
       "ts": "2026-10-08T16:29:41.130Z",
       "entry": 1.758,
-      "price": 1.905,
+      "price": 1.889,
       "emaGapPct": -43.3,
       "katman": "siki",
       "rejim": "boga",
-      "chgPct": 8.4,
-      "maxPct": 8.5,
+      "chgPct": 7.5,
+      "maxPct": 8.9,
       "minPct": -2.4,
       "days": 2
     },
@@ -61,11 +61,11 @@
       "coin": "KAITO",
       "ts": "2026-09-15T19:42:24.293Z",
       "entry": 0.2865,
-      "price": 0.3209,
+      "price": 0.3198,
       "emaGapPct": -34.9,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 12,
+      "chgPct": 11.6,
       "maxPct": 31.1,
       "minPct": -2.6,
       "days": 25
@@ -123,33 +123,34 @@
       "days": 9
     },
     {
-      "coin": "FOGO",
-      "ts": "2026-09-10T22:35:57.332Z",
-      "entry": 0.00626,
-      "price": 0.00486,
-      "emaGapPct": -25.2,
-      "katman": "genis",
-      "rejim": "boga",
-      "chgPct": -22.4,
-      "maxPct": 18.1,
-      "minPct": -31.5,
-      "days": 29
-    },
-    {
       "coin": "2Z",
       "ts": "2026-10-07T08:40:41.481Z",
       "entry": 0.03978,
-      "price": 0.03731,
+      "price": 0.03756,
       "emaGapPct": -25.1,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": -6.2,
+      "chgPct": -5.6,
       "maxPct": 4,
       "minPct": -13.9,
       "days": 3
     }
   ],
   "closed": [
+    {
+      "coin": "FOGO",
+      "ts": "2026-09-10T22:35:57.332Z",
+      "entry": 0.00626,
+      "price": 0.00487,
+      "emaGapPct": -25.2,
+      "katman": "genis",
+      "rejim": "boga",
+      "chgPct": -22.2,
+      "maxPct": 18.1,
+      "minPct": -31.5,
+      "days": 30,
+      "closedTs": "2026-10-11T01:54:58.841Z"
+    },
     {
       "coin": "SYN",
       "ts": "2026-09-10T12:55:34.750Z",
@@ -444,12 +445,12 @@
     }
   ],
   "stats": {
-    "n": 21,
-    "ortChg": 11.6,
+    "n": 22,
+    "ortChg": 10.1,
     "medyanChg": 2.5,
-    "artida": 62,
-    "pct50": 33.3,
-    "pct100": 4.8
+    "artida": 59,
+    "pct50": 31.8,
+    "pct100": 4.5
   },
   "statsSiki": {
     "n": 2,
@@ -460,17 +461,17 @@
     "pct100": 0
   },
   "statsGenis": {
-    "n": 18,
-    "ortChg": 11.8,
-    "medyanChg": 6.7,
-    "artida": 67,
-    "pct50": 33.3,
-    "pct100": 5.6
+    "n": 19,
+    "ortChg": 10,
+    "medyanChg": 2.5,
+    "artida": 63,
+    "pct50": 31.6,
+    "pct100": 5.3
   },
   "rejim": "boga",
-  "btc": 83050,
-  "btcEma": 79689,
-  "fark": 4.2,
+  "btc": 83028,
+  "btcEma": 79817,
+  "fark": 4,
   "olculen": {
     "boga": {
       "ort": 8.4,
@@ -488,12 +489,12 @@
     }
   },
   "statsBoga": {
-    "n": 10,
-    "ortChg": 11.9,
-    "medyanChg": 2.5,
-    "artida": 50,
-    "pct50": 10,
-    "pct100": 10
+    "n": 11,
+    "ortChg": 8.8,
+    "medyanChg": -8.5,
+    "artida": 45,
+    "pct50": 9.1,
+    "pct100": 9.1
   },
   "statsAyi": {
     "n": 10,
