@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-12T07:22:19.085Z",
+  "updated": "2026-10-12T17:56:12.355Z",
   "note": "Dip Radarı — sinyal değildir, işlem açmaz. Adaylar 30 gün takip edilir ve isabet ölçülür.",
   "criteria": {
     "emaGapPct": 25,
@@ -37,14 +37,14 @@
       "coin": "DEXE",
       "ts": "2026-10-08T16:29:41.130Z",
       "entry": 1.758,
-      "price": 1.89,
+      "price": 1.885,
       "emaGapPct": -43.3,
       "katman": "siki",
       "rejim": "boga",
-      "chgPct": 7.5,
+      "chgPct": 7.2,
       "maxPct": 8.9,
       "minPct": -2.4,
-      "days": 3
+      "days": 4
     },
     {
       "coin": "VIC",
@@ -61,11 +61,11 @@
       "coin": "KAITO",
       "ts": "2026-09-15T19:42:24.293Z",
       "entry": 0.2865,
-      "price": 0.3198,
+      "price": 0.3131,
       "emaGapPct": -34.9,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 11.6,
+      "chgPct": 9.3,
       "maxPct": 31.1,
       "minPct": -2.6,
       "days": 26
@@ -113,11 +113,11 @@
       "coin": "RVN",
       "ts": "2026-10-12T00:33:33.183Z",
       "entry": 0.001859,
-      "price": 0.001717,
+      "price": 0.001739,
       "emaGapPct": -26.5,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": -7.6,
+      "chgPct": -6.5,
       "maxPct": 3.7,
       "minPct": -11.6,
       "days": 0
@@ -126,12 +126,12 @@
       "coin": "SOXSB",
       "ts": "2026-10-01T05:55:40.516Z",
       "entry": 30.63,
-      "price": 34.47,
+      "price": 37.3,
       "emaGapPct": -26.2,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": 12.5,
-      "maxPct": 14.1,
+      "chgPct": 21.8,
+      "maxPct": 22.4,
       "minPct": -7,
       "days": 11
     },
@@ -139,14 +139,14 @@
       "coin": "2Z",
       "ts": "2026-10-07T08:40:41.481Z",
       "entry": 0.03978,
-      "price": 0.03775,
+      "price": 0.0366,
       "emaGapPct": -25.1,
       "katman": "genis",
       "rejim": "boga",
-      "chgPct": -5.1,
+      "chgPct": -8,
       "maxPct": 4,
       "minPct": -13.9,
-      "days": 4
+      "days": 5
     }
   ],
   "closed": [
@@ -482,9 +482,9 @@
     "pct100": 5.3
   },
   "rejim": "boga",
-  "btc": 84165,
+  "btc": 82512,
   "btcEma": 79969,
-  "fark": 5.2,
+  "fark": 3.2,
   "olculen": {
     "boga": {
       "ort": 8.4,
