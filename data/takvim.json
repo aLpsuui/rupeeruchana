@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-13T00:41:29.346Z",
+  "updated": "2026-10-13T07:43:40.715Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -507,9 +507,14 @@
     "牛来"
   ],
   "symbolCount": 502,
-  "sonDuyuruId": 286480,
+  "sonDuyuruId": 286557,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-10-13T07:43:40.715Z",
+      "tip": "duyuru-listeleme",
+      "baslik": "Binance Will List RWUSD and Introduce RWUSD Zero Trading Fee Promotion"
+    },
     {
       "ts": "2026-10-12T07:22:27.375Z",
       "tip": "duyuru-vadeli",
@@ -835,11 +840,6 @@
       "tip": "yeni-listeleme",
       "coin": "DJTB",
       "baslik": "DJTB/USDT işlem görmeye başladı"
-    },
-    {
-      "ts": "2026-08-25T04:54:24.075Z",
-      "tip": "duyuru-vadeli",
-      "baslik": "Binance Futures Will Launch Multiple USDⓈ-Margined TradFi Perpetual Contracts (2026-08-25)"
     }
   ]
 }
