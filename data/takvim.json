@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14T11:54:34.449Z",
+  "updated": "2026-10-14T17:12:01.980Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -78,6 +78,7 @@
     "BARD",
     "BAT",
     "BB",
+    "BBB",
     "BCH",
     "BEAMX",
     "BEB",
@@ -274,6 +275,7 @@
     "MASK",
     "MAV",
     "MBL",
+    "MDBB",
     "ME",
     "MEGA",
     "MEME",
@@ -329,6 +331,7 @@
     "PAXG",
     "PDDB",
     "PENDLE",
+    "PENGB",
     "PENGU",
     "PEOPLE",
     "PEPE",
@@ -461,6 +464,7 @@
     "USDS",
     "USTC",
     "USUAL",
+    "UVXYB",
     "VANA",
     "VELODROME",
     "VET",
@@ -507,10 +511,34 @@
     "币安人生",
     "牛来"
   ],
-  "symbolCount": 503,
+  "symbolCount": 507,
   "sonDuyuruId": 287560,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-10-14T17:12:01.980Z",
+      "tip": "yeni-listeleme",
+      "coin": "BBB",
+      "baslik": "BBB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-10-14T17:12:01.980Z",
+      "tip": "yeni-listeleme",
+      "coin": "MDBB",
+      "baslik": "MDBB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-10-14T17:12:01.980Z",
+      "tip": "yeni-listeleme",
+      "coin": "PENGB",
+      "baslik": "PENGB/USDT işlem görmeye başladı"
+    },
+    {
+      "ts": "2026-10-14T17:12:01.980Z",
+      "tip": "yeni-listeleme",
+      "coin": "UVXYB",
+      "baslik": "UVXYB/USDT işlem görmeye başladı"
+    },
     {
       "ts": "2026-10-14T06:09:49.324Z",
       "tip": "duyuru-listeleme",
@@ -821,26 +849,6 @@
       "ts": "2026-09-02T12:47:06.285Z",
       "tip": "duyuru-vadeli",
       "baslik": "Binance Futures Will Launch Multiple USDⓈ-Margined TradFi Perpetual Contracts (2026-09-02)"
-    },
-    {
-      "ts": "2026-09-02T12:47:06.285Z",
-      "tip": "duyuru-listeleme",
-      "baslik": "Binance Exchange Adds 4 bStocks Trading Pairs on Binance Spot/Convert - 2026-09-02"
-    },
-    {
-      "ts": "2026-09-01T13:30:16.909Z",
-      "tip": "duyuru-vadeli",
-      "baslik": "Binance Futures Will Launch USDⓈ-Margined MARSCOINUSDT Perpetual Contract (2026-09-01)"
-    },
-    {
-      "ts": "2026-09-01T05:10:05.412Z",
-      "tip": "duyuru-vadeli",
-      "baslik": "Binance Futures Will Launch HK0625USDT USDⓈ-Margined Quanto Perpetual Contract (2026-09-01)"
-    },
-    {
-      "ts": "2026-08-30T13:48:52.845Z",
-      "tip": "duyuru-vadeli",
-      "baslik": "Binance Futures Will Launch USDⓈ-Margined 牛来USDT Perpetual Contract (2026-08-30)"
     }
   ]
 }
