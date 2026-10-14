@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14T00:21:43.835Z",
+  "updated": "2026-10-14T06:09:49.324Z",
   "note": "Takvim — sinyal değildir. Amacı pump bulmak değil, bilinen olaylardan haberdar etmek.",
   "duyuruDurum": "ok",
   "symbols": [
@@ -508,9 +508,14 @@
     "牛来"
   ],
   "symbolCount": 503,
-  "sonDuyuruId": 286557,
+  "sonDuyuruId": 287560,
   "yakinKilitler": [],
   "olaylar": [
+    {
+      "ts": "2026-10-14T06:09:49.324Z",
+      "tip": "duyuru-listeleme",
+      "baslik": "Binance Exchange Adds Blackberry (BBB), Mongodb Inc (MDBB), Penguin Solutions Inc (PENGB) and ProShares Ultra VIX Short-Term Futures ETF (UVXYB) bStocks Trading Pairs on Binance Spot/Convert - 2026-10-14"
+    },
     {
       "ts": "2026-10-13T16:00:28.721Z",
       "tip": "yeni-listeleme",
@@ -836,11 +841,6 @@
       "ts": "2026-08-30T13:48:52.845Z",
       "tip": "duyuru-vadeli",
       "baslik": "Binance Futures Will Launch USDⓈ-Margined 牛来USDT Perpetual Contract (2026-08-30)"
-    },
-    {
-      "ts": "2026-08-28T11:24:47.216Z",
-      "tip": "duyuru-vadeli",
-      "baslik": "Binance Futures Will Launch Multiple USDⓈ-Margined TradFi Perpetual Contracts (2026-08-28)"
     }
   ]
 }
