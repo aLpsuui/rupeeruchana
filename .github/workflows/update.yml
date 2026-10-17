@@ -7,10 +7,15 @@ on:
   # cron pratikte 5-9 saat arayla çalıştı). Saatte bir denemek, atlanan tetiği en geç bir
   # sonraki saatte telafi eder. Kalıcı çözüm VPS'teki canlı yürütücü
   # (scripts/live-executor.mjs); o devreye girince bu zamanlama silinir.
-  schedule:
-    - cron: '17 * * * *'
-  push:
-    branches: [main]
+  #
+  # 17 Eki 2026: BOT KAPATILDI (kullanıcı kararı). Zamanlama ve push tetikleyicisi
+  # kaldırıldı; tur atılmaz, Telegram'a mesaj gitmez. Yeniden açmak için aşağıdaki
+  # iki bloğu geri koy:
+  #   schedule:
+  #     - cron: '17 * * * *'
+  #   push:
+  #     branches: [main]
+  # Elle çalıştırma (Actions → Run workflow) bilerek bırakıldı.
   workflow_dispatch:
     inputs:
       # type: choice → GitHub açılır liste gösterir; elle 'true' yazmak gerekmez.
